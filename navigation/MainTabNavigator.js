@@ -1,45 +1,27 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import TabBarIcon from '../components/TabBarIcon';
-import ContatosScreen from '../screens/ContatosScreen';
-import SelecionarContatosScreen from '../screens/SelecionarContatosScreen';
-import TarefasScreen from '../screens/TarefasScreen';
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import ProspectosScreen from '../screens/ProspectosScreen';
+import { white, red } from '../helpers/colors'
 
-const ContatosStack = createStackNavigator({
-	Contatos: ContatosScreen,
-	SelecionarContatos: SelecionarContatosScreen,
-});
+const ProspectosStack = createStackNavigator(
+	{
+		Prospectos: ProspectosScreen,
+	}, 
+	{
+		initialRouteName: 'Prospectos',
+		navigationOptions: {
+			headerStyle: {
+				backgroundColor: red,
+			},
+			headerTintColor: white,
+		},
+	}
+)
 
-ContatosStack.navigationOptions = {
-	tabBarLabel: 'Contatos',
-	tabBarIcon: ({ focused }) => (
-		<TabBarIcon
-			focused={focused}
-			name={
-				Platform.OS === 'ios'
-					? 'ios-contacts'
-					: 'md-contacts'
-			}
-		/>
-	),
-};
+const tabs = createMaterialTopTabNavigator(
+	{
+		ProspectosStack
+	}
+)
 
-const TarefasStack = createStackNavigator({
-	Tarefas: TarefasScreen,
-});
-
-TarefasStack.navigationOptions = {
-	tabBarLabel: 'Tarefas',
-	tabBarIcon: ({ focused }) => (
-		<TabBarIcon
-			focused={focused}
-			name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
-		/>
-	),
-};
-
-export default createBottomTabNavigator({
-	ContatosStack,
-	TarefasStack,
-});
+export default ProspectosStack

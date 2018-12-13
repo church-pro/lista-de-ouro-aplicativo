@@ -90,8 +90,10 @@ class SelecionarContatosScreen extends React.Component {
 				{
 					carregando && 
 					<View style={styles.container}>
-						<ActivityIndicator size="large"/>
-						<Text>Carregando ... </Text>
+						<ActivityIndicator 
+							size="large"
+							color="#00ff00"
+						/>
 					</View>
 				}
 
@@ -146,14 +148,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-function mapStateToProps({contatos}){
-	return {contatos}
-}
-
 function mapDispatchToProps(dispatch){
 	return {
 		adicionarContatos: (contatos) => dispatch(adicionarContatos(contatos)),
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelecionarContatosScreen)
+export default connect(null, mapDispatchToProps)(SelecionarContatosScreen)
