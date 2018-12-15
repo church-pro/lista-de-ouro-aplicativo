@@ -12,11 +12,12 @@ import {pegarContatos} from '../actions'
 import {Permissions, Contacts} from 'expo' 
 import {adicionarContatos} from '../actions'
 import {NavigationActions} from 'react-navigation'
+import { white, red } from '../helpers/colors'
 
-class SelecionarContatosScreen extends React.Component {
+class ImportarProspectosScreen extends React.Component {
 	static navigationOptions = {
-		header: null,
-	};
+		title: 'Importar Prospectos',
+	}
 
 	state = {
 		carregando: true,
@@ -83,16 +84,12 @@ class SelecionarContatosScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 
-				<View style={{height: 40, backgroundColor: 'gray', justifyContent: 'center', padding: 10}}>
-					<Text>Importar Contatos</Text>
-				</View>
-
 				{
 					carregando && 
-					<View style={styles.container}>
+					<View style={{padding: 20}}>
 						<ActivityIndicator 
 							size="large"
-							color="#00ff00"
+							color='#000'
 						/>
 					</View>
 				}
@@ -100,7 +97,6 @@ class SelecionarContatosScreen extends React.Component {
 				{
 					!carregando && contatosParaSelecionar && 
 					<ScrollView>
-						<List>
 							{
 								contatosParaSelecionar.map((contato, indice) => {
 									let iconeDoBotao = {
@@ -121,13 +117,12 @@ class SelecionarContatosScreen extends React.Component {
 										onPressRightIcon={()=>{this.selecionarContato(indice)}}
 									/>})
 							}
-						</List>
 					</ScrollView>
 				}
 
 				{
 					!carregando && contatosParaSelecionar &&
-						<View style={{height: 60, backgroundColor: 'steelblue', justifyContent: 'center'}}>
+						<View style={{height: 60, backgroundColor: red, justifyContent: 'center'}}>
 							<Button
 								title='Importar'
 								onPress={()=>{this.adicionarContatos()}}
@@ -154,4 +149,4 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(null, mapDispatchToProps)(SelecionarContatosScreen)
+export default connect(null, mapDispatchToProps)(ImportarProspectosScreen)

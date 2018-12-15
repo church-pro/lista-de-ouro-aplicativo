@@ -3,11 +3,13 @@ import { PEGAR_CONTATOS, ADICIONAR_CONTATOS, ALTERAR_CONTATO, PEGAR_ITEMS_AGENDA
 
 const estadoInicialProspectos = []
 
-for(let indice = 0; indice < 10; indice++){
+for(let indice = 1; indice <= 5; indice++){
 	let prospecto = {
 		id: indice,
 		name: 'Leonardo Pereira',
 		phone: 61998510703,
+		situacao_id: indice,
+		rating: indice,
 	}
 	estadoInicialProspectos.push(prospecto)
 }
