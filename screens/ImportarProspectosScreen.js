@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	ScrollView,
-	StyleSheet,
+	TouchableOpacity,
 	Text,
 	View,
 	ActivityIndicator,
@@ -10,8 +10,9 @@ import { List, ListItem, Button } from 'react-native-elements'
 import {connect} from 'react-redux'
 import {Permissions, Contacts} from 'expo' 
 import {adicionarProspectos} from '../actions'
-import { white, red } from '../helpers/colors'
+import { white, red, lightdark } from '../helpers/colors'
 import { SITUACAO_QUALIFICAR } from '../helpers/constants'
+import styles from '../components/ProspectoStyle';
 
 class ImportarProspectosScreen extends React.Component {
 	static navigationOptions = {
@@ -122,11 +123,12 @@ class ImportarProspectosScreen extends React.Component {
 
 				{
 					!carregando && contatosParaSelecionar &&
-						<View style={{height: 60, backgroundColor: red, justifyContent: 'center'}}>
-							<Button
-								title='Importar'
+						<View style={{height: 60, backgroundColor: lightdark, justifyContent: 'center'}}>
+							<TouchableOpacity style={styles.button}
 								onPress={()=>{this.adicionarContatos()}}
-							/>
+							>
+							<Text style={[styles.textButton, {fontSize: 17, fontWeight: "bold"}]}>Importar</Text>
+							</TouchableOpacity>
 						</View>
 				}
 
@@ -136,12 +138,6 @@ class ImportarProspectosScreen extends React.Component {
 
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-	},
-});
 
 function mapDispatchToProps(dispatch){
 	return {
