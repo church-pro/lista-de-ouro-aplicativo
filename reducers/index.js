@@ -1,5 +1,13 @@
 import { combineReducers } from 'redux'
-import { PEGAR_PROSPECTOS, ADICIONAR_PROSPECTOS, ALTERAR_PROSPECTO, PEGAR_ITEMS_AGENDA, ADICIONAR_ITEM_AGENDA } from '../actions'
+import { 
+	PEGAR_PROSPECTOS, 
+	ADICIONAR_PROSPECTOS, 
+	ALTERAR_PROSPECTO, 
+	PEGAR_ITEMS_AGENDA, 
+	ADICIONAR_ITEM_AGENDA,
+	PEGAR_ADMINISTRACAO,
+	ALTERAR_ADMINISTRACAO,
+} from '../actions'
 
 let stateParaTeste = []
 for(let i = 1; i <= 5; i++){
@@ -39,6 +47,16 @@ const estadoDaAdministracao = {
 
 function administracao(state = estadoDaAdministracao, action){
 	switch(action.type){
+		case PEGAR_ADMINISTRACAO:
+			return {
+				...state,
+				...action.administracao
+			}
+		case ALTERAR_PROSPECTO:
+			return {
+				...state,
+				...action.administracao
+			}
 		default:
 			return state
 	}

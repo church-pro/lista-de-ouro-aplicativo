@@ -51,7 +51,7 @@ class ProspectosScreen extends React.Component {
 	}
 
 	render() {
-		const { prospectos, navigation } = this.props
+		const { prospectos, administracao, navigation } = this.props
 		const ListaDeProspectosQualificar = (props) => (<ListaDeProspectos title={'Qualificar'} prospectos={prospectos.filter(prospecto => prospecto.situacao_id === 1)} navigation={navigation} />)
 		const ListaDeProspectosConvidar = (props) => (<ListaDeProspectos title={'Convidar'}  prospectos={prospectos.filter(prospecto => prospecto.situacao_id === 2)} navigation={navigation}/>)
 		const ListaDeProspectosApresentar = (props) => (<ListaDeProspectos title={'Apresentar'}  prospectos={prospectos.filter(prospecto => prospecto.situacao_id === 3)} navigation={navigation}/>)
@@ -115,14 +115,27 @@ class ProspectosScreen extends React.Component {
 				}
 			}
 		)
-		return (<Tabs />)
+
+		return (
+			<View style={{flex: 1,}}>
+				{
+					!administracao.ligouParaAlguem &&
+					<Tabs />
+				}
+				{
+					administracao.ligouParaAlguem &&
+						<Text>asdjaslkdj</Text>
+				}
+			</View>
+		)
 	}
 
 }
 
-function mapStateToProps({prospectos}){
+function mapStateToProps({ prospectos, administracao }){
 	return {
 		prospectos,
+		administracao,
 	}
 }
 

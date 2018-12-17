@@ -30,14 +30,14 @@ export function alterarProspecto(prospecto){
 export function pegarAdministracao(administracao){ 
 	return {
 		type: PEGAR_ADMINISTRACAO,
-		prospectos,
+		administracao,
 	}
 }
 
 export function alterarAdministracao(administracao){ 
 	return {
 		type: ALTERAR_ADMINISTRACAO,
-		prospecto,
+		administracao,
 	}
 }
 

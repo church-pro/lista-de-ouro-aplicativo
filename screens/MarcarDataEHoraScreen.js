@@ -71,7 +71,7 @@ class MarcarDataEHoraScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state
 		return {
-			title: 'Marcar APN',
+			title: 'Marcar Data e Hora',
 			headerTitleStyle: {
 				flex: 1,
 				textAlign: 'center',
@@ -97,7 +97,7 @@ class MarcarDataEHoraScreen extends React.Component {
 	}
 
 	mostrarPegadorDeData = () => this.setState({selecionarDataMostrando: true})
-	esconderPegadorDeData = () => this.setState({selecionarDataMostrando: false})
+	esconderPegadorDeData = () => { Keyboard.dismiss(); return this.setState({selecionarDataMostrando: false}) }
 	ajudadorDoPegadorDeData = (date) => {
 		Keyboard.dismiss()
 		let dataParaOAgendamento =  date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
@@ -106,7 +106,7 @@ class MarcarDataEHoraScreen extends React.Component {
 	}
 
 	mostrarPegadorDeHora = () => this.setState({selecionarHoraMostrando: true})
-	esconderPegadorDeHora = () => this.setState({selecionarHoraMostrando: false})
+	esconderPegadorDeHora = () => { Keyboard.dismiss(); return this.setState({selecionarHoraMostrando: false}) }
 	ajudadorDoPegadorDeHora = (date) => {
 		Keyboard.dismiss()
 		let minutes = date.getMinutes() + ''

@@ -8,15 +8,18 @@ import { Card, Icon, Button, Rating } from 'react-native-elements'
 import { gray, white, green, red, lightdark } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import { SITUACAO_QUALIFICAR, SITUACAO_CONVIDAR, SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO, SITUACAO_REMOVIDO, SITUACAO_FECHADO } from '../helpers/constants'
-import { alterarProspecto } from '../actions'
+import { alterarProspecto, alterarAdministracao } from '../actions'
 import { connect } from 'react-redux'
 import styles from './ProspectoStyle';
 
 class Prospecto extends React.Component {
 
 	chamarOTelefoneDoCelular() {
-		const { prospecto } = this.props
+		const { prospecto, administracao, alterarAdministracao } = this.props
 		call({ number: prospecto.telefone, prompt: false }).catch(console.error)
+		administracao.ligouPraAlguem = true
+		administracao.prospectoSelecionado = prospecto
+		alterarAdministracao(administracao)
 	}
 
 	removerProspecto(){
@@ -37,7 +40,6 @@ class Prospecto extends React.Component {
 		const { prospecto, navigation } = this.props
 		return (
 			<View style={{ flex: 1 }}>
-
 				<Card key={prospecto.id}>
 
 					<View style={styles.name_phone}>
@@ -54,25 +56,25 @@ class Prospecto extends React.Component {
 
 					{
 						prospecto.email &&
-						<View>
-							<View style={styles.mail}>
-								<Icon name='envelope' type='font-awesome' size={18} color='#aaa' />
-								<Text style={styles.text}>Adicionar E-mail</Text>
+							<View>
+								<View style={styles.mail}>
+									<Icon name='envelope' type='font-awesome' size={18} color='#aaa' />
+									<Text style={styles.text}>Adicionar E-mail</Text>
+								</View>
 							</View>
-						</View>
 					}
 					{
 						prospecto.rating &&
-						<View style={styles.rating}>
-							<Rating
-								type="custom"
-								imageSize={10}
-								readonly
-								startingValue={prospecto.rating}
-								imageSize={16}
-								ratingColor={lightdark}
-							/>
-						</View>
+							<View style={styles.rating}>
+								<Rating
+									type="custom"
+									imageSize={10}
+									readonly
+									startingValue={prospecto.rating}
+									imageSize={16}
+									ratingColor={lightdark}
+								/>
+							</View>
 					}
 					{
 						prospecto.data &&
@@ -128,13 +130,13 @@ class Prospecto extends React.Component {
 						}
 						{
 							prospecto.situacao_id === SITUACAO_CONVIDAR &&
-							<View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
-								<Button
-									title='Ligar'
-									buttonStyle={{ backgroundColor: gray, height: 30, marginTop: 5, marginRight: 10, }}
-									textStyle={{ color: white, }}
-									onPress={() => { this.chamarOTelefoneDoCelular() }}
-								/>
+								<View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
+									<Button
+										title='Ligar'
+										buttonStyle={{ backgroundColor: gray, height: 30, marginTop: 5, marginRight: 10, }}
+										textStyle={{ color: white, }}
+										onPress={() => { this.chamarOTelefoneDoCelular() }}
+									/>
 
 								<Button
 									title='Marcar Apresentação'
@@ -146,34 +148,34 @@ class Prospecto extends React.Component {
 						}
 						{
 							prospecto.situacao_id === SITUACAO_APRESENTAR &&
-							<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: "center" }}>
-								<Text style={{ justifyContent: 'center' }}>Apresentação feita?</Text>
-								<View style={{ flexDirection: 'row' }}>
-									<Button
-										title='Sim'
-										buttonStyle={{ backgroundColor: green, height: 30, marginTop: 5, marginRight: 25 }}
-										textStyle={{ color: white, }}
-										onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
-									/>
-									<Button
-										title='Não'
-										buttonStyle={{ backgroundColor: red, height: 30, marginTop: 5, marginRight: 10, }}
-										textStyle={{ color: white, }}
-										onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) }}
-									/>
+								<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: "center" }}>
+									<Text style={{ justifyContent: 'center' }}>Apresentação feita?</Text>
+									<View style={{ flexDirection: 'row' }}>
+										<Button
+											title='Sim'
+											buttonStyle={{ backgroundColor: green, height: 30, marginTop: 5, marginRight: 25 }}
+											textStyle={{ color: white, }}
+											onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
+										/>
+										<Button
+											title='Não'
+											buttonStyle={{ backgroundColor: red, height: 30, marginTop: 5, marginRight: 10, }}
+											textStyle={{ color: white, }}
+											onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) }}
+										/>
+									</View>
 								</View>
-							</View>
 						}
 						{
 							prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
-							<View style={{ flexDirection: 'row' }}>
-								<Button
-									title='Remarcar'
-									buttonStyle={{ backgroundColor: gray, height: 30, marginTop: 5, marginRight: 10, }}
-									textStyle={{ color: white, }}
-									onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_FECHAMENTO }) }}
-								/>
-							</View>
+								<View style={{ flexDirection: 'row' }}>
+									<Button
+										title='Remarcar'
+										buttonStyle={{ backgroundColor: gray, height: 30, marginTop: 5, marginRight: 10, }}
+										textStyle={{ color: white, }}
+										onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_FECHAMENTO }) }}
+									/>
+								</View>
 						}
 						{
 							prospecto.situacao_id === SITUACAO_FECHAMENTO &&
@@ -199,10 +201,17 @@ class Prospecto extends React.Component {
 	}
 }
 
-function mapDispatchToProps(dispatch){
+function mapStateToProps({administracao}){
 	return {
-		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+		administracao
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Prospecto)
+function mapDispatchToProps(dispatch){
+	return {
+		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prospecto)
