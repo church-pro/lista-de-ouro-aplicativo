@@ -5,7 +5,7 @@ import ImportarProspectosScreen from '../screens/ImportarProspectosScreen';
 import QualificarProspectoScreen from '../screens/QualificarProspectoScreen';
 import MarcarDataEHoraScreen from '../screens/MarcarDataEHoraScreen';
 import PerguntasScreen from '../screens/PerguntasScreen';
-import { white, red } from '../helpers/colors'
+import { white, red, dark } from '../helpers/colors'
 
 const ProspectosStack = createStackNavigator(
 	{
@@ -19,9 +19,10 @@ const ProspectosStack = createStackNavigator(
 		initialRouteName: 'Prospectos',
 		navigationOptions: {
 			headerStyle: {
-				backgroundColor: red,
+				backgroundColor: dark,
+				borderBottomColor: dark
 			},
-			headerTintColor: white,
+			headerBackTitle: null
 		},
 	}
 )

@@ -7,7 +7,7 @@ import {
 import { Icon } from 'react-native-elements'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
-import { white, red } from '../helpers/colors'
+import { white, red, gold, dark, yellow } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
 
@@ -24,6 +24,7 @@ class ProspectosScreen extends React.Component {
 				flex: 1,
 				textAlign: 'center',
 				alignSelf: 'center',
+				color: white,
 			},
 			headerLeftContainerStyle:{
 				padding: 10,
@@ -62,7 +63,7 @@ class ProspectosScreen extends React.Component {
 					screen: ListaDeProspectosQualificar, 
 					navigationOptions: {
 						tabBarIcon: ({ tintColor }) => (
-							<Icon name='ticket' type='font-awesome' color={tintColor} />
+							<Icon name='star' type='font-awesome' color={tintColor} />
 						),
 					}
 				},
@@ -94,7 +95,7 @@ class ProspectosScreen extends React.Component {
 					screen: ListaDeProspectosFechamento, 
 					navigationOptions: {
 						tabBarIcon: ({ tintColor }) => (
-							<Icon name='star' type='font-awesome' color={tintColor} />
+							<Icon name='check' type='font-awesome' color={tintColor} />
 						),
 					}
 				},
@@ -103,13 +104,13 @@ class ProspectosScreen extends React.Component {
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
-					activeTintColor: white,
+					activeTintColor: gold,
 					inactiveTintColor: '#eee',
 					style: {
-						backgroundColor: red,
+						backgroundColor: dark,
 					},
 					indicatorStyle: {
-						backgroundColor: white,
+						backgroundColor: gold,
 					},
 				}
 			}

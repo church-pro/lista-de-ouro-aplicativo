@@ -16,6 +16,7 @@ import { SITUACAO_QUALIFICAR } from '../helpers/constants'
 class ImportarProspectosScreen extends React.Component {
 	static navigationOptions = {
 		title: 'Importar Prospectos',
+		headerTintColor: white,
 	}
 
 	state = {
