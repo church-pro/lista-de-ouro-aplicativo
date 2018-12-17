@@ -43,12 +43,14 @@ class MarcarDataEHoraScreen extends React.Component {
 
 	static navigationOptions = ({ navigation }) => {
 		return {
-			title: 'Marcar data e hora',
+			title: 'Marcar APN',
 			headerTitleStyle: {
 				flex: 1,
 				textAlign: 'center',
 				alignSelf: 'center',
+				color: white,
 			},
+			headerTintColor: white,
 			headerLeftContainerStyle:{
 				padding: 10,
 			},

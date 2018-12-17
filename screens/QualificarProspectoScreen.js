@@ -5,14 +5,14 @@ import {
 } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { AirbnbRating } from 'react-native-ratings'
-import { white, red } from '../helpers/colors'
+import { white, red, lightdark, dark, gray, gold } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { alterarProspecto } from '../actions'
 import { SITUACAO_CONVIDAR } from '../helpers/constants'
 
 class QualificarProspectoScreen extends React.Component {
 
-	alterarProspecto(){
+	alterarProspecto() {
 		const { prospecto, alterarProspecto, navigation } = this.props
 		prospecto.rating = this.state.rating
 		prospecto.situacao_id = SITUACAO_CONVIDAR
@@ -20,12 +20,12 @@ class QualificarProspectoScreen extends React.Component {
 		navigation.goBack()
 	}
 
-	constructor(props){
+	constructor(props) {
 		super(props)
 		this.alterarProspecto = this.alterarProspecto.bind(this)
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		this.props.navigation.setParams({
 			alterarProspecto: this.alterarProspecto
 		})
@@ -38,56 +38,72 @@ class QualificarProspectoScreen extends React.Component {
 	static navigationOptions = ({ navigation, }) => {
 		const { params = {} } = navigation.state
 		return {
-			title: 'Qualificar',
+			// title: 'Qualificar',
+			headerStyle: {
+				backgroundColor: white,
+				borderBottomColor: white,
+			},
 			headerTitleStyle: {
 				flex: 1,
 				textAlign: 'center',
 				alignSelf: 'center',
 			},
-			headerLeftContainerStyle:{
+			headerLeftContainerStyle: {
 				padding: 10,
 			},
-			headerRightContainerStyle:{
+			headerRightContainerStyle: {
 				padding: 10,
 			},
+			headerTintColor: dark,
 			headerRight: (
 				<Icon
 					name='check'
 					type='font-awesome'
-					color={white}
+					color={dark}
 					onPress={() => params.alterarProspecto()}
 				/>
 			),
 		}
 	}
 
+
 	render() {
 		const { prospecto } = this.props
 
 		return (
-			<View style={{flex: 1,}}>
-				<Card>
-					<Text>{prospecto.nome}</Text>
-					<AirbnbRating 
+			<View style={{ flex: 1, backgroundColor: white, justifyContent: "flex-start" }}>
+				{/* <Card> */}
+				<Text style={{ textAlign: "center", paddingVertical: 25, color: gray, fontSize: 18 }}>
+					Qualifique o prospecto de acordo com o nível de interesse
+				</Text>
+
+				<View>
+					<Text style={{ textAlign: "center", fontSize: 27, color: dark, paddingVertical: 50 }}>
+						{prospecto.nome}
+					</Text>
+
+					<AirbnbRating
 						showRating={false}
 						defaultRating={this.state.rating}
-						onFinishRating={(valor) => this.setState({rating: valor})}
+						onFinishRating={(valor) => this.setState({ rating: valor })}
 					/>
-				</Card>
+				</View>
+
+				{/* </Card> */}
 			</View>
 		)
 	}
 
 }
 
-function mapStateToProps({prospectos}, {navigation}){
+function mapStateToProps({ prospectos }, { navigation }) {
 	const prospecto_id = navigation.state.params.prospecto_id + ''
 	return {
 		prospecto: prospectos && prospectos.find(prospecto => prospecto.id === prospecto_id)
 	}
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
 	}
