@@ -8,11 +8,10 @@ import {
 } from 'react-native';
 import { List, ListItem, Button } from 'react-native-elements'
 import {connect} from 'react-redux'
-import {pegarContatos} from '../actions'
 import {Permissions, Contacts} from 'expo' 
-import {adicionarContatos} from '../actions'
-import {NavigationActions} from 'react-navigation'
+import {adicionarProspectos} from '../actions'
 import { white, red } from '../helpers/colors'
+import { SITUACAO_QUALIFICAR } from '../helpers/constants'
 
 class ImportarProspectosScreen extends React.Component {
 	static navigationOptions = {
@@ -31,14 +30,15 @@ class ImportarProspectosScreen extends React.Component {
 				if(status === 'granted'){
 					Contacts.getContactsAsync()
 						.then(data => {
-							const pendente = 1
 							data.data.map(contato => {
 								if(contato.phoneNumbers && contato.phoneNumbers.length){
 									let contatoNovo = {}
-									contatoNovo.selecionado = false
-									contatoNovo.situacao = pendente 
+									delete contatoNovo.selecionado
+									contatoNovo.situacao_id = SITUACAO_QUALIFICAR 
 									contatoNovo.id = Date.now() + contato.id
 									contatoNovo.nome = contato.name
+									contatoNovo.rating = null
+									contatoNovo.email = null
 									let contador = 1
 									contato.phoneNumbers.map(telefone => {
 										if(contador === 1){
@@ -70,16 +70,15 @@ class ImportarProspectosScreen extends React.Component {
 
 	adicionarContatos(){
 		const {contatosParaSelecionar} = this.state
-		const {adicionarContatos, navigation} = this.props
+		const {adicionarProspectos, navigation} = this.props
 
-		adicionarContatos(contatosParaSelecionar.filter(contato => contato.selecionado))
-		navigation.navigate('Contatos')
+		adicionarProspectos(contatosParaSelecionar.filter(contato => contato.selecionado))
+		navigation.goBack()
 	}
 
 	render() {
 		const { carregando } = this.state
 		let { contatosParaSelecionar } = this.state
-		const { contatos } = this.props
 
 		return (
 			<View style={styles.container}>
@@ -114,7 +113,7 @@ class ImportarProspectosScreen extends React.Component {
 										title={contato.nome}
 										subtitle={contato.telefone}
 										rightIcon={iconeDoBotao}
-										onPressRightIcon={()=>{this.selecionarContato(indice)}}
+										onPress={()=>{this.selecionarContato(indice)}}
 									/>})
 							}
 					</ScrollView>
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch){
 	return {
-		adicionarContatos: (contatos) => dispatch(adicionarContatos(contatos)),
+		adicionarProspectos: (contatos) => dispatch(adicionarProspectos(contatos)),
 	}
 }
 

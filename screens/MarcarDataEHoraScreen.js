@@ -2,12 +2,44 @@ import React from 'react';
 import {
 	View,
 	Text,
+	Keyboard,
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
 import { white, red } from '../helpers/colors'
 import { connect } from 'react-redux'
+import DateTimerPicker from 'react-native-modal-datetime-picker'
+import { alterarProspecto } from '../actions'
 
 class MarcarDataEHoraScreen extends React.Component {
+
+	alterarProspecto(){
+		const { prospecto, alterarProspecto, navigation, situacao_id } = this.props
+		prospecto.data = this.state.dataParaOAgendamento
+		prospecto.hora = this.state.horaParaOAgendamento
+		prospecto.local = this.state.local
+		prospecto.situacao_id = situacao_id
+		alterarProspecto(prospecto)
+		navigation.goBack()
+	}
+
+	constructor(props){
+		super(props)
+		this.alterarProspecto = this.alterarProspecto.bind(this)
+	}
+
+	componentDidMount(){
+		this.props.navigation.setParams({
+			alterarProspecto: this.alterarProspecto
+		})
+	}
+
+	state = {
+		selecionarDataMostrando: false,
+		selecionarHoraMostrando: false,
+		dataParaOAgendamento: null,
+		horaParaOAgendamento: null,
+		local: '',
+	}
 
 	static navigationOptions = ({ navigation }) => {
 		return {
@@ -28,10 +60,30 @@ class MarcarDataEHoraScreen extends React.Component {
 					name='check'
 					type='font-awesome'
 					color={white}
-					onPress={() => {}}
+					onPress={() => params.alterarProspecto()}
 				/>
 			),
 		}
+	}
+
+	mostrarPegadorDeData = () => this.setState({selecionarDataMostrando: true})
+	esconderPegadorDeData = () => this.setState({selecionarDataMostrando: false})
+	ajudadorDoPegadorDeData = (date) => {
+		Keyboard.dismiss()
+		let dataParaOAgendamento =  date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+		this.setState({dataParaOAgendamento})
+		this.esconderPegadorDeData()
+	}
+
+	mostrarPegadorDeHora = () => this.setState({selecionarHoraMostrando: true})
+	esconderPegadorDeHora = () => this.setState({selecionarHoraMostrando: false})
+	ajudadorDoPegadorDeHora = (date) => {
+		Keyboard.dismiss()
+		let minutes = date.getMinutes() + ''
+		minutes = minutes.padStart(2, '0')
+		let horaParaOAgendamento = date.getHours() + ':' + minutes
+		this.setState({horaParaOAgendamento})
+		this.esconderPegadorDeHora()
 	}
 
 	render() {
@@ -53,6 +105,8 @@ class MarcarDataEHoraScreen extends React.Component {
 								size={25}
 							/>
 						}
+						onFocus={() => {this.mostrarPegadorDeData()}}
+						value={this.state.dataParaOAgendamento}
 					/>
 					<Input
 						containerStyle={{ width: '90%' }}
@@ -67,6 +121,8 @@ class MarcarDataEHoraScreen extends React.Component {
 								size={25}
 							/>
 						}
+						onFocus={() => {this.mostrarPegadorDeHora()}}
+						value={this.state.horaParaOAgendamento}
 					/>
 					<Input
 						containerStyle={{ width: '90%' }}
@@ -82,8 +138,22 @@ class MarcarDataEHoraScreen extends React.Component {
 							/>
 						}
 					/>
-				</Card>
-			</View>
+					<DateTimerPicker
+						isVisible={this.state.selecionarDataMostrando}
+						onConfirm={this.ajudadorDoPegadorDeData}
+						onCancel={this.esconderPegadorDeData}
+						mode={'date'}
+					/>
+
+				<DateTimerPicker
+					isVisible={this.state.selecionarHoraMostrando}
+					onConfirm={this.ajudadorDoPegadorDeHora}
+					onCancel={this.esconderPegadorDeHora}
+					mode={'time'}
+				/>
+
+		</Card>
+	</View>
 		)
 	}
 
@@ -92,8 +162,15 @@ class MarcarDataEHoraScreen extends React.Component {
 function mapStateToProps({prospectos}, {navigation}){
 	const prospecto_id = navigation.state.params.prospecto_id
 	return {
-		prospecto: prospectos && prospectos.find(prospecto => prospecto.id === prospecto_id)
+		prospecto: prospectos && prospectos.find(prospecto => prospecto.id === prospecto_id),
+		situacao_id: navigation.state.params.situacao_id
 	}
 }
 
-export default connect(mapStateToProps, null)(MarcarDataEHoraScreen)
+function mapDispatchToProps(dispatch){
+	return {
+		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MarcarDataEHoraScreen)

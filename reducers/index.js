@@ -1,41 +1,44 @@
 import { combineReducers } from 'redux'
-import { PEGAR_CONTATOS, ADICIONAR_CONTATOS, ALTERAR_CONTATO, PEGAR_ITEMS_AGENDA, ADICIONAR_ITEM_AGENDA } from '../actions'
+import { PEGAR_PROSPECTOS, ADICIONAR_PROSPECTOS, ALTERAR_PROSPECTO, PEGAR_ITEMS_AGENDA, ADICIONAR_ITEM_AGENDA } from '../actions'
 
-const estadoInicialProspectos = []
-
-for(let indice = 1; indice <= 5; indice++){
+let stateParaTeste = []
+for(let i = 1; i <= 5; i++){
 	let prospecto = {
-		id: indice,
-		name: 'Leonardo Pereira',
-		phone: 61998510703,
-		situacao_id: indice,
-		rating: indice,
+		id: i + '',
+		nome: 'leo ' + i,
+		telefone: 61998510703 + '',
+		situacao_id: i,
 	}
-	estadoInicialProspectos.push(prospecto)
+	stateParaTeste.push(prospecto)
 }
 
-function prospectos(state = estadoInicialProspectos, action){
+function prospectos(state = stateParaTeste, action){
 	switch(action.type){
+		case PEGAR_PROSPECTOS:
+			return [...state, ...action.prospectos]
+		case ADICIONAR_PROSPECTOS:
+			return [...state, ...action.prospectos]
+		case ALTERAR_PROSPECTO:
+			const estadoAtualizado = state.map(prospecto => {
+				if(prospecto.id === action.prospecto.id){
+					return action.prospecto
+				}else{
+					return prospecto
+				}
+			})
+			return [...estadoAtualizado]
 		default:
 			return state
 	}
 }
 
-function contatos(state = [], action){
+const estadoDaAdministracao = {
+	ligouPraAlguem: false,
+	prospectoSelecionado: null,
+}
+
+function administracao(state = estadoDaAdministracao, action){
 	switch(action.type){
-		case PEGAR_CONTATOS:
-			return [...state, ...action.contatos]
-		case ADICIONAR_CONTATOS:
-			return [...state, ...action.contatos]
-		case ALTERAR_CONTATO:
-			const estadoAtualizado = state.map(contato => {
-				if(contato.id === action.contato.id){
-					return action.contato
-				}else{
-					return contato
-				}
-			})
-			return [...estadoAtualizado]
 		default:
 			return state
 	}
@@ -54,6 +57,6 @@ function agenda(state = [], action){
 
 export default combineReducers({
 	prospectos,
-	contatos,
+	administracao,
 	agenda,
 })
