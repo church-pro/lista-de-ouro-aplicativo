@@ -2,10 +2,13 @@ import React from 'react';
 import {
 	View,
 	Text,
+	Alert,
 } from 'react-native';
 import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
 import { white, red, gray, green } from '../helpers/colors'
 import { connect } from 'react-redux'
+import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO } from '../helpers/constants'
+import { alterarProspecto } from '../actions'
 
 class PerguntasScreen extends React.Component {
 
@@ -20,6 +23,14 @@ class PerguntasScreen extends React.Component {
 		naoFoiFeitoOPreCadastro: false,
 		foiFechado: false,
 		naoFoiFechado: false,
+	}
+
+	alterarProspecto(){
+		const { prospecto, alterarProspecto, navigation } = this.props
+		prospecto.situacao_id = SITUACAO_FECHADO
+		alterarProspecto(prospecto)
+		Alert.alert('Sucesso', 'Prospecto fechou!')
+		navigation.goBack()
 	}
 
 	render() {
@@ -92,7 +103,7 @@ class PerguntasScreen extends React.Component {
 							title='Prospecto fez fechamento'
 							buttonStyle={{backgroundColor: green, height: 30, marginTop: 5, marginRight: 25}}
 							textStyle={{color: white,}}
-							onPress={() => { alert('Parabens!') }} 
+							onPress={() => { this.alterarProspecto() }} 
 						/>
 				}
 				{
@@ -101,7 +112,7 @@ class PerguntasScreen extends React.Component {
 							title='Remarcar'
 							buttonStyle={{backgroundColor: gray, height: 30, marginTop: 5, marginRight: 10,}}
 							textStyle={{color: white,}}
-							onPress={() => { navigation.navigate('MarcarDataEHora', {prospecto_id: prospecto.id}) }} 
+							onPress={() => { navigation.navigate('MarcarDataEHora', {prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR,}) }} 
 						/>
 				}
 			</View>
@@ -117,4 +128,10 @@ function mapStateToProps({prospectos}, {navigation}){
 	}
 }
 
-export default connect(mapStateToProps, null)(PerguntasScreen)
+function mapDispatchToProps(dispatch){
+	return {
+		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PerguntasScreen)

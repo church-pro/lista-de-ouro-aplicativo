@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	View,
 	Text,
+	Alert,
 } from 'react-native';
 import { Card, Icon } from 'react-native-elements'
 import { AirbnbRating } from 'react-native-ratings'
@@ -17,6 +18,7 @@ class QualificarProspectoScreen extends React.Component {
 		prospecto.rating = this.state.rating
 		prospecto.situacao_id = SITUACAO_CONVIDAR
 		alterarProspecto(prospecto)
+		Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
 		navigation.goBack()
 	}
 

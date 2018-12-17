@@ -2,17 +2,34 @@ import React from 'react';
 import {
 	Text,
 	View,
+	Alert,
 } from 'react-native';
 import { Card, Icon, Button, Rating } from 'react-native-elements'
 import { gray, white, green, red } from '../helpers/colors'
 import call from 'react-native-phone-call'
-import { SITUACAO_QUALIFICAR, SITUACAO_CONVIDAR, SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
+import { SITUACAO_QUALIFICAR, SITUACAO_CONVIDAR, SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO, SITUACAO_REMOVIDO, SITUACAO_FECHADO } from '../helpers/constants'
+import { alterarProspecto } from '../actions'
+import { connect } from 'react-redux'
 
 class Prospecto extends React.Component {
 
 	chamarOTelefoneDoCelular(){
 		const { prospecto } = this.props
 		call({number:prospecto.telefone,prompt: false}).catch(console.error)
+	}
+
+	removerProspecto(){
+		const { prospecto, alterarProspecto } = this.props
+		prospecto.situacao_id = SITUACAO_REMOVIDO
+		alterarProspecto(prospecto)
+		Alert.alert('Removido', 'Prospecto removido!')
+	}
+
+	fecharProspecto(){
+		const { prospecto, alterarProspecto } = this.props
+		prospecto.situacao_id = SITUACAO_FECHADO
+		alterarProspecto(prospecto)
+		Alert.alert('Sucesso', 'Prospecto fechou!')
 	}
 
 	render() {
@@ -56,7 +73,7 @@ class Prospecto extends React.Component {
 									<Rating 
 										type="star"
 										imageSize={10}
-										readOnly
+										readonly
 										startingValue={prospecto.rating}
 										style={{ paddingVertical: 10 }}
 									/>
@@ -82,14 +99,17 @@ class Prospecto extends React.Component {
 										<Text style={{color: '#ddd'}}>{prospecto.hora}</Text>
 									</View>
 								</View>
-								<View style={{flexDirection: 'row', marginLeft: -15}}>
-									<View style={{width: 40}}>
-										<Icon name='map-marker' type='font-awesome' size={20} color='#aaa' />
-									</View>
-									<View>
-										<Text style={{color: '#ddd'}}>{prospecto.local}</Text>
-									</View>
-								</View>
+								{
+									prospecto.local &&
+										<View style={{flexDirection: 'row', marginLeft: -15}}>
+											<View style={{width: 40}}>
+												<Icon name='map-marker' type='font-awesome' size={20} color='#aaa' />
+											</View>
+											<View>
+												<Text style={{color: '#ddd'}}>{prospecto.local}</Text>
+											</View>
+										</View>
+								}
 							</View>
 					}
 
@@ -101,7 +121,7 @@ class Prospecto extends React.Component {
 									name='trash'
 									type='font-awesome'
 									color='#aaa'
-									onPress={() => alert('huiashduiasd')}
+									onPress={() => {Alert.alert('Remover', 'Você deseja remover este prospecto?', [{text: 'Não'}, {text: 'Sim', onPress: () => {this.removerProspecto()}}]) } }
 								/>
 								<Button 
 									title='Qualificar'
@@ -171,7 +191,7 @@ class Prospecto extends React.Component {
 										title='Fechamento'
 										buttonStyle={{backgroundColor: green, height: 30, marginTop: 5, marginRight: 10,}}
 										textStyle={{color: white,}}
-										onPress={() => { alert('Parabens!') }} 
+										onPress={() => {Alert.alert('Fechar', 'Você deseja fechar este prospecto?', [{text: 'Não'}, {text: 'Sim', onPress: () => {this.fecharProspecto()}}]) } }
 									/>
 								</View>
 						}
@@ -183,4 +203,10 @@ class Prospecto extends React.Component {
 	}
 }
 
-export default Prospecto
+function mapDispatchToProps(dispatch){
+	return {
+		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+	}
+}
+
+export default connect(null, mapDispatchToProps)(Prospecto)

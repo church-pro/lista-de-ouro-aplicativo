@@ -3,23 +3,50 @@ import {
 	View,
 	Text,
 	Keyboard,
+	KeyboardAvoidingView,
+	Alert,
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
 import { white, red } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DateTimerPicker from 'react-native-modal-datetime-picker'
 import { alterarProspecto } from '../actions'
+import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
 
 class MarcarDataEHoraScreen extends React.Component {
 
 	alterarProspecto(){
 		const { prospecto, alterarProspecto, navigation, situacao_id } = this.props
-		prospecto.data = this.state.dataParaOAgendamento
-		prospecto.hora = this.state.horaParaOAgendamento
-		prospecto.local = this.state.local
-		prospecto.situacao_id = situacao_id
-		alterarProspecto(prospecto)
-		navigation.goBack()
+		if(this.state.dataParaOAgendamento === null ||
+			this.state.horaParaOAgendamento === null){
+			Alert.alert('Erro', 'Selecione a data e hora')
+		}else{
+			prospecto.data = this.state.dataParaOAgendamento
+			prospecto.hora = this.state.horaParaOAgendamento
+			if(this.state.local){
+				prospecto.local = this.state.local
+			}
+			prospecto.situacao_id = situacao_id
+			alterarProspecto(prospecto)
+			let textoMarcouUmaApresentacao = ''
+			switch(situacao_id){
+				case SITUACAO_APRESENTAR:
+					textoMarcouUmaApresentacao = 'Você marcou uma apresentação, agora seu prospecto está na etapa "Apresentar"'
+					break;
+				case SITUACAO_ACOMPANHAR:
+					textoMarcouUmaApresentacao = 'Você remarcou, agora seu prospecto está na etapa "Acompanhar"'
+					break;
+				case SITUACAO_FECHAMENTO:
+					textoMarcouUmaApresentacao = 'Você remarcou, agora seu prospecto está na etapa "Fechamento"'
+					break;
+			}
+			Alert.alert('Sucesso', textoMarcouUmaApresentacao)
+			if(situacao_id === SITUACAO_ACOMPANHAR){
+				navigation.navigate('Prospectos')
+			}else{
+				navigation.goBack()
+			}
+		}
 	}
 
 	constructor(props){
@@ -42,6 +69,7 @@ class MarcarDataEHoraScreen extends React.Component {
 	}
 
 	static navigationOptions = ({ navigation }) => {
+		const { params = {} } = navigation.state
 		return {
 			title: 'Marcar data e hora',
 			headerTitleStyle: {
@@ -86,11 +114,13 @@ class MarcarDataEHoraScreen extends React.Component {
 		this.esconderPegadorDeHora()
 	}
 
+
+
 	render() {
 		const { prospecto } = this.props
 
 		return (
-			<View style={{flex: 1,}}>
+			<KeyboardAvoidingView style={{flex: 1,}} behavior="padding" enabled>
 				<Card>
 					<Input
 						containerStyle={{ width: '90%' }}
@@ -137,6 +167,8 @@ class MarcarDataEHoraScreen extends React.Component {
 								size={25}
 							/>
 						}
+						value={this.local}
+						onChangeText={(text) => this.setState({local: text})}
 					/>
 					<DateTimerPicker
 						isVisible={this.state.selecionarDataMostrando}
@@ -151,9 +183,8 @@ class MarcarDataEHoraScreen extends React.Component {
 					onCancel={this.esconderPegadorDeHora}
 					mode={'time'}
 				/>
-
-		</Card>
-	</View>
+			</Card>
+		</KeyboardAvoidingView>
 		)
 	}
 
