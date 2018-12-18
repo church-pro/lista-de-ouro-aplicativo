@@ -41,7 +41,7 @@ function prospectos(state = stateParaTeste, action){
 }
 
 const estadoDaAdministracao = {
-	ligouPraAlguem: false,
+	ligueiParaAlguem: false,
 	prospectoSelecionado: null,
 }
 

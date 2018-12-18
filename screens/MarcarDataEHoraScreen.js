@@ -192,7 +192,7 @@ class MarcarDataEHoraScreen extends React.Component {
 
 }
 
-function mapStateToProps({prospectos}, {navigation}){
+function mapStateToProps({ prospectos }, {navigation}){
 	const prospecto_id = navigation.state.params.prospecto_id
 	return {
 		prospecto: prospectos && prospectos.find(prospecto => prospecto.id === prospecto_id),
