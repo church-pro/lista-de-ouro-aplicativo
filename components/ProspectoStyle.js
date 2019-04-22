@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { red, lightdark, gray, white } from '../helpers/colors';
+import { lightdark, gray, white, gold } from '../helpers/colors';
 
 const styles = StyleSheet.create({
 
@@ -7,25 +7,29 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    icons: {
-        color: "#aaa"
+    containerCard: {
+        backgroundColor: 'transparent', 
+        borderRadius: 6, 
+        padding: 0,
+        flexDirection: 'column',
     },
     name_phone: {
         flexDirection: 'column',
+        padding: 8,
     },
     text: {
-        marginLeft: 10,
-        color: gray
+        color: white
     },
-    name: {
-        padding: 6,
+    content: {
         flexDirection: "row",
         justifyContent: "flex-start",
+        alignItems: 'center',
     },
     phone: {
         padding: 6,
         flexDirection: "row",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        alignItems: 'center'
     },
     mail: {
         padding: 6,
@@ -34,8 +38,9 @@ const styles = StyleSheet.create({
     },
     rating: {
         flexDirection: "row",
-        justifyContent: "flex-start",
-        padding: 6,
+        justifyContent: "flex-end",
+        paddingTop: 5,
+        paddingRight: 5,
     },
     date: {
         padding: 6,
@@ -57,13 +62,7 @@ const styles = StyleSheet.create({
     subFooter: {
         flexDirection: 'row',
         backgroundColor: white,
-        borderTopColor: "#eee",
-        borderTopWidth: 1,
-        height: 40,
-        marginTop: 20,
-        marginLeft: -15,
-        marginRight: -15,
-        marginBottom: -15,
+        height: 35,
     },
     footerRating: {
         flex: 1,

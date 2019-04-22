@@ -9,7 +9,7 @@ import {
 import { Icon, Card, CheckBox } from 'react-native-elements'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
-import { white, red, gold, dark, yellow } from '../helpers/colors'
+import { white, gold, dark, lightdark } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
 import { 
@@ -150,7 +150,7 @@ class ProspectosScreen extends React.Component {
 					screen: ListaDeProspectosConvidar, 
 					navigationOptions: {
 						tabBarIcon: ({ tintColor }) => (
-							<Icon name='envelope' type='font-awesome' color={tintColor} />
+							<Icon name='phone' type='font-awesome' color={tintColor} />
 						),
 					}
 				},
@@ -166,7 +166,7 @@ class ProspectosScreen extends React.Component {
 					screen: ListaDeProspectosAcompanhar, 
 					navigationOptions: {
 						tabBarIcon: ({ tintColor }) => (
-							<Icon name='retweet' type='font-awesome' color={tintColor} />
+							<Icon name='info-circle' type='font-awesome' color={tintColor} />
 						),
 					}
 				},
@@ -174,7 +174,7 @@ class ProspectosScreen extends React.Component {
 					screen: ListaDeProspectosFechamento, 
 					navigationOptions: {
 						tabBarIcon: ({ tintColor }) => (
-							<Icon name='check' type='font-awesome' color={tintColor} />
+							<Icon name='trophy' type='font-awesome' color={tintColor} />
 						),
 					}
 				},
@@ -196,7 +196,7 @@ class ProspectosScreen extends React.Component {
 		)
 
 		return (
-			<View style={{flex: 1,}}>
+			<View style={{flex: 1, backgroundColor: lightdark}}>
 				{
 					!administracao.ligueiParaAlguem &&
 					<Tabs />

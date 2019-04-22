@@ -3,10 +3,10 @@ import {
 	Text,
 	View,
 	Alert,
-	TouchableOpacity
+	TouchableOpacity,
 } from 'react-native';
-import { Card, Icon, Button, Rating } from 'react-native-elements'
-import { gray, white, green, red, lightdark } from '../helpers/colors'
+import { Card, Icon, Button, Rating, Badge } from 'react-native-elements'
+import { white, lightdark, gold } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import { 
 	SITUACAO_QUALIFICAR, 
@@ -51,22 +51,58 @@ class Prospecto extends React.Component {
 	render() {
 		const { prospecto, navigation } = this.props
 		return (
-			<View style={{ flex: 1 }}>
-				<Card key={prospecto.id}>
-
+			// <View style={{ flex: 1 }}>
+				<Card containerStyle={styles.containerCard} key={prospecto.id}>
+				<View style={{justifyContent: 'space-between'}}>
+				{
+					prospecto.data &&
+							<View style={styles.date}>
+								{/* <Icon name='calendar' type='font-awesome' size={19} color='#aaa' /> */}
+								<Badge value={`${prospecto.data} - ${prospecto.hora}`} badgeStyle={{border: 0, backgroundColor: gold}}>
+									{/* <Text style={styles.text}>{prospecto.data}</Text> */}
+								</Badge>
+							{/* <View style={styles.hour}>
+								<Icon name='clock-o' type='font-awesome' size={20} color='#aaa' />
+								<Text style={styles.text}>{prospecto.hora}</Text>
+							</View> */}
+							{/* {
+								prospecto.local &&
+									<View style={styles.place}>
+										<Icon name='map-marker' type='font-awesome' size={20} color='#aaa' />
+										<Text style={styles.text}>{prospecto.local}</Text>
+									</View>
+							} */}
+							</View>
+					}
+				{
+					prospecto.rating &&
+						<View style={[styles.rating, style={alignItems: 'center' }]}>
+							<Icon name='star' type="font-awesome" size={14} color={gold} />
+							<Text style={{color: gold}}> {prospecto.rating} </Text>
+							{/* <Rating
+								type="custom"
+								imageSize={10}
+								readonly
+								startingValue={prospecto.rating}
+								imageSize={17}
+								ratingColor={lightdark}
+							/> */}
+						</View>
+					}
+					</View>
 					<View style={styles.name_phone}>
-						<View style={styles.name}>
-							<Icon name='user' type='font-awesome' size={20} color='#aaa' />
-							<Text style={styles.text}>{prospecto.nome}</Text>
+						<View style={styles.content}>
+							{/* <Icon name='user' type='font-awesome' size={20} color={gold} /> */}
+							<Text style={[styles.text, style={fontWeight: 'bold'}]}>{prospecto.nome}</Text>
 						</View>
 
-						<View style={styles.phone}>
-							<Icon name='phone' type='font-awesome' size={19} color='#aaa' />
-							<Text style={styles.text}>{prospecto.telefone}</Text>
+						<View style={styles.content}>
+							{/* <Icon name='phone' type='font-awesome' size={19} color={gold} /> */}
+							<Text style={[styles.text, style={marginTop: 5}]}>{prospecto.telefone}</Text>
 						</View>
 					</View>
 
-					{
+					{/* {
 						prospecto.email &&
 							<View>
 								<View style={styles.mail}>
@@ -74,40 +110,8 @@ class Prospecto extends React.Component {
 									<Text style={styles.text}>Adicionar E-mail</Text>
 								</View>
 							</View>
-					}
-					{
-						prospecto.rating &&
-							<View style={styles.rating}>
-								<Rating
-									type="custom"
-									imageSize={10}
-									readonly
-									startingValue={prospecto.rating}
-									imageSize={17}
-									ratingColor={lightdark}
-								/>
-							</View>
-					}
-					{
-						prospecto.data &&
-							<View>
-								<View style={styles.date}>
-									<Icon name='calendar' type='font-awesome' size={19} color='#aaa' />
-									<Text style={styles.text}>{prospecto.data}</Text>
-								</View>
-								<View style={styles.hour}>
-									<Icon name='clock-o' type='font-awesome' size={20} color='#aaa' />
-									<Text style={styles.text}>{prospecto.hora}</Text>
-								</View>
-								{
-									prospecto.local &&
-										<View style={styles.place}>
-											<Icon name='map-marker' type='font-awesome' size={20} color='#aaa' />
-											<Text style={styles.text}>{prospecto.local}</Text>
-										</View>
-								}
-							</View>
-					}
+					} */}
+					
 
 					<View style={styles.subFooter}>
 						{
@@ -185,7 +189,7 @@ class Prospecto extends React.Component {
 						}
 					</View>
 				</Card>
-			</View>
+			// </View>
 		)
 	}
 }
