@@ -21,9 +21,17 @@ import {
 	SITUACAO_REMOVIDO, 
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
-import { alterarProspecto, alterarAdministracao } from '../actions'
+import { 
+	alterarProspecto, 
+	alterarAdministracao,
+	pegarProspectosNoAsyncStorage,
+} from '../actions'
 
 class ProspectosScreen extends React.Component {
+
+	componentDidMount(){
+		this.props.pegarProspectosNoAsyncStorage()
+	}
 
 	static navigationOptions = ({ navigation }) => {
 		return {
@@ -289,6 +297,7 @@ function mapDispatchToProps(dispatch){
 	return {
 		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
+		pegarProspectosNoAsyncStorage: () => dispatch(pegarProspectosNoAsyncStorage()),
 	}
 }
 
