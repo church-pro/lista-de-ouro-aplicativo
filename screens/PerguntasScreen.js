@@ -5,7 +5,7 @@ import {
 	Alert,
 } from 'react-native';
 import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
-import { white, red, gray, green } from '../helpers/colors'
+import { white, red, gray, green, lightdark, dark, gold } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO } from '../helpers/constants'
 import { alterarProspecto } from '../actions'
@@ -39,60 +39,79 @@ class PerguntasScreen extends React.Component {
 		const { foiFeitoOPreCadastro, naoFoiFeitoOPreCadastro, foiFechado, naoFoiFechado } = this.state
 
 		return (
-			<View style={{flex: 1,}}>
-				<Card>
-					<Text>Foi feito o pré-cadastro?</Text>
-					<View style={{flexDirection: 'row', backgroundColor: '#eee', height: 40, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15}}>
+			<View style={{flex: 1, backgroundColor: lightdark}}>
+				<Card containerStyle={{backgroundColor: dark, borderColor: gold}}>
+					<Text style={{color: white, textAlign: 'center', fontWeight: 'bold',
+					paddingBottom: 8
+				}}>
+					Foi feito o pré-cadastro?</Text>
+					<View style={{flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center'}}>
 						<CheckBox
 							title='Sim'
+							textStyle={{color: white}}
 							checked={this.state.foiFeitoOPreCadastro}
 							onPress={() => this.setState({
 								foiFeitoOPreCadastro: true,
 								naoFoiFeitoOPreCadastro: false,
 							})}
 							checkedIcon='dot-circle-o'
+							checkedColor={gold}
 							uncheckedIcon='circle-o'
-							containerStyle={{backgroundColor: '#eee'}}
+							containerStyle={{backgroundColor: 'transparent', 
+							padding: 0, borderColor: 'transparent'}}
 						/>
 						<CheckBox
 							title='Não'
+							textStyle={{color: white}}
 							checked={this.state.naoFoiFeitoOPreCadastro}
 							onPress={() => this.setState({
 								foiFeitoOPreCadastro: false,
 								naoFoiFeitoOPreCadastro: true,
+								foiFechado: false
 							})}
 							checkedIcon='dot-circle-o'
+							checkedColor={gold}
 							uncheckedIcon='circle-o'
-							containerStyle={{backgroundColor: '#eee'}}
+							containerStyle={{backgroundColor: 'transparent', 
+							padding: 0, borderColor: 'transparent'}}
 						/>
 					</View>
 				</Card>
 				{
 					foiFeitoOPreCadastro &&
-						<Card>
-							<Text>O prospecto fechou?</Text>
-							<View style={{flexDirection: 'row', backgroundColor: '#eee', height: 40, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15}}>
+						<Card containerStyle={{backgroundColor: dark, borderColor: gold}}>
+							<Text style={{color: white, textAlign: 'center', 
+							fontWeight: 'bold', paddingBottom: 8}}>
+								O prospecto fechou?
+							</Text>
+							<View style={{flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center'}}>
 								<CheckBox
 									title='Sim'
+									textStyle={{color: white}}
 									checked={this.state.foiFechado}
 									onPress={() => this.setState({
 										foiFechado: true,
 										naoFoiFechado: false,
 									})}
 									checkedIcon='dot-circle-o'
+									checkedColor={gold}
 									uncheckedIcon='circle-o'
-									containerStyle={{backgroundColor: '#eee'}}
+									containerStyle={{backgroundColor: 'transparent', 
+									padding: 0, borderColor: 'transparent'}}
 								/>
 								<CheckBox
 									title='Não'
+									textStyle={{color: white}}
 									checked={this.state.naoFoiFechado}
 									onPress={() => this.setState({
 										foiFechado: false,
 										naoFoiFechado: true,
 									})}
 									checkedIcon='dot-circle-o'
+									checkedColor={gold}
 									uncheckedIcon='circle-o'
-									containerStyle={{backgroundColor: '#eee'}}
+									containerStyle={{backgroundColor: 'transparent', 
+									padding: 0, borderColor: 'transparent'}}
 								/>
 							</View>
 						</Card>
@@ -102,7 +121,7 @@ class PerguntasScreen extends React.Component {
 					foiFeitoOPreCadastro && foiFechado &&
 						<Button 
 							title='Prospecto fez fechamento'
-							buttonStyle={{backgroundColor: green, height: 30, marginTop: 5, marginRight: 25}}
+							buttonStyle={{backgroundColor: green, height: 50, marginTop: 10}}
 							textStyle={{color: white,}}
 							onPress={() => { this.alterarProspecto() }} 
 						/>
@@ -111,7 +130,7 @@ class PerguntasScreen extends React.Component {
 					foiFeitoOPreCadastro && !foiFechado && naoFoiFechado &&
 						<Button 
 							title='Remarcar'
-							buttonStyle={{backgroundColor: gray, height: 30, marginTop: 5, marginRight: 10,}}
+							buttonStyle={{backgroundColor: gray, height: 50, marginTop: 10}}
 							textStyle={{color: white,}}
 							onPress={() => { navigation.navigate('MarcarDataEHora', {prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR,}) }} 
 						/>

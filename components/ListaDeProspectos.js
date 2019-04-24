@@ -4,8 +4,6 @@ import {
 	View,
 	ScrollView,
 } from 'react-native';
-import { Card, Icon, ListItem, Button } from 'react-native-elements'
-import { white } from '../helpers/colors'
 import Prospecto from '../components/Prospecto'
 
 class ListaDeProspectos extends React.Component {

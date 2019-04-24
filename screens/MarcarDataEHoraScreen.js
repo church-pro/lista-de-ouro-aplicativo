@@ -7,7 +7,7 @@ import {
 	Alert,
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
-import { white, red } from '../helpers/colors'
+import { white, dark, gold, lightdark } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DateTimerPicker from 'react-native-modal-datetime-picker'
 import { alterarProspecto } from '../actions'
@@ -122,51 +122,57 @@ class MarcarDataEHoraScreen extends React.Component {
 		const { prospecto } = this.props
 
 		return (
-			<KeyboardAvoidingView style={{flex: 1,}} behavior="padding" enabled>
-				<Card>
+			<KeyboardAvoidingView style={{flex: 1, backgroundColor: lightdark}} behavior="padding" enabled>
+				<Card containerStyle={{backgroundColor: dark, borderColor: gold, borderRadius: 6}}>
 					<Input
-						containerStyle={{ width: '90%' }}
+						// containerStyle={{ width: '90%' }}
 						placeholder="Data"
+						placeholderTextColor={'#ddd'}
 						label="DATA"
-						labelStyle={{ marginTop: 16 }}
+						inputStyle={{color: white, marginLeft: 5}}
+						labelStyle={{ marginTop: 5 }}
 						leftIcon={
 							<Icon
 								name="calendar"
 								type="font-awesome"
-								color="#86939e"
-								size={25}
+								color={gold}
+								size={22}
 							/>
 						}
 						onFocus={() => {this.mostrarPegadorDeData()}}
 						value={this.state.dataParaOAgendamento}
 					/>
 					<Input
-						containerStyle={{ width: '90%' }}
+						// containerStyle={{ width: '90%' }}
 						placeholder="Horário"
+						placeholderTextColor={'#ddd'}
 						label="HORA"
+						inputStyle={{color: white, marginLeft: 5}}
 						labelStyle={{ marginTop: 16 }}
 						leftIcon={
 							<Icon
 								name="clock-o"
 								type="font-awesome"
-								color="#86939e"
-								size={25}
+								color={gold}
+								size={22}
 							/>
 						}
 						onFocus={() => {this.mostrarPegadorDeHora()}}
 						value={this.state.horaParaOAgendamento}
 					/>
 					<Input
-						containerStyle={{ width: '90%' }}
+						// containerStyle={{ width: '90%' }}
 						placeholder="Onde ocorrerá?"
+						placeholderTextColor={'#ddd'}
 						label="LOCAL"
+						inputStyle={{color: white, marginLeft: 5}}
 						labelStyle={{ marginTop: 16 }}
 						leftIcon={
 							<Icon
 								name="map-marker"
 								type="font-awesome"
-								color="#86939e"
-								size={25}
+								color={gold}
+								size={22}
 							/>
 						}
 						value={this.local}
@@ -177,6 +183,7 @@ class MarcarDataEHoraScreen extends React.Component {
 						onConfirm={this.ajudadorDoPegadorDeData}
 						onCancel={this.esconderPegadorDeData}
 						mode={'date'}
+						style={{color: white}}
 					/>
 
 				<DateTimerPicker

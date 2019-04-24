@@ -22,6 +22,7 @@ import {
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import { alterarProspecto, alterarAdministracao } from '../actions'
+import { Fab, Container, Button } from 'native-base';
 
 class ProspectosScreen extends React.Component {
 
@@ -52,6 +53,7 @@ class ProspectosScreen extends React.Component {
 		quer: false,
 		naoQuer: false,
 		pendente: false,
+		active: false
 	}
 
 	alterarProspecto(tipo) {
@@ -107,11 +109,31 @@ class ProspectosScreen extends React.Component {
 		const { quer, naoQuer, pendente } = this.state
 
 		const ListaDeProspectosQualificar = (props) => (
-			<ListaDeProspectos 
-				title={'Qualificar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
-				navigation={navigation} 
-			/>)
+			<View style={{flex: 1}}>
+
+				<ListaDeProspectos 
+					title={'Qualificar'} 
+					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
+					navigation={navigation} 
+				/>
+				<Fab 
+					direction="left" 
+					position="bottomRight" style={{ backgroundColor: gold }}
+					active={this.state.active}
+					onPress={() => this.setState({active: !this.state.active})}
+				>
+					<Icon name = "add" />
+
+					<Button style = {{ backgroundColor: gold }}>
+						<Text>Novo</Text>
+					</Button>
+					<Button style = {{ backgroundColor: gold }}>
+						<Text>Importar</Text>
+					</Button>
+				</Fab>
+			</View>
+
+			)
 		const ListaDeProspectosConvidar = (props) => (
 			<ListaDeProspectos 
 				title={'Convidar'} 

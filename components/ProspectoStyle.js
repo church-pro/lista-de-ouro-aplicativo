@@ -25,38 +25,23 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: 'center',
     },
-    phone: {
-        padding: 6,
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: 'center'
-    },
-    mail: {
-        padding: 6,
-        flexDirection: "row",
-        justifyContent: "flex-start"
-    },
     rating: {
+        flex: 1,
         flexDirection: "row",
         justifyContent: "flex-end",
         paddingTop: 5,
         paddingRight: 5,
     },
     date: {
-        padding: 6,
+        paddingTop: 6,
+        paddingLeft: 6,
         flexDirection: "row",
         justifyContent: "flex-start"
     },
-    hour: {
-        padding: 6,
-        flexDirection: "row",
-        justifyContent: "flex-start"
+    badgeDate: {
+        backgroundColor: gold,
     },
-    place: {
-        padding: 6,
-        flexDirection: "row",
-        justifyContent: "flex-start"
-    },
+   
 
     // STYLES FOOTER
     subFooter: {
@@ -113,7 +98,13 @@ const styles = StyleSheet.create({
     textButton: {
         textAlign: 'center',
         color: white
-    }
+    },
+
+    //SIDE MENU
+    sideMenu: {
+        flex: 1,
+        alignItems: 'flex-start',
+    },
 
 })
 
