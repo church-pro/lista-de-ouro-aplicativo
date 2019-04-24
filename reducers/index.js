@@ -9,18 +9,7 @@ import {
 	ALTERAR_ADMINISTRACAO,
 } from '../actions'
 
-let stateParaTeste = []
-for(let i = 1; i <= 5; i++){
-	let prospecto = {
-		id: i + '',
-		nome: 'leo ' + i,
-		telefone: 61998510703 + '',
-		situacao_id: i,
-	}
-	stateParaTeste.push(prospecto)
-}
-
-function prospectos(state = stateParaTeste, action){
+function prospectos(state = [], action){
 	switch(action.type){
 		case PEGAR_PROSPECTOS:
 			return [...state, ...action.prospectos]

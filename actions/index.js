@@ -1,3 +1,8 @@
+import {
+	recuperarProspectos,
+	submeterProspectos,
+} from '../helpers/api'
+
 export const PEGAR_PROSPECTOS = 'PEGAR_PROSPECTOS'
 export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
 export const ALTERAR_PROSPECTO = 'ALTERAR_PROSPECTO'
@@ -54,3 +59,13 @@ export function adicionarItemAgenda(item){
 		item,
 	}
 }
+
+export const pegarProspectosNoAsyncStorage = () => dispatch => {
+	recuperarProspectos()
+		.then(prospectosNaAsyncStorage => dispatch(pegarProspectos(prospectosNaAsyncStorage.prospectos)))
+}
+
+export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => (
+	submeterProspectos(prospectos)
+	.then(prospectos => dispatch(adicionarProspectos(prospectos)))
+)
