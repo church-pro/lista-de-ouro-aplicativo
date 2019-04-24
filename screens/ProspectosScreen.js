@@ -39,12 +39,18 @@ class ProspectosScreen extends React.Component {
 				padding: 10,
 			},
 			headerRight: (
+				<Button
+				onPress={() => navigation.navigate('ImportarProspectos')}
+				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 8, 
+					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
+				>
+
 				<Icon
 					name='plus'
 					type='font-awesome'
 					color={white}
-					onPress={() => navigation.navigate('ImportarProspectos')}
-				/>
+					/>
+				</Button>
 			),
 		}
 	}

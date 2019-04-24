@@ -40,7 +40,7 @@ class PerguntasScreen extends React.Component {
 
 		return (
 			<View style={{flex: 1, backgroundColor: lightdark}}>
-				<Card containerStyle={{backgroundColor: dark, borderColor: gold}}>
+				<Card containerStyle={{backgroundColor: dark, borderColor: gold, borderRadius: 6}}>
 					<Text style={{color: white, textAlign: 'center', fontWeight: 'bold',
 					paddingBottom: 8
 				}}>
