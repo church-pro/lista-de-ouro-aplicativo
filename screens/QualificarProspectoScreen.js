@@ -4,9 +4,10 @@ import {
 	Text,
 	Alert,
 } from 'react-native';
-import { Card, Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
+import { Button } from 'native-base';
 import { AirbnbRating } from 'react-native-ratings'
-import { white, red, lightdark, dark, gray, gold } from '../helpers/colors'
+import { white, lightdark, dark, gray, gold } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { alterarProspecto } from '../actions'
 import { SITUACAO_CONVIDAR } from '../helpers/constants'
@@ -58,12 +59,17 @@ class QualificarProspectoScreen extends React.Component {
 			},
 			headerTintColor: dark,
 			headerRight: (
-				<Icon
-					name='check'
-					type='font-awesome'
-					color={dark}
-					onPress={() => params.alterarProspecto()}
-				/>
+				<Button
+				onPress={() => params.alterarProspecto()}
+				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
+				>
+					<Icon
+						name='check'
+						type='font-awesome'
+						color={dark}
+					/>
+				</Button>
 			),
 		}
 	}
@@ -74,7 +80,6 @@ class QualificarProspectoScreen extends React.Component {
 
 		return (
 			<View style={{ flex: 1, backgroundColor: white, justifyContent: "flex-start" }}>
-				{/* <Card> */}
 				<Text style={{ textAlign: "center", paddingVertical: 25, color: gray, fontSize: 18 }}>
 					Qualifique o prospecto de acordo com o nível de interesse
 				</Text>
@@ -91,7 +96,6 @@ class QualificarProspectoScreen extends React.Component {
 					/>
 				</View>
 
-				{/* </Card> */}
 			</View>
 		)
 	}
