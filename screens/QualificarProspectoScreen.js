@@ -8,23 +8,18 @@ import { Card, Icon } from 'react-native-elements'
 import { AirbnbRating } from 'react-native-ratings'
 import { white, red, lightdark, dark, gray, gold } from '../helpers/colors'
 import { connect } from 'react-redux'
-import { alterarProspecto } from '../actions'
+import { alterarProspectoNoAsyncStorage } from '../actions'
 import { SITUACAO_CONVIDAR } from '../helpers/constants'
 
 class QualificarProspectoScreen extends React.Component {
 
-	alterarProspecto() {
-		const { prospecto, alterarProspecto, navigation } = this.props
+	alterarProspecto = () => {
+		const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 		prospecto.rating = this.state.rating
 		prospecto.situacao_id = SITUACAO_CONVIDAR
-		alterarProspecto(prospecto)
+		alterarProspectoNoAsyncStorage(prospecto)
 		Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
 		navigation.goBack()
-	}
-
-	constructor(props) {
-		super(props)
-		this.alterarProspecto = this.alterarProspecto.bind(this)
 	}
 
 	componentDidMount() {
@@ -95,7 +90,6 @@ class QualificarProspectoScreen extends React.Component {
 			</View>
 		)
 	}
-
 }
 
 function mapStateToProps({ prospectos }, { navigation }) {
@@ -107,7 +101,7 @@ function mapStateToProps({ prospectos }, { navigation }) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 	}
 }
 
