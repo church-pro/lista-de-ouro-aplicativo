@@ -121,7 +121,7 @@ class PerguntasScreen extends React.Component {
 					foiFeitoOPreCadastro && foiFechado &&
 						<Button 
 							title='Prospecto fez fechamento'
-							buttonStyle={{backgroundColor: green, height: 50, marginTop: 10}}
+							buttonStyle={{backgroundColor: gold, height: 50, margin: 15}}
 							textStyle={{color: white,}}
 							onPress={() => { this.alterarProspecto() }} 
 						/>
@@ -130,7 +130,7 @@ class PerguntasScreen extends React.Component {
 					foiFeitoOPreCadastro && !foiFechado && naoFoiFechado &&
 						<Button 
 							title='Remarcar'
-							buttonStyle={{backgroundColor: gray, height: 50, marginTop: 10}}
+							buttonStyle={{backgroundColor: dark, height: 50, margin: 15}}
 							textStyle={{color: white,}}
 							onPress={() => { navigation.navigate('MarcarDataEHora', {prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR,}) }} 
 						/>
