@@ -2,7 +2,11 @@ import {
 	recuperarProspectos,
 	submeterProspectos,
 	modificarProspecto,
+	submeterHistoricos,
 } from '../helpers/api'
+import{
+	pegarDataEHoraAtual,
+} from '../helpers/helper'
 
 export const PEGAR_PROSPECTOS = 'PEGAR_PROSPECTOS'
 export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
@@ -69,12 +73,32 @@ export const pegarProspectosNoAsyncStorage = () => dispatch => {
 		})
 }
 
-export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => (
+export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => {
+	const historicos = 
+		prospectos
+		.map(prospecto => {
+			const historico = {
+				sincronizado: false,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
+				prospecto,
+			}
+			return historico
+		})
+	submeterHistoricos(historicos)
 	submeterProspectos(prospectos)
-	.then(prospectos => dispatch(adicionarProspectos(prospectos)))
-)
+		.then(prospectos => dispatch(adicionarProspectos(prospectos)))
+}
 
-export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => (
+export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => {
+	const historico = {
+		sincronizado: false,
+		alterar: true,
+		data_criacao: pegarDataEHoraAtual()[0],
+		hora_criacao: pegarDataEHoraAtual()[1],
+		prospecto,
+	}
+	submeterHistoricos([historico])
 	modificarProspecto(prospecto)
-	.then(prospecto => dispatch(alterarProspecto(prospecto)))
-)
+		.then(prospecto => dispatch(alterarProspecto(prospecto)))
+}
