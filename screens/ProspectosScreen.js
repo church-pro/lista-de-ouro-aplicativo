@@ -22,16 +22,12 @@ import {
 	SITUACAO_REMOVIDO, 
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
-<<<<<<< HEAD
-import { alterarProspecto, alterarAdministracao } from '../actions'
 import { Fab, Container, Button } from 'native-base';
-=======
 import { 
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
 	pegarProspectosNoAsyncStorage,
 } from '../actions'
->>>>>>> master
 
 class ProspectosScreen extends React.Component {
 
@@ -40,6 +36,7 @@ class ProspectosScreen extends React.Component {
 		quer: false,
 		naoQuer: false,
 		pendente: false,
+		active: false,
 	}
 
 	componentDidMount(){
@@ -62,15 +59,15 @@ class ProspectosScreen extends React.Component {
 			},
 			headerRight: (
 				<Button
-				onPress={() => navigation.navigate('ImportarProspectos')}
-				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 8, 
-					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
-				>
+					onPress={() => navigation.navigate('ImportarProspectos')}
+					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 8, 
+						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
+					>
 
-				<Icon
-					name='plus'
-					type='font-awesome'
-					color={white}
+					<Icon
+						name='plus'
+						type='font-awesome'
+						color={white}
 					/>
 				</Button>
 			),
@@ -88,20 +85,9 @@ class ProspectosScreen extends React.Component {
 		}
 	}
 
-<<<<<<< HEAD
-	state = {
-		quer: false,
-		naoQuer: false,
-		pendente: false,
-		active: false
-	}
 
-	alterarProspecto(tipo) {
-		const { alterarProspecto, alterarAdministracao, administracao } = this.props
-=======
 	alterarProspecto = (tipo) => {
 		const { alterarProspectoNoAsyncStorage, alterarAdministracao, administracao } = this.props
->>>>>>> master
 		let prospecto = administracao.prospectoSelecionado
 
 		administracao.ligueiParaAlguem = false
@@ -156,115 +142,31 @@ class ProspectosScreen extends React.Component {
 		} = this.state
 		let Tabs = null
 
-<<<<<<< HEAD
-		const ListaDeProspectosQualificar = (props) => (
-			<View style={{flex: 1}}>
-
-=======
 		if(!carregando){
 			const ListaDeProspectosQualificar = (props) => (
->>>>>>> master
-				<ListaDeProspectos 
-					title={'Qualificar'} 
-					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
-					navigation={navigation} 
-<<<<<<< HEAD
-				/>
-				<Fab 
-					direction="left" 
-					position="bottomRight" style={{ backgroundColor: gold }}
-					active={this.state.active}
-					onPress={() => this.setState({active: !this.state.active})}
-				>
-					<Icon name = "add" />
+				<View style={{flex: 1}}>
+					<ListaDeProspectos 
+						title={'Qualificar'} 
+						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
+						navigation={navigation} 
+					/>
+					<Fab 
+						direction="left" 
+						position="bottomRight" style={{ backgroundColor: gold }}
+						active={this.state.active}
+						onPress={() => this.setState({active: !this.state.active})}
+					>
+						<Icon name = "add" />
 
-					<Button style = {{ backgroundColor: gold }}>
-						<Text>Novo</Text>
+						<Button style = {{ backgroundColor: gold }}>
+							<Text>Novo</Text>
 					</Button>
-					<Button style = {{ backgroundColor: gold }}>
-						<Text>Importar</Text>
-					</Button>
-				</Fab>
+				<Button style = {{ backgroundColor: gold }}>
+					<Text>Importar</Text>
+			</Button>
+	</Fab>
 			</View>
-
 			)
-		const ListaDeProspectosConvidar = (props) => (
-			<ListaDeProspectos 
-				title={'Convidar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CONVIDAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosApresentar = (props) => (
-			<ListaDeProspectos
-				title={'Apresentar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_APRESENTAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosAcompanhar = (props) => (
-			<ListaDeProspectos 
-				title={'Acompanhar'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_ACOMPANHAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosFechamento = (props) => (
-			<ListaDeProspectos 
-				title={'Fechamento'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
-				navigation={navigation}
-			/>)
-		const Tabs = createMaterialTopTabNavigator(
-			{
-				Qualificar: {
-					screen: ListaDeProspectosQualificar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='star' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Convidar: {
-					screen: ListaDeProspectosConvidar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='phone' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Apresentar: {
-					screen: ListaDeProspectosApresentar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='calendar' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Acompanhar: {
-					screen: ListaDeProspectosAcompanhar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='info-circle' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Fechamento: {
-					screen: ListaDeProspectosFechamento, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='trophy' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-			},
-			{
-				tabBarOptions: {
-					showIcon: true,
-					showLabel: false,
-					activeTintColor: gold,
-					inactiveTintColor: '#eee',
-					style: {
-						backgroundColor: dark,
-=======
-				/>)
 			const ListaDeProspectosConvidar = (props) => (
 				<ListaDeProspectos 
 					title={'Convidar'} 
@@ -289,7 +191,7 @@ class ProspectosScreen extends React.Component {
 					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
 					navigation={navigation}
 				/>)
-			 Tabs = createMaterialTopTabNavigator(
+			Tabs = createMaterialTopTabNavigator(
 				{
 					Qualificar: {
 						screen: ListaDeProspectosQualificar, 
@@ -298,13 +200,12 @@ class ProspectosScreen extends React.Component {
 								<Icon name='star' type='font-awesome' color={tintColor} />
 							),
 						}
->>>>>>> master
 					},
 					Convidar: {
 						screen: ListaDeProspectosConvidar, 
 						navigationOptions: {
 							tabBarIcon: ({ tintColor }) => (
-								<Icon name='envelope' type='font-awesome' color={tintColor} />
+								<Icon name='phone' type='font-awesome' color={tintColor} />
 							),
 						}
 					},
@@ -320,7 +221,7 @@ class ProspectosScreen extends React.Component {
 						screen: ListaDeProspectosAcompanhar, 
 						navigationOptions: {
 							tabBarIcon: ({ tintColor }) => (
-								<Icon name='retweet' type='font-awesome' color={tintColor} />
+								<Icon name='info-circle' type='font-awesome' color={tintColor} />
 							),
 						}
 					},
@@ -328,7 +229,7 @@ class ProspectosScreen extends React.Component {
 						screen: ListaDeProspectosFechamento, 
 						navigationOptions: {
 							tabBarIcon: ({ tintColor }) => (
-								<Icon name='check' type='font-awesome' color={tintColor} />
+								<Icon name='trophy' type='font-awesome' color={tintColor} />
 							),
 						}
 					},
@@ -351,10 +252,7 @@ class ProspectosScreen extends React.Component {
 		}
 
 		return (
-<<<<<<< HEAD
 			<View style={{flex: 1, backgroundColor: lightdark}}>
-=======
-			<View style={{flex: 1,}}>
 
 				{
 					carregando && 
@@ -366,16 +264,15 @@ class ProspectosScreen extends React.Component {
 					</View>
 				}
 
->>>>>>> master
 				{
 					!carregando &&
-					!administracao.ligueiParaAlguem &&
-					<Tabs />
+						!administracao.ligueiParaAlguem &&
+						<Tabs />
 				}
 
 				{
 					!carregando &&
-					administracao.ligueiParaAlguem &&
+						administracao.ligueiParaAlguem &&
 						<Card>
 							<Text>Prospecto mostrou interesse?</Text>
 							<View style={{backgroundColor: '#eee', height: 180, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15}}>
