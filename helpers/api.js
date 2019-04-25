@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
-const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos'
+const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos001'
 
 export function recuperarProspectos(){        
 	return AsyncStorage.getItem(CHAVE_PROSPECTOS)
@@ -19,5 +19,22 @@ export function submeterProspectos(prospectos){
 			dados.prospectos = [...dados.prospectos, ...prospectos]
 			AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
 			return prospectos                 
+		})                                    
+}
+
+export function modificarProspecto(prospecto){
+	return recuperarProspectos()              
+		.then(dados => {                      
+			const prospectosAlterados = 
+				dados.prospectos.map(prospectoNoAsyncStorage => {
+					if(prospectoNoAsyncStorage.id === prospecto.id){
+						return prospecto
+					}else{
+						return prospectoNoAsyncStorage
+					}
+				})
+			dados.prospectos = prospectosAlterados
+			AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
+			return prospecto
 		})                                    
 }

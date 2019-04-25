@@ -17,34 +17,34 @@ import {
 	SITUACAO_REMOVIDO, 
 	SITUACAO_FECHADO 
 } from '../helpers/constants'
-import { alterarProspecto, alterarAdministracao } from '../actions'
+import { alterarProspectoNoAsyncStorage, alterarAdministracao } from '../actions'
 import { connect } from 'react-redux'
 import styles from './ProspectoStyle';
 
 class Prospecto extends React.Component {
 
 	removerProspecto() {
-		const { prospecto, alterarProspecto } = this.props
+		const { prospecto, alterarProspectoNoAsyncStorage } = this.props
 		prospecto.situacao_id = SITUACAO_REMOVIDO
-		alterarProspecto(prospecto)
+		alterarProspectoNoAsyncStorage(prospecto)
 		Alert.alert('Removido', 'Prospecto removido!')
 	}
 
 	fecharProspecto() {
-		const { prospecto, alterarProspecto } = this.props
+		const { prospecto, alterarProspectoNoAsyncStorage } = this.props
 		prospecto.situacao_id = SITUACAO_FECHADO
-		alterarProspecto(prospecto)
+		alterarProspectoNoAsyncStorage(prospecto)
 		Alert.alert('Sucesso', 'Prospecto fechou!')
 	}
 
 	chamarOTelefoneDoCelular() {
-		const { prospecto, alterarAdministracao, alterarProspecto } = this.props
+		const { prospecto, alterarAdministracao, alterarProspectoNoAsyncStorage } = this.props
 		let { administracao } = this.props
 		administracao.ligueiParaAlguem = true
 		administracao.prospectoSelecionado = prospecto
 		alterarAdministracao(administracao)
 		prospecto.ligueiParaAlguem = true
-		alterarProspecto(prospecto)
+		alterarProspectoNoAsyncStorage(prospecto)
 		call({ number: prospecto.telefone, prompt: false }).catch(console.error)
 	}
 
@@ -198,7 +198,7 @@ function mapStateToProps({administracao}){
 
 function mapDispatchToProps(dispatch){
 	return {
-		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
 	}
 }

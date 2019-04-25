@@ -10,13 +10,13 @@ import { Card, Icon, Input } from 'react-native-elements'
 import { white, red } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DateTimerPicker from 'react-native-modal-datetime-picker'
-import { alterarProspecto } from '../actions'
+import { alterarProspectoNoAsyncStorage } from '../actions'
 import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
 
 class MarcarDataEHoraScreen extends React.Component {
 
-	alterarProspecto(){
-		const { prospecto, alterarProspecto, navigation, situacao_id } = this.props
+	alterarProspecto = () => {
+		const { prospecto, alterarProspectoNoAsyncStorage, navigation, situacao_id } = this.props
 		if(this.state.dataParaOAgendamento === null ||
 			this.state.horaParaOAgendamento === null){
 			Alert.alert('Erro', 'Selecione a data e hora')
@@ -27,7 +27,7 @@ class MarcarDataEHoraScreen extends React.Component {
 				prospecto.local = this.state.local
 			}
 			prospecto.situacao_id = situacao_id
-			alterarProspecto(prospecto)
+			alterarProspectoNoAsyncStorage(prospecto)
 			let textoMarcouUmaApresentacao = ''
 			switch(situacao_id){
 				case SITUACAO_APRESENTAR:
@@ -47,11 +47,6 @@ class MarcarDataEHoraScreen extends React.Component {
 				navigation.goBack()
 			}
 		}
-	}
-
-	constructor(props){
-		super(props)
-		this.alterarProspecto = this.alterarProspecto.bind(this)
 	}
 
 	componentDidMount(){
@@ -115,8 +110,6 @@ class MarcarDataEHoraScreen extends React.Component {
 		this.setState({horaParaOAgendamento})
 		this.esconderPegadorDeHora()
 	}
-
-
 
 	render() {
 		const { prospecto } = this.props
@@ -202,7 +195,7 @@ function mapStateToProps({ prospectos }, {navigation}){
 
 function mapDispatchToProps(dispatch){
 	return {
-		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 	}
 }
 

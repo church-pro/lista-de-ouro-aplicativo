@@ -5,6 +5,7 @@ import {
 	View,
 	TouchableOpacity,
 	Alert,
+	ActivityIndicator,
 } from 'react-native';
 import { Icon, Card, CheckBox } from 'react-native-elements'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
@@ -22,15 +23,24 @@ import {
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import { 
-	alterarProspecto, 
+	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
 	pegarProspectosNoAsyncStorage,
 } from '../actions'
 
 class ProspectosScreen extends React.Component {
 
+	state = {
+		carregando: true,
+		quer: false,
+		naoQuer: false,
+		pendente: false,
+	}
+
 	componentDidMount(){
-		this.props.pegarProspectosNoAsyncStorage()
+		this.props
+			.pegarProspectosNoAsyncStorage()
+			.then(() => this.setState({carregando: false}))
 	}
 
 	static navigationOptions = ({ navigation }) => {
@@ -53,17 +63,22 @@ class ProspectosScreen extends React.Component {
 					onPress={() => navigation.navigate('ImportarProspectos')}
 				/>
 			),
+			headerLeftContainerStyle:{
+				padding: 10,
+			},
+			headerLeft: (
+				<Icon
+					name='retweet'
+					type='font-awesome'
+					color={white}
+					onPress={() => alert('Sincronizar para fazer')}
+				/>
+			),
 		}
 	}
 
-	state = {
-		quer: false,
-		naoQuer: false,
-		pendente: false,
-	}
-
-	alterarProspecto(tipo) {
-		const { alterarProspecto, alterarAdministracao, administracao } = this.props
+	alterarProspecto = (tipo) => {
+		const { alterarProspectoNoAsyncStorage, alterarAdministracao, administracao } = this.props
 		let prospecto = administracao.prospectoSelecionado
 
 		administracao.ligueiParaAlguem = false
@@ -74,13 +89,7 @@ class ProspectosScreen extends React.Component {
 			prospecto.situacao_id = SITUACAO_REMOVIDO
 		}
 		prospecto.ligueiParaAlguem = false
-		alterarProspecto(prospecto)
-
-		this.setState({
-			quer: false,
-			naoQuer: false,
-			pendente: false,
-		})
+		alterarProspectoNoAsyncStorage(prospecto)
 
 		if(tipo === 'remover'){
 			Alert.alert('Removido', 'Prospecto removido!')
@@ -90,8 +99,8 @@ class ProspectosScreen extends React.Component {
 		}
 	}
 
-	marcarDataEHora(){
-		const { alterarProspecto, alterarAdministracao, administracao, navigation } = this.props
+	marcarDataEHora = () => {
+		const { alterarProspectoNoAsyncStorage, alterarAdministracao, administracao, navigation } = this.props
 		let prospecto = administracao.prospectoSelecionado
 
 		administracao.ligueiParaAlguem = false
@@ -99,7 +108,7 @@ class ProspectosScreen extends React.Component {
 		alterarAdministracao(administracao)
 
 		prospecto.ligueiParaAlguem = false
-		alterarProspecto(prospecto)
+		alterarProspectoNoAsyncStorage(prospecto)
 
 		this.setState({
 			quer: false,
@@ -111,105 +120,131 @@ class ProspectosScreen extends React.Component {
 	}
 
 	render() {
-		const { prospectos, administracao, navigation } = this.props
-		const { quer, naoQuer, pendente } = this.state
+		const { 
+			prospectos, 
+			administracao, 
+			navigation,
+		} = this.props
+		const { 
+			carregando,
+			quer, 
+			naoQuer, 
+			pendente,
+		} = this.state
+		let Tabs = null
 
-		const ListaDeProspectosQualificar = (props) => (
-			<ListaDeProspectos 
-				title={'Qualificar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosConvidar = (props) => (
-			<ListaDeProspectos 
-				title={'Convidar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CONVIDAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosApresentar = (props) => (
-			<ListaDeProspectos
-				title={'Apresentar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_APRESENTAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosAcompanhar = (props) => (
-			<ListaDeProspectos 
-				title={'Acompanhar'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_ACOMPANHAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosFechamento = (props) => (
-			<ListaDeProspectos 
-				title={'Fechamento'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
-				navigation={navigation}
-			/>)
-		const Tabs = createMaterialTopTabNavigator(
-			{
-				Qualificar: {
-					screen: ListaDeProspectosQualificar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='star' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Convidar: {
-					screen: ListaDeProspectosConvidar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='envelope' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Apresentar: {
-					screen: ListaDeProspectosApresentar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='calendar' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Acompanhar: {
-					screen: ListaDeProspectosAcompanhar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='retweet' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Fechamento: {
-					screen: ListaDeProspectosFechamento, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='check' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-			},
-			{
-				tabBarOptions: {
-					showIcon: true,
-					showLabel: false,
-					activeTintColor: gold,
-					inactiveTintColor: '#eee',
-					style: {
-						backgroundColor: dark,
+		if(!carregando){
+			const ListaDeProspectosQualificar = (props) => (
+				<ListaDeProspectos 
+					title={'Qualificar'} 
+					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
+					navigation={navigation} 
+				/>)
+			const ListaDeProspectosConvidar = (props) => (
+				<ListaDeProspectos 
+					title={'Convidar'} 
+					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CONVIDAR)} 
+					navigation={navigation} 
+				/>)
+			const ListaDeProspectosApresentar = (props) => (
+				<ListaDeProspectos
+					title={'Apresentar'} 
+					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_APRESENTAR)} 
+					navigation={navigation} 
+				/>)
+			const ListaDeProspectosAcompanhar = (props) => (
+				<ListaDeProspectos 
+					title={'Acompanhar'}
+					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_ACOMPANHAR)} 
+					navigation={navigation} 
+				/>)
+			const ListaDeProspectosFechamento = (props) => (
+				<ListaDeProspectos 
+					title={'Fechamento'}
+					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
+					navigation={navigation}
+				/>)
+			 Tabs = createMaterialTopTabNavigator(
+				{
+					Qualificar: {
+						screen: ListaDeProspectosQualificar, 
+						navigationOptions: {
+							tabBarIcon: ({ tintColor }) => (
+								<Icon name='star' type='font-awesome' color={tintColor} />
+							),
+						}
 					},
-					indicatorStyle: {
-						backgroundColor: gold,
+					Convidar: {
+						screen: ListaDeProspectosConvidar, 
+						navigationOptions: {
+							tabBarIcon: ({ tintColor }) => (
+								<Icon name='envelope' type='font-awesome' color={tintColor} />
+							),
+						}
 					},
+					Apresentar: {
+						screen: ListaDeProspectosApresentar, 
+						navigationOptions: {
+							tabBarIcon: ({ tintColor }) => (
+								<Icon name='calendar' type='font-awesome' color={tintColor} />
+							),
+						}
+					},
+					Acompanhar: {
+						screen: ListaDeProspectosAcompanhar, 
+						navigationOptions: {
+							tabBarIcon: ({ tintColor }) => (
+								<Icon name='retweet' type='font-awesome' color={tintColor} />
+							),
+						}
+					},
+					Fechamento: {
+						screen: ListaDeProspectosFechamento, 
+						navigationOptions: {
+							tabBarIcon: ({ tintColor }) => (
+								<Icon name='check' type='font-awesome' color={tintColor} />
+							),
+						}
+					},
+				},
+				{
+					tabBarOptions: {
+						showIcon: true,
+						showLabel: false,
+						activeTintColor: gold,
+						inactiveTintColor: '#eee',
+						style: {
+							backgroundColor: dark,
+						},
+						indicatorStyle: {
+							backgroundColor: gold,
+						},
+					}
 				}
-			}
-		)
+			)
+		}
 
 		return (
 			<View style={{flex: 1,}}>
+
 				{
+					carregando && 
+					<View style={{padding: 20}}>
+						<ActivityIndicator 
+							size="large"
+							color='#000'
+						/>
+					</View>
+				}
+
+				{
+					!carregando &&
 					!administracao.ligueiParaAlguem &&
 					<Tabs />
 				}
+
 				{
+					!carregando &&
 					administracao.ligueiParaAlguem &&
 						<Card>
 							<Text>Prospecto mostrou interesse?</Text>
@@ -295,7 +330,7 @@ function mapStateToProps({ prospectos, administracao }){
 
 function mapDispatchToProps(dispatch){
 	return {
-		alterarProspecto: (prospecto) => dispatch(alterarProspecto(prospecto)),
+		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
 		pegarProspectosNoAsyncStorage: () => dispatch(pegarProspectosNoAsyncStorage()),
 	}
