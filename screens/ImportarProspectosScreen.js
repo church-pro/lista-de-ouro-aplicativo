@@ -87,7 +87,7 @@ class ImportarProspectosScreen extends React.Component {
 
 				{
 					carregando && 
-					<View style={{padding: 20}}>
+					<View style={{flex: 1, justifyContent: 'center'}}>
 						<ActivityIndicator 
 							size="large"
 							color='#000'
