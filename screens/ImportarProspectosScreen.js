@@ -9,7 +9,9 @@ import {
 import { List, ListItem, Button } from 'react-native-elements'
 import {connect} from 'react-redux'
 import {Permissions, Contacts} from 'expo' 
-import {adicionarProspectos} from '../actions'
+import { 
+	adicionarProspectosAoAsyncStorage,
+} from '../actions'
 import { white, red, lightdark } from '../helpers/colors'
 import { SITUACAO_QUALIFICAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
@@ -72,9 +74,9 @@ class ImportarProspectosScreen extends React.Component {
 
 	adicionarContatos(){
 		const {contatosParaSelecionar} = this.state
-		const {adicionarProspectos, navigation} = this.props
+		const {adicionarProspectosAoAsyncStorage, navigation} = this.props
 
-		adicionarProspectos(contatosParaSelecionar.filter(contato => contato.selecionado))
+		adicionarProspectosAoAsyncStorage(contatosParaSelecionar.filter(contato => contato.selecionado))
 		navigation.goBack()
 	}
 
@@ -141,7 +143,7 @@ class ImportarProspectosScreen extends React.Component {
 
 function mapDispatchToProps(dispatch){
 	return {
-		adicionarProspectos: (contatos) => dispatch(adicionarProspectos(contatos)),
+		adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
 	}
 }
 

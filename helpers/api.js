@@ -1,46 +1,40 @@
-import {AsyncStorage} from 'react-native'
+import { AsyncStorage } from 'react-native'                                                                                                                                                              
+const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos001'
 
-const CHAVE_BARALHOS = 'Baralhos:baralhos1'
-const CHAVE_PERGUNTAS = 'Baralhos:perguntas1'
-
-export function recuperarBaralhos(){
-	return AsyncStorage.getItem(CHAVE_BARALHOS)
-		.then(JSON.parse)
-		.then((dados) => {
-			if(dados === null){
-				dados = {baralhos: []}
-				AsyncStorage.setItem(CHAVE_BARALHOS, JSON.stringify(dados))
-			}
-			return dados
-		})
+export function recuperarProspectos(){        
+	return AsyncStorage.getItem(CHAVE_PROSPECTOS)
+		.then(JSON.parse)                     
+		.then((dados) => {                    
+			if(dados === null){               
+				dados = {prospectos: []}      
+				AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
+			}                                 
+			return dados                      
+		})                                    
 }
 
-export function recuperarPerguntas(){
-	return AsyncStorage.getItem(CHAVE_PERGUNTAS)
-		.then(JSON.parse)
-		.then((dados) => {
-			if(dados === null){
-				dados = {perguntas: []}
-				AsyncStorage.setItem(CHAVE_PERGUNTAS, JSON.stringify(dados))
-			}
-			return dados
-		})
+export function submeterProspectos(prospectos){
+	return recuperarProspectos()              
+		.then(dados => {                      
+			dados.prospectos = [...dados.prospectos, ...prospectos]
+			AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
+			return prospectos                 
+		})                                    
 }
 
-export function submeterBaralho(baralho){
-	return recuperarBaralhos()
-		.then(dados => {
-			dados.baralhos = [...dados.baralhos, baralho]
-			AsyncStorage.setItem(CHAVE_BARALHOS, JSON.stringify(dados))
-			return baralho
-		})
-}
-
-export function submeterPergunta(pergunta){
-	return recuperarPerguntas()
-		.then(dados => {
-			dados.perguntas = [...dados.perguntas, pergunta]
-			AsyncStorage.setItem(CHAVE_PERGUNTAS, JSON.stringify(dados))
-			return pergunta
-		})
+export function modificarProspecto(prospecto){
+	return recuperarProspectos()              
+		.then(dados => {                      
+			const prospectosAlterados = 
+				dados.prospectos.map(prospectoNoAsyncStorage => {
+					if(prospectoNoAsyncStorage.id === prospecto.id){
+						return prospecto
+					}else{
+						return prospectoNoAsyncStorage
+					}
+				})
+			dados.prospectos = prospectosAlterados
+			AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
+			return prospecto
+		})                                    
 }
