@@ -12,7 +12,7 @@ import {Permissions, Contacts} from 'expo'
 import { 
 	adicionarProspectosAoAsyncStorage,
 } from '../actions'
-import { white, red, lightdark } from '../helpers/colors'
+import { white, gold, lightdark, gray, dark } from '../helpers/colors'
 import { SITUACAO_QUALIFICAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 
@@ -92,7 +92,7 @@ class ImportarProspectosScreen extends React.Component {
 					<View style={{flex: 1, justifyContent: 'center'}}>
 						<ActivityIndicator 
 							size="large"
-							color='#000'
+							color={gold}
 						/>
 					</View>
 				}
@@ -104,15 +104,18 @@ class ImportarProspectosScreen extends React.Component {
 								contatosParaSelecionar.map((contato, indice) => {
 									let iconeDoBotao = {
 										name: 'check',
-										color: '#DDD',
+										color: gray,
 									}
 									if(contato.selecionado){
 										iconeDoBotao = {
 											name: 'check',
-											color: '#000',
+											color: gold,
 										}
 									}
 									return <ListItem 
+										containerStyle={{backgroundColor: lightdark}}
+										titleStyle={{color: white}}
+										subtitleStyle={{color: gray}}
 										key={contato.id} 
 										title={contato.nome}
 										subtitle={contato.telefone}
@@ -125,7 +128,7 @@ class ImportarProspectosScreen extends React.Component {
 
 				{
 					!carregando && contatosParaSelecionar &&
-						<View style={{height: 70, backgroundColor: lightdark, justifyContent: 'center'}}>
+						<View style={{height: 70, backgroundColor: dark, justifyContent: 'center'}}>
 							<TouchableOpacity style={styles.buttonImport}
 								onPress={()=>{this.adicionarContatos()}}
 							>

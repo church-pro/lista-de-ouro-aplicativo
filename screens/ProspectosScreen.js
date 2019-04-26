@@ -291,9 +291,13 @@ class ProspectosScreen extends React.Component {
 				{
 					!carregando &&
 						administracao.ligueiParaAlguem &&
-						<Card>
-							<Text>Prospecto mostrou interesse?</Text>
-							<View style={{backgroundColor: '#eee', height: 180, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15}}>
+						<Card containerStyle={{backgroundColor: dark, borderColor: gold, borderRadius: 6}}>
+							<Text style={{color: white, textAlign: 'center', fontWeight: 'bold',
+							paddingBottom: 8}}
+							>
+								Prospecto mostrou interesse?
+							</Text>
+							<View style={{backgroundColor: lightdark, height: 180, marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
 								<CheckBox
 									title='Quer'
 									checked={this.state.quer}
@@ -304,7 +308,9 @@ class ProspectosScreen extends React.Component {
 									})}
 									checkedIcon='dot-circle-o'
 									uncheckedIcon='circle-o'
-									containerStyle={{backgroundColor: '#eee'}}
+									checkedColor={gold}
+									textStyle={{color: white}}
+									containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
 								/>
 								<CheckBox
 									title='Não quer'
@@ -316,7 +322,9 @@ class ProspectosScreen extends React.Component {
 									})}
 									checkedIcon='dot-circle-o'
 									uncheckedIcon='circle-o'
-									containerStyle={{backgroundColor: '#eee'}}
+									checkedColor={gold}
+									textStyle={{color: white}}
+									containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
 								/>
 								<CheckBox
 									title='Ligar depois'
@@ -328,15 +336,17 @@ class ProspectosScreen extends React.Component {
 									})}
 									checkedIcon='dot-circle-o'
 									uncheckedIcon='circle-o'
-									containerStyle={{backgroundColor: '#eee'}}
+									checkedColor={gold}
+									textStyle={{color: white}}
+									containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
 								/>
 							</View>
 
-							<View style={{backgroundColor: '#eee', height: 40, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15}}>
+							<View style={{backgroundColor: dark, height: 40, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15}}>
 								{
 									this.state.quer && 
 									<TouchableOpacity
-										style={styles.button}
+										style={[styles.button, style={height: 40, borderRadius: 0}]}
 										onPress={() => {this.marcarDataEHora()}}>
 										<Text style={styles.textButton}>Marcar Apresentação</Text>
 									</TouchableOpacity>
@@ -344,7 +354,7 @@ class ProspectosScreen extends React.Component {
 								{
 									this.state.naoQuer && 
 									<TouchableOpacity
-										style={styles.button}
+										style={[styles.button, style={height: 40, borderRadius: 0}]}
 										onPress={() => {this.alterarProspecto('remover')}}>
 										<Text style={styles.textButton}>Remover</Text>
 									</TouchableOpacity>
@@ -352,7 +362,7 @@ class ProspectosScreen extends React.Component {
 								{
 									this.state.pendente && 
 									<TouchableOpacity
-										style={styles.button}
+										style={[styles.button, style={height: 40, borderRadius: 0}]}
 										onPress={() => {this.alterarProspecto()}}>
 										<Text style={styles.textButton}>Deixar Pendente</Text>
 									</TouchableOpacity>

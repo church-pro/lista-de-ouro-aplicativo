@@ -38,8 +38,8 @@ class QualificarProspectoScreen extends React.Component {
 		return {
 			// title: 'Qualificar',
 			headerStyle: {
-				backgroundColor: white,
-				borderBottomColor: white,
+				backgroundColor: lightdark,
+				borderBottomWidth: 0,
 			},
 			headerTitleStyle: {
 				flex: 1,
@@ -52,7 +52,7 @@ class QualificarProspectoScreen extends React.Component {
 			headerRightContainerStyle: {
 				padding: 10,
 			},
-			headerTintColor: dark,
+			headerTintColor: white,
 			headerRight: (
 				<Button
 				onPress={() => params.alterarProspecto()}
@@ -62,7 +62,7 @@ class QualificarProspectoScreen extends React.Component {
 					<Icon
 						name='check'
 						type='font-awesome'
-						color={dark}
+						color={white}
 					/>
 				</Button>
 			),
@@ -74,13 +74,13 @@ class QualificarProspectoScreen extends React.Component {
 		const { prospecto } = this.props
 
 		return (
-			<View style={{ flex: 1, backgroundColor: white, justifyContent: "flex-start" }}>
+			<View style={{ flex: 1, backgroundColor: lightdark, justifyContent: "flex-start" }}>
 				<Text style={{ textAlign: "center", paddingVertical: 25, color: gray, fontSize: 18 }}>
 					Qualifique o prospecto de acordo com o nível de interesse
 				</Text>
 
 				<View>
-					<Text style={{ textAlign: "center", fontSize: 27, color: dark, paddingVertical: 50 }}>
+					<Text style={{ textAlign: "center", fontSize: 27, color: white, paddingVertical: 50 }}>
 						{prospecto.nome}
 					</Text>
 

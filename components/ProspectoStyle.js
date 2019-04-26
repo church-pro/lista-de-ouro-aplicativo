@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { lightdark, gray, white, gold } from '../helpers/colors';
+import { lightdark, gray, white, gold, dark } from '../helpers/colors';
 
 const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: lightdark,
     },
     containerCard: {
         backgroundColor: 'transparent', 
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
         color: white
     },
     buttonImport:{
-        backgroundColor: lightdark,
         borderWidth: 0,
         justifyContent: 'center',
         alignSelf: 'center',
