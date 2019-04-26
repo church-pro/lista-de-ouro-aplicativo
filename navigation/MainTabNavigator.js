@@ -6,7 +6,8 @@ import QualificarProspectoScreen from '../screens/QualificarProspectoScreen';
 import MarcarDataEHoraScreen from '../screens/MarcarDataEHoraScreen';
 import PerguntasScreen from '../screens/PerguntasScreen';
 import NovoProspectoScreen from '../screens/NovoProspecto';
-import { white, red, dark } from '../helpers/colors'
+import LoginScreen from '../screens/LoginScreen';
+import { white, dark } from '../helpers/colors'
 
 const ProspectosStack = createStackNavigator(
 	{
@@ -16,6 +17,7 @@ const ProspectosStack = createStackNavigator(
 		MarcarDataEHora: MarcarDataEHoraScreen,
 		Perguntas: PerguntasScreen,
 		NovoProspecto: NovoProspectoScreen,
+		Login: LoginScreen
 	}, 
 	{
 		initialRouteName: 'Prospectos',
