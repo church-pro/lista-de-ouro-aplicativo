@@ -125,8 +125,8 @@ class ImportarProspectosScreen extends React.Component {
 
 				{
 					!carregando && contatosParaSelecionar &&
-						<View style={{height: 60, backgroundColor: lightdark, justifyContent: 'center'}}>
-							<TouchableOpacity style={styles.button}
+						<View style={{height: 70, backgroundColor: lightdark, justifyContent: 'center'}}>
+							<TouchableOpacity style={styles.buttonImport}
 								onPress={()=>{this.adicionarContatos()}}
 							>
 							<Text style={[styles.textButton, {fontSize: 17, fontWeight: "bold"}]}>Importar</Text>

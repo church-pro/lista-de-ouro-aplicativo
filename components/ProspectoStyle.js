@@ -99,6 +99,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: white
     },
+    buttonImport:{
+        backgroundColor: lightdark,
+        borderWidth: 0,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: '100%',
+        height:'100%',
+    },
 
     //SIDE MENU
     sideMenu: {
