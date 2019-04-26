@@ -21,10 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true, 
+      "bundleIdentifier": "br.com.listadeouro"
     },
 	  "android": {
-		  "package": "br.com.listadeouro.exp",
+		  "package": "br.com.listadeouro.exp"
 	  }
   }
 }

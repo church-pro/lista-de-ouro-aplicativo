@@ -22,7 +22,7 @@ import {
 	SITUACAO_REMOVIDO, 
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
-import { Fab, Container, Button } from 'native-base';
+import { Fab, Button } from 'native-base';
 import { 
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
@@ -53,19 +53,19 @@ class ProspectosScreen extends React.Component {
 				textAlign: 'center',
 				alignSelf: 'center',
 				color: white,
+				fontWeight: '400'
 			},
 			headerRightContainerStyle:{
 				padding: 10,
 			},
 			headerRight: (
 				<Button
-				onPress={() => navigation.navigate('ImportarProspectos')}
+				onPress={() => alert('Sincronizar para fazer')}
 				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
+					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
 				>
-
 					<Icon
-						name='plus'
+						name='retweet'
 						type='font-awesome'
 						color={white}
 					/>
@@ -75,12 +75,17 @@ class ProspectosScreen extends React.Component {
 				padding: 10,
 			},
 			headerLeft: (
-				<Icon
-					name='retweet'
-					type='font-awesome'
-					color={white}
-					onPress={() => alert('Sincronizar para fazer')}
-				/>
+				<Button
+				onPress={() => alert('Incluir sidemenu')}
+				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
+				>
+					<Icon
+						name='bars'
+						type='font-awesome'
+						color={white}
+					/>
+				</Button>
 			),
 		}
 	}
@@ -260,10 +265,10 @@ class ProspectosScreen extends React.Component {
 
 				{
 					carregando && 
-					<View style={{padding: 20}}>
+					<View style={{flex: 1, justifyContent: 'center'}}>
 						<ActivityIndicator 
 							size="large"
-							color='#000'
+							color={gold}
 						/>
 					</View>
 				}
