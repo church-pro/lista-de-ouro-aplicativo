@@ -156,22 +156,31 @@ class ProspectosScreen extends React.Component {
 						navigation={navigation} 
 					/>
 					<Fab 
-						direction="left" 
-						position="bottomRight" style={{ backgroundColor: gold }}
+						direction="up" 
+						position="bottomRight" 
+						style={{ backgroundColor: dark }}
 						active={this.state.active}
 						onPress={() => this.setState({active: !this.state.active})}
 					>
-						<Icon name = "add" />
+						<Icon name = "user" type='font-awesome' color={white} />
 
-					<Button style = {{ backgroundColor: gold }}
+					<Button style = {{ backgroundColor: dark }}
 						onPress={() => { navigation.navigate('NovoProspecto') }}
 					>
-						<Text>Novo</Text>
+						{/* <Text>Novo</Text> */}
+					<Icon 
+						name='add' 
+						color={white}
+					/>
 					</Button>
-					<Button style = {{ backgroundColor: gold }}
+					<Button style = {{ backgroundColor: dark }}
 						onPress={() => navigation.navigate('ImportarProspectos')}
 					>
-						<Text>Importar</Text>
+						<Icon 
+						name='address-book' 
+						type='font-awesome' 
+						color={white}
+					/>
 					</Button>
 					</Fab>
 			</View>
