@@ -59,10 +59,10 @@ class ProspectosScreen extends React.Component {
 			},
 			headerRight: (
 				<Button
-					onPress={() => navigation.navigate('ImportarProspectos')}
-					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 8, 
-						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
-					>
+				onPress={() => navigation.navigate('ImportarProspectos')}
+				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
+				>
 
 					<Icon
 						name='plus'
@@ -158,13 +158,17 @@ class ProspectosScreen extends React.Component {
 					>
 						<Icon name = "add" />
 
-						<Button style = {{ backgroundColor: gold }}>
-							<Text>Novo</Text>
+					<Button style = {{ backgroundColor: gold }}
+						onPress={() => { navigation.navigate('NovoProspecto') }}
+					>
+						<Text>Novo</Text>
 					</Button>
-				<Button style = {{ backgroundColor: gold }}>
-					<Text>Importar</Text>
-			</Button>
-	</Fab>
+					<Button style = {{ backgroundColor: gold }}
+						onPress={() => navigation.navigate('ImportarProspectos')}
+					>
+						<Text>Importar</Text>
+					</Button>
+					</Fab>
 			</View>
 			)
 			const ListaDeProspectosConvidar = (props) => (

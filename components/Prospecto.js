@@ -51,7 +51,6 @@ class Prospecto extends React.Component {
 	render() {
 		const { prospecto, navigation } = this.props
 		return (
-			<View>
 
 			<Card containerStyle={styles.containerCard} key={prospecto.id}>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -157,9 +156,7 @@ class Prospecto extends React.Component {
 					}
 				</View>
 			</Card>
-
-				
-		</View>
+			
 		)
 	}
 }

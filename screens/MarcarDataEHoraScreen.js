@@ -118,8 +118,7 @@ class MarcarDataEHoraScreen extends React.Component {
 			<KeyboardAvoidingView style={{flex: 1, backgroundColor: lightdark}} behavior="padding" enabled>
 				<Card containerStyle={{backgroundColor: dark, borderColor: gold, borderRadius: 6}}>
 					<Input
-						// containerStyle={{ width: '90%' }}
-						placeholder="Data"
+						placeholder=""
 						placeholderTextColor={'#ddd'}
 						label="DATA"
 						inputStyle={{color: white, marginLeft: 5}}
@@ -136,8 +135,7 @@ class MarcarDataEHoraScreen extends React.Component {
 						value={this.state.dataParaOAgendamento}
 					/>
 					<Input
-						// containerStyle={{ width: '90%' }}
-						placeholder="Horário"
+						placeholder=""
 						placeholderTextColor={'#ddd'}
 						label="HORA"
 						inputStyle={{color: white, marginLeft: 5}}
@@ -154,8 +152,8 @@ class MarcarDataEHoraScreen extends React.Component {
 						value={this.state.horaParaOAgendamento}
 					/>
 					<Input
-						// containerStyle={{ width: '90%' }}
-						placeholder="Onde ocorrerá?"
+						keyboardAppearance='dark'
+						placeholder=""
 						placeholderTextColor={'#ddd'}
 						label="LOCAL"
 						inputStyle={{color: white, marginLeft: 5}}
