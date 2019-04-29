@@ -58,38 +58,46 @@ class ProspectosScreen extends React.Component {
 			headerRightContainerStyle:{
 				padding: 10,
 			},
-			headerRight: (
-				<Button
-				onPress={() => alert('Sincronizar para fazer')}
-				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-				>
-					<Icon
-						name='retweet'
-						type='font-awesome'
-						color={white}
-					/>
-				</Button>
-			),
-			headerLeftContainerStyle:{
-				padding: 10,
-			},
-			headerLeft: (
-				<Button
-				onPress={() => alert('Incluir sidemenu')}
-				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-				>
-					<Icon
-						name='bars'
-						type='font-awesome'
-						color={white}
-					/>
-				</Button>
-			),
+			// headerRight: (
+			// 	<Button
+			// 	onPress={() => alert('Sincronizar para fazer')}
+			// 	style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+			// 		backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
+			// 	>
+			// 		<Icon
+			// 			name='retweet'
+			// 			type='font-awesome'
+			// 			color={white}
+			// 		/>
+			// 	</Button>
+			// ),
+			// headerLeftContainerStyle:{
+			// 	padding: 10,
+			// },
+			// headerLeft: (
+			// 	<Button
+			// 	onPress={() => alert('Incluir sidemenu')}
+			// 	style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+			// 		backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
+			// 	>
+			// 		<Icon
+			// 			name='bars'
+			// 			type='font-awesome'
+			// 			color={white}
+			// 		/>
+			// 	</Button>
+			// ),
 		}
 	}
 
+	novoProspecto = () => {
+		this.props.navigation.navigate('NovoProspecto')
+		this.setState({active: false})
+	}
+	importarProspecto = () => {
+		this.props.navigation.navigate('ImportarProspectos')
+		this.setState({active: false})
+	}
 
 	alterarProspecto = (tipo) => {
 		const { alterarProspectoNoAsyncStorage, alterarAdministracao, administracao } = this.props
@@ -158,28 +166,28 @@ class ProspectosScreen extends React.Component {
 					<Fab 
 						direction="up" 
 						position="bottomRight" 
-						style={{ backgroundColor: dark }}
+						style={{ backgroundColor: gold }}
 						active={this.state.active}
 						onPress={() => this.setState({active: !this.state.active})}
 					>
-						<Icon name = "user" type='font-awesome' color={white} />
+						<Icon name = "user" type='font-awesome' color={dark} />
 
-					<Button style = {{ backgroundColor: dark }}
-						onPress={() => { navigation.navigate('NovoProspecto') }}
+					<Button style = {{ backgroundColor: gold }}
+						onPress={() => this.novoProspecto() }
 					>
 						{/* <Text>Novo</Text> */}
 					<Icon 
 						name='add' 
-						color={white}
+						color={dark}
 					/>
 					</Button>
-					<Button style = {{ backgroundColor: dark }}
-						onPress={() => navigation.navigate('ImportarProspectos')}
+					<Button style = {{ backgroundColor: gold }}
+						onPress={() => this.importarProspecto()}
 					>
 						<Icon 
 						name='address-book' 
 						type='font-awesome' 
-						color={white}
+						color={dark}
 					/>
 					</Button>
 					</Fab>

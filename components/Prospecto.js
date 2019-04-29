@@ -53,13 +53,17 @@ class Prospecto extends React.Component {
 		return (
 
 			<Card containerStyle={styles.containerCard} key={prospecto.id}>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 					{
 						prospecto.data &&
 						<View style={styles.date}>
-							<Badge value={`${prospecto.data} - ${prospecto.hora}`} badgeStyle={styles.badgeDate}>
-								{/* <Text style={styles.text}>{prospecto.local}</Text> */}
-							</Badge>
+							<View style={{borderRadius: 9, backgroundColor: gold, borderWidth: 0, 
+							paddingHorizontal: 4, paddingVertical: 2
+							}}>
+								<Text style={{color: white, fontSize: 12}}>
+									{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
+								</Text>
+							</View>
 						</View>
 					}
 					{
