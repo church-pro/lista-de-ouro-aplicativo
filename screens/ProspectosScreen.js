@@ -92,11 +92,11 @@ class ProspectosScreen extends React.Component {
 
 	novoProspecto = () => {
 		this.props.navigation.navigate('NovoProspecto')
-		this.setState({active: false})
+		this.setState( state => ({ active: state.active = false}))
 	}
 	importarProspecto = () => {
 		this.props.navigation.navigate('ImportarProspectos')
-		this.setState({active: false})
+		this.setState( state => ({ active: state.active = false}))
 	}
 
 	alterarProspecto = (tipo) => {
@@ -173,16 +173,21 @@ class ProspectosScreen extends React.Component {
 						<Icon name = "user" type='font-awesome' color={dark} />
 
 					<Button style = {{ backgroundColor: gold }}
-						onPress={() => this.novoProspecto() }
+						onPress={() => {
+							this.props.navigation.navigate('NovoProspecto')
+							this.setState( state => ({ active: state.active = false}))
+						}}
 					>
-						{/* <Text>Novo</Text> */}
 					<Icon 
 						name='add' 
 						color={dark}
 					/>
 					</Button>
 					<Button style = {{ backgroundColor: gold }}
-						onPress={() => this.importarProspecto()}
+						onPress={() => {
+							this.props.navigation.navigate('ImportarProspectos')
+							this.setState( state => ({ active: state.active = false}))
+						}}
 					>
 						<Icon 
 						name='address-book' 
