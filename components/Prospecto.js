@@ -105,6 +105,15 @@ class Prospecto extends React.Component {
 					{
 						prospecto.situacao_id === SITUACAO_CONVIDAR &&
 						<View style={styles.footerConvidar}>
+							<Icon
+								name='trash'
+								type='font-awesome'
+								color={lightdark}
+								onPress={() => { Alert.alert('Remover', 'Você deseja remover este prospecto?', 
+									[{ text: 'Não' }, 
+									{ text: 'Sim', onPress: () => { this.removerProspecto() } }]) }
+								}
+							/>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { this.chamarOTelefoneDoCelular() }}
@@ -144,6 +153,15 @@ class Prospecto extends React.Component {
 					{
 						(prospecto.situacao_id === SITUACAO_ACOMPANHAR || prospecto.situacao_id === SITUACAO_FECHAMENTO) &&
 						<View style={styles.footerAcompanhar}>
+							<Icon
+								name='trash'
+								type='font-awesome'
+								color={lightdark}
+								onPress={() => { Alert.alert('Remover', 'Você deseja remover este prospecto?', 
+									[{ text: 'Não' }, 
+									{ text: 'Sim', onPress: () => { this.removerProspecto() } }]) }
+								}
+							/>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_FECHAMENTO }) }}
