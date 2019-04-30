@@ -7,7 +7,7 @@ import {
 import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
 import { white, red, gray, green, lightdark, dark, gold } from '../helpers/colors'
 import { connect } from 'react-redux'
-import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO } from '../helpers/constants'
+import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO, SITUACAO_FECHAMENTO } from '../helpers/constants'
 import { alterarProspectoNoAsyncStorage } from '../actions'
 
 class PerguntasScreen extends React.Component {
@@ -28,7 +28,7 @@ class PerguntasScreen extends React.Component {
 
 	alterarProspecto(){
 		const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
-		prospecto.situacao_id = SITUACAO_FECHADO
+		prospecto.situacao_id = SITUACAO_FECHAMENTO
 		alterarProspectoNoAsyncStorage(prospecto)
 		Alert.alert('Sucesso', 'Prospecto fechou!')
 		navigation.goBack()

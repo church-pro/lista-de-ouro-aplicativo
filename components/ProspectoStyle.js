@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: "center",
-        justifyContent: "space-around",
+        justifyContent: "flex-end",
+        paddingHorizontal: 6,
     },
     footerAcompanhar: {
         flex: 1,

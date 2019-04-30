@@ -15,7 +15,6 @@ import {
 	SITUACAO_ACOMPANHAR,
 	SITUACAO_FECHAMENTO,
 	SITUACAO_REMOVIDO,
-	SITUACAO_FECHADO
 } from '../helpers/constants'
 import { alterarProspectoNoAsyncStorage, alterarAdministracao } from '../actions'
 import { connect } from 'react-redux'
@@ -32,7 +31,7 @@ class Prospecto extends React.Component {
 
 	fecharProspecto() {
 		const { prospecto, alterarProspectoNoAsyncStorage } = this.props
-		prospecto.situacao_id = SITUACAO_FECHADO
+		prospecto.situacao_id = SITUACAO_FECHAMENTO
 		alterarProspectoNoAsyncStorage(prospecto)
 		Alert.alert('Sucesso', 'Prospecto fechou!')
 	}
@@ -55,12 +54,13 @@ class Prospecto extends React.Component {
 			<Card containerStyle={styles.containerCard} key={prospecto.id}>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 					{
-						prospecto.data &&
+						prospecto.data && prospecto.situacao_id !== SITUACAO_FECHAMENTO &&
 						<View style={styles.date}>
-							<View style={{borderRadius: 9, backgroundColor: gold, borderWidth: 0, 
-							paddingHorizontal: 4, paddingVertical: 2
+							<View style={{
+								borderRadius: 9, backgroundColor: gold, borderWidth: 0,
+								paddingHorizontal: 4, paddingVertical: 2
 							}}>
-								<Text style={{color: white, fontSize: 12}}>
+								<Text style={{ color: white, fontSize: 12 }}>
 									{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
 								</Text>
 							</View>
@@ -93,11 +93,11 @@ class Prospecto extends React.Component {
 								type='font-awesome'
 								color={lightdark}
 								onPress={() => { Alert.alert('Remover', 'Você deseja remover este prospecto?', [{ text: 'Não' }, { text: 'Sim', onPress: () => { this.removerProspecto() } }]) }}
-								/>
+							/>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { navigation.navigate('QualificarProspecto', { prospecto_id: prospecto.id }) }}
-								>
+							>
 								<Text style={styles.textButton}>Qualificar</Text>
 							</TouchableOpacity>
 						</View>
@@ -109,22 +109,24 @@ class Prospecto extends React.Component {
 								name='trash'
 								type='font-awesome'
 								color={lightdark}
-								onPress={() => { Alert.alert('Remover', 'Você deseja remover este prospecto?', 
-									[{ text: 'Não' }, 
-									{ text: 'Sim', onPress: () => { this.removerProspecto() } }]) }
+								onPress={() => {
+									Alert.alert('Remover', 'Você deseja remover este prospecto?',
+										[{ text: 'Não' },
+										{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
+								}
 								}
 							/>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { this.chamarOTelefoneDoCelular() }}
-								>
+							>
 								<Text style={styles.textButton}>Ligar</Text>
 							</TouchableOpacity>
 
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_APRESENTAR }) }}
-								>
+							>
 								<Text style={styles.textButton}>Marcar Apresentação</Text>
 							</TouchableOpacity>
 
@@ -133,52 +135,87 @@ class Prospecto extends React.Component {
 					{
 						prospecto.situacao_id === SITUACAO_APRESENTAR &&
 						<View style={styles.footerAPN}>
-							<Text style={{ justifyContent: 'center' }}>Apresentação feita?</Text>
 							<View style={{ flexDirection: 'row' }}>
+								<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
 								<TouchableOpacity
 									style={styles.button}
 									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
-									>
+								>
 									<Text style={styles.textButton}>Sim</Text>
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={[styles.button, { marginLeft: 5 }]}
-									onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) }}
-									>
+									onPress={() => {
+										{
+											Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
+												[
+													{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
+													{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) } },
+													{ text: 'Cancelar' },
+												])
+										}
+									}
+									}
+								// navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) }}
+								>
 									<Text style={styles.textButton}>Não</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
 					}
-					{
-						(prospecto.situacao_id === SITUACAO_ACOMPANHAR || prospecto.situacao_id === SITUACAO_FECHAMENTO) &&
+					{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
+
 						<View style={styles.footerAcompanhar}>
 							<Icon
 								name='trash'
 								type='font-awesome'
 								color={lightdark}
-								onPress={() => { Alert.alert('Remover', 'Você deseja remover este prospecto?', 
-									[{ text: 'Não' }, 
-									{ text: 'Sim', onPress: () => { this.removerProspecto() } }]) }
+								onPress={() => {
+									Alert.alert('Remover', 'Você deseja remover este prospecto?',
+										[{ text: 'Não' },
+										{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
+								}
 								}
 							/>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_FECHAMENTO }) }}
-								>
+							>
 								<Text style={styles.textButton}>Remarcar</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.button}
 								onPress={() => { Alert.alert('Fechar', 'Você deseja fechar este prospecto?', [{ text: 'Não' }, { text: 'Sim', onPress: () => { this.fecharProspecto() } }]) }}
-								>
+							>
 								<Text style={styles.textButton}>Fechamento</Text>
 							</TouchableOpacity>
 						</View>
 					}
+					{prospecto.situacao_id == SITUACAO_FECHAMENTO &&
+						<View style={styles.footerFechamento}>
+							<Icon
+								name='trash'
+								type='font-awesome'
+								color={lightdark}
+								onPress={() => {
+									Alert.alert('Remover', 'Você deseja remover este prospecto?',
+										[{ text: 'Não' },
+										{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
+								}
+								}
+							/>
+							<View
+								style={{ backgroundColor: gold, borderRadius: 9, borderWidth: 0, 
+									paddingHorizontal: 5
+								}}
+							>
+								<Text style={styles.textButton}>Fechado</Text>
+							</View>
+						</View>
+					}
 				</View>
 			</Card>
-			
+
 		)
 	}
 }
