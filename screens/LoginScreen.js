@@ -1,64 +1,102 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-
-import { Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Alert, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
 import logo from '../assets/images/logo-word.png'
 import { Icon } from 'native-base';
 
-export default class LoginScreen extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
+class LoginScreen extends React.Component {
 
-                <Image source={logo} style={styles.logo} />
+	state = {
+		email: '',
+		senha: '',
+	}
 
-                {/* <KeyboardAvoidingView style={{ justifyContent: 'center', alignItems: 'center' }}  behavior="padding" enabled> */}
-                <View style={styles.containerLogin}>
-                    <View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Icon name='envelope' type='FontAwesome'
-                                style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-                            />
-                            <Text style={{ color: gold }}>Email</Text>
-                        </View>
-                        <TextInput style={styles.inputText}
-                            keyboardAppearance='dark'
-                            autoCapitalize="none"
-                            placeholderTextColor="#d3d3d3"
-                            selectionColor="#fff"
-                            keyboardType="email-address"
-                        />
-                    </View>
-                    <View style={{ marginTop: 18 }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Icon name='lock' type='FontAwesome'
-                                style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-                            />
-                            <Text style={{ color: gold }}>Senha</Text>
-                        </View>
-                        <TextInput style={styles.inputText}
-                            keyboardAppearance='dark'
-                            autoCapitalize="none"
-                            placeholderTextColor="#d3d3d3"
-                            selectionColor="#fff"
-                            keyboardType='default'
-                            secureTextEntry={true}
-                        />
-                    </View>
+	ajudadorDeSubmissao = () => {
+		const {
+			email,
+			senha,
+		} = this.state
 
-                </View>
+		mostrarMensagemDeErro = false
+		if(email === ''){
+			mostrarMensagemDeErro = true
+		}
 
-                {/* </KeyboardAvoidingView> */}
+		if(senha === ''){
+			mostrarMensagemDeErro = true
+		}
 
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.textButton}>Entrar</Text>
-                </TouchableOpacity>
+		if(mostrarMensagemDeErro){
+			Alert.alert('Erro', 'Campos invalidos')
+		}else{
+			this.props.navigation.navigate('Prospectos')
+		}
+	}
 
-            </View>
-        )
-    }
+	render() {
+		const {
+			email,
+			senha,
+		} = this.state
+		return (
+			<View style={styles.container}>
+
+				<Image source={logo} style={styles.logo} />
+
+				<KeyboardAvoidingView style={{ justifyContent: 'center', alignItems: 'center' }}  behavior="padding" enabled>
+					<View style={styles.containerLogin}>
+						<View>
+							<View style={{ flexDirection: 'row' }}>
+								<Icon name='envelope' type='FontAwesome'
+									style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+								/>
+								<Text style={{ color: gold }}>Email</Text>
+							</View>
+							<TextInput style={styles.inputText}
+								keyboardAppearance='dark'
+								autoCapitalize="none"
+								placeholderTextColor="#d3d3d3"
+								selectionColor="#fff"
+								keyboardType="email-address"
+								value={email}
+								onChangeText={texto => this.setState({email:texto})}
+							/>
+						</View>
+						<View style={{ marginTop: 18 }}>
+							<View style={{ flexDirection: 'row' }}>
+								<Icon name='lock' type='FontAwesome'
+									style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+								/>
+								<Text style={{ color: gold }}>Senha</Text>
+							</View>
+							<TextInput style={styles.inputText}
+								keyboardAppearance='dark'
+								autoCapitalize="none"
+								placeholderTextColor="#d3d3d3"
+								selectionColor="#fff"
+								keyboardType='default'
+								secureTextEntry={true}
+								value={senha}
+								onChangeText={texto => this.setState({senha:texto})}
+							/>
+						</View>
+
+					</View>
+
+				</KeyboardAvoidingView> 
+
+				<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
+					<Text style={styles.textButton}>Sincronizar</Text>
+				</TouchableOpacity>
+
+			</View>
+		)
+	}
 }
+
+export default LoginScreen
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

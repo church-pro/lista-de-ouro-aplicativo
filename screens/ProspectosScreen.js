@@ -28,6 +28,9 @@ import {
 	alterarAdministracao,
 	pegarProspectosNoAsyncStorage,
 } from '../actions'
+import {
+	sincronizar,
+} from '../helpers/api'
 
 class ProspectosScreen extends React.Component {
 
@@ -37,15 +40,20 @@ class ProspectosScreen extends React.Component {
 		naoQuer: false,
 		pendente: false,
 		active: false,
+		sincronizando: false,
 	}
 
 	componentDidMount(){
+		this.props.navigation.setParams({
+			sincronizar: this.sincronizar
+		})
 		this.props
 			.pegarProspectosNoAsyncStorage()
 			.then(() => this.setState({carregando: false}))
 	}
 
 	static navigationOptions = ({ navigation }) => {
+		const { params = {} } = navigation.state
 		return {
 			title: LABEL_LISTA_DE_OURO,
 			headerTitleStyle: {
@@ -58,22 +66,22 @@ class ProspectosScreen extends React.Component {
 			headerRightContainerStyle:{
 				padding: 10,
 			},
-			// headerRight: (
-			// 	<Button
-			// 	onPress={() => alert('Sincronizar para fazer')}
-			// 	style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-			// 		backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-			// 	>
-			// 		<Icon
-			// 			name='retweet'
-			// 			type='font-awesome'
-			// 			color={white}
-			// 		/>
-			// 	</Button>
-			// ),
-			// headerLeftContainerStyle:{
-			// 	padding: 10,
-			// },
+			headerRight: (
+				<Button
+					onPress={() => params.sincronizar()}
+					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
+					>
+						<Icon
+							name='retweet'
+							type='font-awesome'
+							color={white}
+						/>
+					</Button>
+			),
+			headerLeftContainerStyle:{
+				padding: 10,
+			},
 			// headerLeft: (
 			// 	<Button
 			// 	onPress={() => alert('Incluir sidemenu')}
@@ -100,7 +108,11 @@ class ProspectosScreen extends React.Component {
 	}
 
 	alterarProspecto = (tipo) => {
-		const { alterarProspectoNoAsyncStorage, alterarAdministracao, administracao } = this.props
+		const { 
+			alterarProspectoNoAsyncStorage, 
+			alterarAdministracao,
+			administracao,
+		} = this.props
 		let prospecto = administracao.prospectoSelecionado
 
 		administracao.ligueiParaAlguem = false
@@ -122,7 +134,12 @@ class ProspectosScreen extends React.Component {
 	}
 
 	marcarDataEHora = () => {
-		const { alterarProspectoNoAsyncStorage, alterarAdministracao, administracao, navigation } = this.props
+		const { 
+			alterarProspectoNoAsyncStorage, 
+			alterarAdministracao,
+			administracao,
+			navigation,
+		} = this.props
 		let prospecto = administracao.prospectoSelecionado
 
 		administracao.ligueiParaAlguem = false
@@ -139,6 +156,23 @@ class ProspectosScreen extends React.Component {
 		})
 
 		navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_APRESENTAR })
+	}
+
+	sincronizar = () => {
+		console.log('cliquei sincronizar')
+		const {
+			administracao,
+			navigation,
+		} = this.props
+		try {
+			if(administracao.email){
+				sincronizar()
+			}else{
+				navigation.navigate('Login')
+			}
+		} catch(err) {
+			Alert.alert('Internet', 'Verifique sua internet')
+		}
 	}
 
 	render() {

@@ -9,16 +9,16 @@ import rootReducer from './reducers'
 import {Constants} from 'expo' 
 import { gray } from './helpers/colors'
 
-const logger = store => next => action => { 
-	console.group(action.type)
-	console.info('DESPACHANDO ACAO: ', action)
-	let resultado = next(action)
-	console.log('PROXIMO STORE: ', store.getState())
-	console.groupEnd(action.type)
-	return resultado
-}
-
-const store = createStore(rootReducer, applyMiddleware(logger, thunk))
+//const logger = store => next => action => { 
+//	console.group(action.type)
+//	console.info('DESPACHANDO ACAO: ', action)
+//	let resultado = next(action)
+//	console.log('PROXIMO STORE: ', store.getState())
+//	console.groupEnd(action.type)
+//	return resultado
+//}
+//const store = createStore(rootReducer, applyMiddleware(logger, thunk))
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 function BarraDeEstado ({backgroundColor, ...props}){
 	return (

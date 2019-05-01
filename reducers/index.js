@@ -38,12 +38,10 @@ function administracao(state = estadoDaAdministracao, action){
 	switch(action.type){
 		case PEGAR_ADMINISTRACAO:
 			return {
-				...state,
-				...action.administracao
+				...state
 			}
-		case ALTERAR_PROSPECTO:
+		case ALTERAR_ADMINISTRACAO:
 			return {
-				...state,
 				...action.administracao
 			}
 		default:

@@ -1,6 +1,29 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos001'
 const CHAVE_HISTORICO = 'ListaDeOuro:historico001'
+const CHAVE_USUARIO = 'ListaDeOuro:usuario001'
+
+let api = 'http://192.168.0.14:8080'
+const headers = {
+	'Content-Type': 'application/json'
+}
+
+export const teste = () => 
+	fetch(`${api}/`)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const sincronizar = (dados) =>
+	fetch(
+		`${api}/no/sincronizar`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
 
 export function recuperarProspectos(){        
 	return AsyncStorage.getItem(CHAVE_PROSPECTOS)
@@ -58,5 +81,26 @@ export function submeterHistoricos(historicos){
 			dados.historico = [...dados.historico, ...historicos]
 			AsyncStorage.setItem(CHAVE_HISTORICO, JSON.stringify(dados))
 			return historicos                 
+		})                                    
+}
+
+export function recuperarUsuario(){        
+	return AsyncStorage.getItem(CHAVE_USUARIO)
+		.then(JSON.parse)                     
+		.then((dados) => {                    
+			if(dados === null){               
+				dados = {usuario: {}}      
+				AsyncStorage.setItem(CHAVE_USUARIO, JSON.stringify(dados))
+			}                                 
+			return dados                      
+		})                                    
+}
+
+export function submeterUsuario(usuario){
+	return recuperarUsuario()              
+		.then(dados => {                      
+			dados.usuario = usuario
+			AsyncStorage.setItem(CHAVE_USUARIO, JSON.stringify(dados))
+			return usuario                 
 		})                                    
 }

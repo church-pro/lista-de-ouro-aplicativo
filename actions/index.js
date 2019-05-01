@@ -81,7 +81,10 @@ export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => {
 				sincronizado: false,
 				data_criacao: pegarDataEHoraAtual()[0],
 				hora_criacao: pegarDataEHoraAtual()[1],
-				prospecto,
+				dados: {
+					prospecto_id: prospecto.id,
+					prospecto,
+				},
 			}
 			return historico
 		})
@@ -93,10 +96,12 @@ export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => {
 export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => {
 	const historico = {
 		sincronizado: false,
-		alterar: true,
 		data_criacao: pegarDataEHoraAtual()[0],
 		hora_criacao: pegarDataEHoraAtual()[1],
-		prospecto,
+		dados: {
+			prospecto_id: prospecto.id,
+			situacao_id: prospecto.situacao_id,
+		}
 	}
 	submeterHistoricos([historico])
 	modificarProspecto(prospecto)
