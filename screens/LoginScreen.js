@@ -4,6 +4,10 @@ import { Alert, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpa
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
 import logo from '../assets/images/logo-word.png'
 import { Icon } from 'native-base';
+import {
+	alterarUsuarioNoAsyncStorage,
+} from '../actions'
+import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {
 
@@ -30,6 +34,11 @@ class LoginScreen extends React.Component {
 		if(mostrarMensagemDeErro){
 			Alert.alert('Erro', 'Campos invalidos')
 		}else{
+			const dados = {
+				email,
+				senha,
+			}
+			this.props.alterarUsuarioNoAsyncStorage(dados)
 			this.props.navigation.navigate('Prospectos')
 		}
 	}
@@ -44,58 +53,61 @@ class LoginScreen extends React.Component {
 
 				<Image source={logo} style={styles.logo} />
 
-				<KeyboardAvoidingView style={{ justifyContent: 'center', alignItems: 'center' }}  behavior="padding" enabled>
-					<View style={styles.containerLogin}>
-						<View>
-							<View style={{ flexDirection: 'row' }}>
-								<Icon name='envelope' type='FontAwesome'
-									style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-								/>
-								<Text style={{ color: gold }}>Email</Text>
-							</View>
-							<TextInput style={styles.inputText}
-								keyboardAppearance='dark'
-								autoCapitalize="none"
-								placeholderTextColor="#d3d3d3"
-								selectionColor="#fff"
-								keyboardType="email-address"
-								value={email}
-								onChangeText={texto => this.setState({email:texto})}
+				<View style={styles.containerLogin}>
+					<View>
+						<View style={{ flexDirection: 'row' }}>
+							<Icon name='envelope' type='FontAwesome'
+								style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
 							/>
+							<Text style={{ color: gold }}>Email</Text>
 						</View>
-						<View style={{ marginTop: 18 }}>
-							<View style={{ flexDirection: 'row' }}>
-								<Icon name='lock' type='FontAwesome'
-									style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-								/>
-								<Text style={{ color: gold }}>Senha</Text>
-							</View>
-							<TextInput style={styles.inputText}
-								keyboardAppearance='dark'
-								autoCapitalize="none"
-								placeholderTextColor="#d3d3d3"
-								selectionColor="#fff"
-								keyboardType='default'
-								secureTextEntry={true}
-								value={senha}
-								onChangeText={texto => this.setState({senha:texto})}
+						<TextInput style={styles.inputText}
+							keyboardAppearance='dark'
+							autoCapitalize="none"
+							placeholderTextColor="#d3d3d3"
+							selectionColor="#fff"
+							keyboardType="email-address"
+							value={email}
+							onChangeText={texto => this.setState({email:texto})}
+						/>
+					</View>
+					<View style={{ marginTop: 18 }}>
+						<View style={{ flexDirection: 'row' }}>
+							<Icon name='lock' type='FontAwesome'
+								style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
 							/>
+							<Text style={{ color: gold }}>Senha</Text>
 						</View>
-
+						<TextInput style={styles.inputText}
+							keyboardAppearance='dark'
+							autoCapitalize="none"
+							placeholderTextColor="#d3d3d3"
+							selectionColor="#fff"
+							keyboardType='default'
+							secureTextEntry={true}
+							value={senha}
+							onChangeText={texto => this.setState({senha:texto})}
+						/>
 					</View>
 
-				</KeyboardAvoidingView> 
+				</View>
 
-				<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
-					<Text style={styles.textButton}>Sincronizar</Text>
-				</TouchableOpacity>
+			<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
+				<Text style={styles.textButton}>Sincronizar</Text>
+			</TouchableOpacity>
 
-			</View>
+		</View>
 		)
 	}
 }
 
-export default LoginScreen
+const mapDispatchToProps = (dispatch) => {
+	return {
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+	}
+}
+
+export default connect(null, mapDispatchToProps)(LoginScreen)
 
 const styles = StyleSheet.create({
     container: {

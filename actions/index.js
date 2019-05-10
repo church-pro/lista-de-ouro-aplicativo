@@ -3,6 +3,8 @@ import {
 	submeterProspectos,
 	modificarProspecto,
 	submeterHistoricos,
+	recuperarUsuario,
+	submeterUsuario,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
@@ -13,8 +15,8 @@ export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
 export const ALTERAR_PROSPECTO = 'ALTERAR_PROSPECTO'
 export const PEGAR_ADMINISTRACAO = 'PEGAR_ADMINISTRACAO'
 export const ALTERAR_ADMINISTRACAO = 'ALTERAR_ADMINISTRACAO'
-export const PEGAR_ITEMS_AGENDA = 'PEGAR_ITEMS_AGENDA'
-export const ADICIONAR_ITEM_AGENDA = 'ADICIONAR_ITEM_AGENDA'
+export const PEGAR_USUARIO = 'PEGAR_USUARIO'
+export const ALTERAR_USUARIO = 'ALTERAR_USUARIO'
 
 export function pegarProspectos(prospectos){ 
 	return {
@@ -51,17 +53,17 @@ export function alterarAdministracao(administracao){
 	}
 }
 
-export function pegarItemsAgenda(items){
+export function pegarUsuario(usuario){ 
 	return {
-		type: PEGAR_ITEMS_AGENDA,
-		items,
+		type: PEGAR_USUARIO,
+		usuario,
 	}
 }
 
-export function adicionarItemAgenda(item){
+export function alterarUsuario(usuario){ 
 	return {
-		type: ADICIONAR_ITEM_AGENDA,
-		item,
+		type: ALTERAR_USUARIO,
+		usuario,
 	}
 }
 
@@ -106,4 +108,17 @@ export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => {
 	submeterHistoricos([historico])
 	modificarProspecto(prospecto)
 		.then(prospecto => dispatch(alterarProspecto(prospecto)))
+}
+
+export const pegarUsuarioNoAsyncStorage = () => dispatch => {
+	return recuperarUsuario()
+		.then(usuarioNaAsyncStorage => {
+			dispatch(pegarUsuario(usuarioNaAsyncStorage.usuario))
+			return usuarioNaAsyncStorage.usuario 
+		})
+}
+
+export const alterarUsuarioNoAsyncStorage = (usuario) => dispatch => {
+	submeterUsuario(usuario)
+		.then(usuario => dispatch(alterarUsuario(usuario)))
 }

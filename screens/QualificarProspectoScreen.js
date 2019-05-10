@@ -15,12 +15,16 @@ import { SITUACAO_CONVIDAR } from '../helpers/constants'
 class QualificarProspectoScreen extends React.Component {
 
 	alterarProspecto = () => {
-		const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
-		prospecto.rating = this.state.rating
-		prospecto.situacao_id = SITUACAO_CONVIDAR
-		alterarProspectoNoAsyncStorage(prospecto)
-		Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
-		navigation.goBack()
+		if(this.state.rating > 0){
+			const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
+			prospecto.rating = this.state.rating
+			prospecto.situacao_id = SITUACAO_CONVIDAR
+			alterarProspectoNoAsyncStorage(prospecto)
+			Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
+			navigation.goBack()
+		}else{
+			Alert.alert('Aviso', 'Selecione uma qualificação')
+		}
 	}
 
 	componentDidMount() {

@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	Alert,
 	ActivityIndicator,
+	NetInfo,
 } from 'react-native';
 import { Icon, Card, CheckBox } from 'react-native-elements'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
@@ -27,9 +28,11 @@ import {
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
 	pegarProspectosNoAsyncStorage,
+	pegarUsuarioNoAsyncStorage,
+	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import {
-	sincronizar,
+	sincronizarNaAPI,
 } from '../helpers/api'
 
 class ProspectosScreen extends React.Component {
@@ -50,6 +53,8 @@ class ProspectosScreen extends React.Component {
 		this.props
 			.pegarProspectosNoAsyncStorage()
 			.then(() => this.setState({carregando: false}))
+		this.props
+			.pegarUsuarioNoAsyncStorage()
 	}
 
 	static navigationOptions = ({ navigation }) => {
@@ -160,18 +165,45 @@ class ProspectosScreen extends React.Component {
 
 	sincronizar = () => {
 		console.log('cliquei sincronizar')
-		const {
-			administracao,
-			navigation,
-		} = this.props
-		try {
-			if(administracao.email){
-				sincronizar()
-			}else{
-				navigation.navigate('Login')
-			}
+		try{
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					if(isConnected){
+						const {
+							usuario,
+							navigation,
+							adicionarProspectosAoAsyncStorage,
+						} = this.props
+
+						if(usuario.email !== null){
+							this.setState({carregando: true})
+							sincronizarNaAPI(usuario)
+								.then(resultado => {
+									console.log('Resultado: ', resultado)
+									if(resultado.resultado.prospectos.length){
+										const prospectosParaAdicionar = resultado.resultado.prospectos
+											.map(prospecto => {
+												prospecto.id = prospecto._id	
+												prospecto.rating = null
+												prospecto.situacao_id = 1
+												delete prospecto._id
+												return prospecto
+											})
+										adicionarProspectosAoAsyncStorage(prospectosParaAdicionar)
+									}
+									Alert.alert('Sincronização', 'Sincronizado com Sucesso!')
+									this.setState({carregando: false})
+								})
+						}else{
+							navigation.navigate('Login')
+						}
+					}else{
+						Alert.alert('Internet', 'Verifique sua internet!')
+					}
+				})
 		} catch(err) {
-			Alert.alert('Internet', 'Verifique sua internet')
+			Alert.alert('Error', err)
 		}
 	}
 
@@ -423,9 +455,10 @@ class ProspectosScreen extends React.Component {
 	}
 }
 
-function mapStateToProps({ prospectos, administracao }){
+function mapStateToProps({ prospectos, usuario, administracao, }){
 	return {
 		prospectos,
+		usuario,
 		administracao,
 	}
 }
@@ -435,6 +468,8 @@ function mapDispatchToProps(dispatch){
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
 		pegarProspectosNoAsyncStorage: () => dispatch(pegarProspectosNoAsyncStorage()),
+		pegarUsuarioNoAsyncStorage: () => dispatch(pegarUsuarioNoAsyncStorage()),
+		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
 	}
 }
 

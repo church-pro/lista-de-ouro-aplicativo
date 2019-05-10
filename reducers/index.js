@@ -3,10 +3,10 @@ import {
 	PEGAR_PROSPECTOS, 
 	ADICIONAR_PROSPECTOS, 
 	ALTERAR_PROSPECTO, 
-	PEGAR_ITEMS_AGENDA, 
-	ADICIONAR_ITEM_AGENDA,
 	PEGAR_ADMINISTRACAO,
 	ALTERAR_ADMINISTRACAO,
+	PEGAR_USUARIO,
+	ALTERAR_USUARIO,
 } from '../actions'
 
 function prospectos(state = [], action){
@@ -49,12 +49,16 @@ function administracao(state = estadoDaAdministracao, action){
 	}
 }
 
-function agenda(state = [], action){
+function usuario(state = [], action){
 	switch(action.type){
-		case PEGAR_ITEMS_AGENDA:
-			return [...state, ...action.items]
-		case ADICIONAR_ITEM_AGENDA:
-			return [...state, action.item]
+		case PEGAR_USUARIO:
+			return {
+				...action.usuario
+			}
+		case ALTERAR_USUARIO:
+			return {
+				...action.usuario
+			}
 		default:
 			return state
 	}
@@ -63,5 +67,5 @@ function agenda(state = [], action){
 export default combineReducers({
 	prospectos,
 	administracao,
-	agenda,
+	usuario,
 })

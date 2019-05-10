@@ -75,7 +75,6 @@ class ImportarProspectosScreen extends React.Component {
 	adicionarContatos(){
 		const {contatosParaSelecionar} = this.state
 		const {adicionarProspectosAoAsyncStorage, navigation} = this.props
-
 		adicionarProspectosAoAsyncStorage(contatosParaSelecionar.filter(contato => contato.selecionado))
 		navigation.goBack()
 	}
