@@ -101,11 +101,18 @@ const styles = StyleSheet.create({
         color: white
     },
     buttonImport:{
+        backgroundColor: gold,
         borderWidth: 0,
         justifyContent: 'center',
         alignSelf: 'center',
         width: '100%',
         height:'100%',
+    },
+    textButtonImport: {
+        textAlign: 'center',
+        color: dark,
+        fontSize: 17, 
+        fontWeight: "bold"
     },
 
     //SIDE MENU

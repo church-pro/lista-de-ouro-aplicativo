@@ -152,4 +152,4 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default const(null, mapDispatchToProps)(NovoProspecto)
+export default connect(null, mapDispatchToProps)(NovoProspecto)

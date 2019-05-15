@@ -4,6 +4,7 @@ import {
 	View,
 	Alert,
 	TouchableOpacity,
+	Linking
 } from 'react-native';
 import { Card, Icon, Badge } from 'react-native-elements'
 import { white, lightdark, gold, dark } from '../helpers/colors'
@@ -33,7 +34,7 @@ class Prospecto extends React.Component {
 		const { prospecto, alterarProspectoNoAsyncStorage } = this.props
 		prospecto.situacao_id = SITUACAO_FECHAMENTO
 		alterarProspectoNoAsyncStorage(prospecto)
-		Alert.alert('Sucesso', 'Prospecto fechou!')
+		Alert.alert('Sucesso', 'Prospecto pagou!')
 	}
 
 	chamarOTelefoneDoCelular() {
@@ -45,6 +46,10 @@ class Prospecto extends React.Component {
 		prospecto.ligueiParaAlguem = true
 		alterarProspectoNoAsyncStorage(prospecto)
 		call({ number: prospecto.telefone, prompt: false }).catch(console.error)
+	}
+	whatsapp() {
+		const { prospecto } = this.props
+		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.telefone}`).catch((err) => console.error(err))
 	}
 
 	render() {
@@ -82,6 +87,11 @@ class Prospecto extends React.Component {
 					<View style={styles.content}>
 						<Text style={[styles.text, style = { marginTop: 5 }]}>{prospecto.telefone}</Text>
 					</View>
+
+					<View style={[styles.content, style={marginTop: 5}]}>
+						<Icon name="phone" size={18} containerStyle={{marginRight: 8}} color={white}  onPress={() => { this.chamarOTelefoneDoCelular() }} />
+						<Icon name="whatsapp" size={18} color={white} type='font-awesome' onPress={() => { this.whatsapp() }} />
+					</View>
 				</View>
 
 				<View style={styles.subFooter}>
@@ -116,12 +126,6 @@ class Prospecto extends React.Component {
 								}
 								}
 							/>
-							<TouchableOpacity
-								style={styles.button}
-								onPress={() => { this.chamarOTelefoneDoCelular() }}
-							>
-								<Text style={styles.textButton}>Ligar</Text>
-							</TouchableOpacity>
 
 							<TouchableOpacity
 								style={styles.button}
@@ -206,10 +210,10 @@ class Prospecto extends React.Component {
 							/>
 							<View
 								style={{ backgroundColor: gold, borderRadius: 9, borderWidth: 0, 
-									paddingHorizontal: 5
+									padding: 5
 								}}
 							>
-								<Text style={styles.textButton}>Fechado</Text>
+								<Text style={styles.textButton}>Pago</Text>
 							</View>
 						</View>
 					}
