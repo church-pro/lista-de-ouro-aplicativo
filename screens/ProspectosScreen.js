@@ -9,6 +9,8 @@ import {
 	NetInfo,
 } from 'react-native';
 import { Icon, Card, CheckBox } from 'react-native-elements'
+import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
+import SideBar from '../components/SideBar'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
 import { white, gold, dark, lightdark } from '../helpers/colors'
@@ -23,7 +25,6 @@ import {
 	SITUACAO_REMOVIDO, 
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
-import { Fab, Button } from 'native-base';
 import { 
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
@@ -46,6 +47,13 @@ class ProspectosScreen extends React.Component {
 		sincronizando: false,
 	}
 
+	closeDrawer = () => {
+		this.drawer._root.close()
+	};
+	openDrawer = () => {
+		this.drawer._root.open()
+	};
+
 	componentDidMount(){
 		this.props.navigation.setParams({
 			sincronizar: this.sincronizar
@@ -60,36 +68,37 @@ class ProspectosScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state
 		return {
-			title: LABEL_LISTA_DE_OURO,
-			headerTitleStyle: {
-				flex: 1,
-				textAlign: 'center',
-				alignSelf: 'center',
-				color: white,
-				fontWeight: '400'
-			},
-			headerRightContainerStyle:{
-				padding: 10,
-			},
-			headerRight: (
-				<Button
-					onPress={() => params.sincronizar()}
-					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-					>
-						<Icon
-							name='retweet'
-							type='font-awesome'
-							color={white}
-						/>
-					</Button>
-			),
-			headerLeftContainerStyle:{
-				padding: 10,
-			},
+			header: null
+			// title: LABEL_LISTA_DE_OURO,
+			// headerTitleStyle: {
+			// 	flex: 1,
+			// 	textAlign: 'center',
+			// 	alignSelf: 'center',
+			// 	color: white,
+			// 	fontWeight: '400'
+			// },
+			// headerRightContainerStyle:{
+			// 	padding: 10,
+			// },
+			// headerRight: (
+			// 	<Button
+			// 		onPress={() => params.sincronizar()}
+			// 		style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+			// 			backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
+			// 		>
+			// 			<Icon
+			// 				name='retweet'
+			// 				type='font-awesome'
+			// 				color={white}
+			// 			/>
+			// 		</Button>
+			// ),
+			// headerLeftContainerStyle:{
+			// 	padding: 10,
+			// },
 			// headerLeft: (
 			// 	<Button
-			// 	onPress={() => alert('Incluir sidemenu')}
+			// 	onPress={() => Alert.alert('side')}
 			// 	style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
 			// 		backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
 			// 	>
@@ -348,6 +357,28 @@ class ProspectosScreen extends React.Component {
 		}
 
 		return (
+			<Drawer
+                    ref={(ref) => { this.drawer = ref; }}
+                    content={<SideBar navigator={this.navigator} />}
+                    onClose={() => this.closeDrawer()}
+			>
+
+			<Header style={{backgroundColor: dark, borderBottomWidth: 0}} iosBarStyle="light-content">
+				<Left>
+					<Button transparent style={{paddingHorizontal: 15}}  onPress={() => this.openDrawer()}>
+						<Icon type="font-awesome" name="bars" color={white}/>
+					</Button>
+				</Left>
+				<Body>
+					<Title style={{ color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
+				</Body>
+				<Right>
+					<Button transparent style={{padding: 0, margin: 0}} onPress={() => this.sincronizar()}>
+						<Icon name='retweet' type='font-awesome' color={white} />
+					</Button>
+				</Right>
+			</Header>
+
 			<View style={{flex: 1, backgroundColor: lightdark}}>
 
 				{
@@ -450,6 +481,7 @@ class ProspectosScreen extends React.Component {
 						</Card>
 				}
 			</View>
+			</Drawer>
 		)
 	}
 }

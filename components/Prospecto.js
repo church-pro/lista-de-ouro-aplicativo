@@ -89,8 +89,18 @@ class Prospecto extends React.Component {
 					</View>
 
 					<View style={[styles.content, style={marginTop: 5}]}>
-						<Icon name="phone" size={18} containerStyle={{marginRight: 8}} color={white}  onPress={() => { this.chamarOTelefoneDoCelular() }} />
-						<Icon name="whatsapp" size={18} color={white} type='font-awesome' onPress={() => { this.whatsapp() }} />
+					<View style={{backgroundColor: dark, padding: 4, borderRadius: 4}}>
+						<TouchableOpacity style={{flexDirection: "row"}} onPress={() => { this.chamarOTelefoneDoCelular() }} > 
+							<Icon name="phone" size={18} containerStyle={{marginRight: 6}} color={white} />
+							<Text style={{color: white}}>Ligar</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={{backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5}}>
+						<TouchableOpacity style={{flexDirection: "row"}} onPress={() => { this.whatsapp() }} > 
+							<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{marginRight: 6}} type='font-awesome' />
+							<Text style={{color: white}}>Whats</Text>
+						</TouchableOpacity>
+					</View>
 					</View>
 				</View>
 

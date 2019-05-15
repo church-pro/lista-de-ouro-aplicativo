@@ -119,6 +119,21 @@ const styles = StyleSheet.create({
     sideMenu: {
         flex: 1,
         alignItems: 'flex-start',
+        backgroundColor: dark,
+    },
+    imgLogo: {
+        height: 85,
+        width: 90,
+        marginBottom: 20,
+        marginLeft: 20,
+        marginTop: 50,
+    },
+    textMenu: {
+        color: white,
+        fontSize: 36,
+        fontWeight: '200',
+        paddingVertical: 30,
+        marginLeft: 20
     },
 
 })
