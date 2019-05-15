@@ -1,9 +1,10 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
-const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos009'
-const CHAVE_HISTORICO = 'ListaDeOuro:historico005'
-const CHAVE_USUARIO = 'ListaDeOuro:usuario005'
+const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos006'
+const CHAVE_HISTORICO = 'ListaDeOuro:historico006'
+const CHAVE_USUARIO = 'ListaDeOuro:usuario006'
 
 let api = 'http://192.168.0.14:8080'
+api = 'https://secure-woodland-24244.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }

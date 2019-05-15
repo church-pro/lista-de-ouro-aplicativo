@@ -4,14 +4,47 @@ import {
 } from 'react-native';
 import { Button, Card, Icon, Input } from 'react-native-elements'
 import { white, lightdark, dark, gold } from '../helpers/colors'
+import {
+	adicionarProspectosAoAsyncStorage,	
+} from '../actions'
+import { connect } from 'react-redux'
 
 class NovoProspecto extends React.Component {
 
     state = {
         nome: '',
-        numero: '',
+        telefone: '',
         email: '',
     }
+
+	ajudadorDeSubmissao = () => {
+		const {
+			nome,
+			telefone,
+			email,
+		} = this.state
+
+		mostrarMensagemDeErro = false
+		if(nome === ''){
+			mostrarMensagemDeErro = true
+		}
+
+		if(telefone === ''){
+			mostrarMensagemDeErro = true
+		}
+
+		if(mostrarMensagemDeErro){
+			Alert.alert('Erro', 'Campos invalidos')
+		}else{
+			const dados = {
+				nome,
+				telefone,
+				email,
+			}
+			this.props.adicionarProspectosAoAsyncStorage([dados])
+			this.props.navigation.navigate('Prospectos')
+		}
+	}
 
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state
@@ -34,6 +67,11 @@ class NovoProspecto extends React.Component {
     }
 
     render() {
+		const {
+			nome,
+			telefone,
+			email,
+		} = this.state
         return (
             <KeyboardAvoidingView style={{ flex: 1, backgroundColor: lightdark }} behavior="padding" enabled>
                 <Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
@@ -52,7 +90,9 @@ class NovoProspecto extends React.Component {
                                 size={20}
                             />
                         }
-                    />
+						value={nome}
+						onChangeText={texto => this.setState({nome:texto})}
+					/>
 
                     <Input
                         keyboardType='phone-pad'
@@ -70,6 +110,8 @@ class NovoProspecto extends React.Component {
                                 size={20}
                             />
                         }
+						value={telefone}
+						onChangeText={texto => this.setState({telefone:texto})}
                     />
                     <Input
                         keyboardType='email-address'
@@ -87,6 +129,8 @@ class NovoProspecto extends React.Component {
                                 size={20}
                             />
                         }
+						value={email}
+						onChangeText={texto => this.setState({email:texto})}
                     />
 
                 </Card>
@@ -102,4 +146,10 @@ class NovoProspecto extends React.Component {
     }
 }
 
-export default (NovoProspecto)
+const mapDispatchToProps = dispatch => {
+	return {
+		adicionarProspectosAoAsyncStorage: prospecto => dispatch(adicionarProspectosAoAsyncStorage(prospecto)),
+	}
+}
+
+export default const(null, mapDispatchToProps)(NovoProspecto)

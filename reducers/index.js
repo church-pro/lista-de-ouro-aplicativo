@@ -49,7 +49,7 @@ function administracao(state = estadoDaAdministracao, action){
 	}
 }
 
-function usuario(state = [], action){
+function usuario(state = {}, action){
 	switch(action.type){
 		case PEGAR_USUARIO:
 			return {

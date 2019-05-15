@@ -175,7 +175,6 @@ class ProspectosScreen extends React.Component {
 							navigation,
 							adicionarProspectosAoAsyncStorage,
 						} = this.props
-
 						if(usuario.email !== null){
 							this.setState({carregando: true})
 							sincronizarNaAPI(usuario)
