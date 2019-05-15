@@ -87,19 +87,19 @@ class ProspectosScreen extends React.Component {
 			headerLeftContainerStyle:{
 				padding: 10,
 			},
-			// headerLeft: (
-			// 	<Button
-			// 	onPress={() => alert('Incluir sidemenu')}
-			// 	style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-			// 		backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-			// 	>
-			// 		<Icon
-			// 			name='bars'
-			// 			type='font-awesome'
-			// 			color={white}
-			// 		/>
-			// 	</Button>
-			// ),
+			headerLeft: (
+				<Button
+					onPress={() => alert('Incluir sidemenu')}
+					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
+						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
+					>
+						<Icon
+							name='bars'
+							type='font-awesome'
+							color={white}
+						/>
+					</Button>
+			),
 		}
 	}
 
@@ -164,7 +164,6 @@ class ProspectosScreen extends React.Component {
 	}
 
 	sincronizar = () => {
-		console.log('cliquei sincronizar')
 		try{
 			NetInfo.isConnected
 				.fetch()
@@ -175,24 +174,24 @@ class ProspectosScreen extends React.Component {
 							navigation,
 							adicionarProspectosAoAsyncStorage,
 						} = this.props
-						if(usuario.email !== null){
+						if(usuario.email){
 							this.setState({carregando: true})
 							sincronizarNaAPI(usuario)
-								.then(resultado => {
-									console.log('Resultado: ', resultado)
-									if(resultado.resultado.prospectos.length){
-										const prospectosParaAdicionar = resultado.resultado.prospectos
+								.then(retorno => {
+									if(retorno.resultado.prospectos){
+										const prospectosParaAdicionar = retorno.resultado.prospectos
 											.map(prospecto => {
 												prospecto.id = prospecto._id	
 												prospecto.rating = null
 												prospecto.situacao_id = 1
+												prospecto.online = true
 												delete prospecto._id
 												return prospecto
 											})
 										adicionarProspectosAoAsyncStorage(prospectosParaAdicionar)
 									}
-									Alert.alert('Sincronização', 'Sincronizado com Sucesso!')
 									this.setState({carregando: false})
+									Alert.alert('Sincronização', 'Sincronizado com Sucesso!')
 								})
 						}else{
 							navigation.navigate('Login')
@@ -239,7 +238,7 @@ class ProspectosScreen extends React.Component {
 
 					<Button style = {{ backgroundColor: gold }}
 						onPress={() => {
-							this.props.navigation.navigate('NovoProspecto')
+							this.props.navigation.navigate('Prospecto')
 							this.setState( state => ({ active: state.active = false}))
 						}}
 					>

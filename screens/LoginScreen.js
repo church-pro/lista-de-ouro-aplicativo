@@ -11,6 +11,10 @@ import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {
 
+	static navigationOptions = {
+		headerTintColor: white,
+	}
+
 	state = {
 		email: '',
 		senha: '',
@@ -93,7 +97,11 @@ class LoginScreen extends React.Component {
 				</View>
 
 			<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
-				<Text style={styles.textButton}>Sincronizar</Text>
+				<Text style={styles.textButton}>Logar</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity style={styles.button} onPress={() => alert('Novo Cadastro')}>
+				<Text style={styles.textButton}>Cadastro</Text>
 			</TouchableOpacity>
 
 		</View>

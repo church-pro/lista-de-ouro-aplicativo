@@ -43,10 +43,35 @@ class ImportarProspectosScreen extends React.Component {
 									contatoNovo.nome = contato.name
 									contatoNovo.rating = null
 									contatoNovo.email = null
+									contatoNovo.online = false
 									let contador = 1
-									contato.phoneNumbers.map(telefone => {
+									contato.phoneNumbers.map(item => {
 										if(contador === 1){
-											contatoNovo.telefone = telefone.number
+											let ddd = 61
+											let telefoneTexto = item.number.toString()
+											telefoneTexto = telefoneTexto.replace('-', '')
+											telefoneTexto = telefoneTexto.replace(' ', '')
+											telefoneTexto = telefoneTexto.replace('+', '')
+											let telefone = telefoneTexto
+											const tamanhoDoNumero = telefoneTexto.length
+											if(tamanhoDoNumero > 9){
+												telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
+												if(parseInt(telefone.substr(0, 1)) !== 9){
+													telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
+												}
+											}
+											if(tamanhoDoNumero >= 11){
+												let valorParaReduzir = 11
+												if(parseInt(telefoneTexto.substr(0, 1)) === 0){
+													valorParaReduzir = 10
+												}
+												ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
+												if(parseInt(ddd).toString().length !== 2){
+													ddd = '61'
+												}
+											}
+											contatoNovo.ddd = ddd
+											contatoNovo.telefone = telefone
 											contatosParaSelecionar.push(contatoNovo)
 											contador++
 										}
@@ -55,7 +80,7 @@ class ImportarProspectosScreen extends React.Component {
 							})
 							if(contatosParaSelecionar.length){
 								this.setState({
-									contatosParaSelecionar: contatosParaSelecionar,
+									contatosParaSelecionar,
 									carregando: false
 								})
 							}
@@ -65,7 +90,9 @@ class ImportarProspectosScreen extends React.Component {
 	}	
 
 	selecionarContato(indice){
-		let {contatosParaSelecionar} = this.state
+		let {
+			contatosParaSelecionar,
+		} = this.state
 		let contatoDoIndice = contatosParaSelecionar[indice]
 		contatoDoIndice.selecionado = !contatoDoIndice.selecionado
 		contatosParaSelecionar[indice] = contatoDoIndice
@@ -111,13 +138,14 @@ class ImportarProspectosScreen extends React.Component {
 											color: gold,
 										}
 									}
+									const dddTelefone = `(${contato.ddd}) ${contato.telefone}`
 									return <ListItem 
 										containerStyle={{backgroundColor: lightdark}}
 										titleStyle={{color: white}}
 										subtitleStyle={{color: gray}}
 										key={contato.id} 
 										title={contato.nome}
-										subtitle={contato.telefone}
+										subtitle={dddTelefone}
 										rightIcon={iconeDoBotao}
 										onPress={()=>{this.selecionarContato(indice)}}
 									/>})

@@ -106,8 +106,15 @@ export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => {
 		}
 	}
 	submeterHistoricos([historico])
-	modificarProspecto(prospecto)
-		.then(prospecto => dispatch(alterarProspecto(prospecto)))
+
+	if(prospecto.novo){
+		delete prospecto.novo
+		submeterProspectos([prospecto])
+			.then(prospectos => dispatch(adicionarProspectos(prospectos)))
+	}else{
+		modificarProspecto(prospecto)
+			.then(prospecto => dispatch(alterarProspecto(prospecto)))
+	}
 }
 
 export const pegarUsuarioNoAsyncStorage = () => dispatch => {

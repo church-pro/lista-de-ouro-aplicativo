@@ -80,7 +80,7 @@ class Prospecto extends React.Component {
 					</View>
 
 					<View style={styles.content}>
-						<Text style={[styles.text, style = { marginTop: 5 }]}>{prospecto.telefone}</Text>
+						<Text style={[styles.text, style = { marginTop: 5 }]}>({prospecto.ddd}) {prospecto.telefone}</Text>
 					</View>
 				</View>
 
@@ -88,6 +88,13 @@ class Prospecto extends React.Component {
 					{
 						prospecto.situacao_id === SITUACAO_QUALIFICAR &&
 						<View style={styles.footerQualificar}>
+							<Icon
+								name='pencil'
+								type='font-awesome'
+								color={lightdark}
+								onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto.id }) }}
+							/>
+						
 							<Icon
 								name='trash'
 								type='font-awesome'
@@ -134,34 +141,33 @@ class Prospecto extends React.Component {
 					}
 					{
 						prospecto.situacao_id === SITUACAO_APRESENTAR &&
-						<View style={styles.footerAPN}>
-							<View style={{ flexDirection: 'row' }}>
-								<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
-								<TouchableOpacity
-									style={styles.button}
-									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
-								>
-									<Text style={styles.textButton}>Sim</Text>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={[styles.button, { marginLeft: 5 }]}
-									onPress={() => {
-										{
-											Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
-												[
-													{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
-													{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) } },
-													{ text: 'Cancelar' },
-												])
+							<View style={styles.footerAPN}>
+								<View style={{ flexDirection: 'row' }}>
+									<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
+									<TouchableOpacity
+										style={styles.button}
+										onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
+									>
+										<Text style={styles.textButton}>Sim</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={[styles.button, { marginLeft: 5 }]}
+										onPress={() => {
+											{
+												Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
+													[
+														{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
+														{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) } },
+														{ text: 'Cancelar' },
+													])
+											}
 										}
-									}
-									}
-								// navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) }}
-								>
-									<Text style={styles.textButton}>Não</Text>
-								</TouchableOpacity>
+										}
+									>
+										<Text style={styles.textButton}>Não</Text>
+									</TouchableOpacity>
+								</View>
 							</View>
-						</View>
 					}
 					{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
 
