@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "lista-de-ouro",
+    "name": "Lista de Ouro",
     "description": "A very interesting project.",
     "slug": "lista-de-ouro",
     "privacy": "public",
@@ -12,7 +12,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#06090E"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

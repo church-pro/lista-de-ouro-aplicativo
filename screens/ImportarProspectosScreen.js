@@ -159,7 +159,7 @@ class ImportarProspectosScreen extends React.Component {
 							<TouchableOpacity style={styles.buttonImport}
 								onPress={()=>{this.adicionarContatos()}}
 							>
-							<Text style={[styles.textButton, {fontSize: 17, fontWeight: "bold"}]}>Importar</Text>
+							<Text style={styles.textButtonImport}>Importar</Text>
 							</TouchableOpacity>
 						</View>
 				}

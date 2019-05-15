@@ -101,17 +101,39 @@ const styles = StyleSheet.create({
         color: white
     },
     buttonImport:{
+        backgroundColor: gold,
         borderWidth: 0,
         justifyContent: 'center',
         alignSelf: 'center',
         width: '100%',
         height:'100%',
     },
+    textButtonImport: {
+        textAlign: 'center',
+        color: dark,
+        fontSize: 17, 
+        fontWeight: "bold"
+    },
 
     //SIDE MENU
     sideMenu: {
         flex: 1,
         alignItems: 'flex-start',
+        backgroundColor: dark,
+    },
+    imgLogo: {
+        height: 85,
+        width: 90,
+        marginBottom: 20,
+        marginLeft: 20,
+        marginTop: 50,
+    },
+    textMenu: {
+        color: white,
+        fontSize: 36,
+        fontWeight: '200',
+        paddingVertical: 30,
+        marginLeft: 20
     },
 
 })

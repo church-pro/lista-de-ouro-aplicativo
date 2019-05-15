@@ -9,6 +9,8 @@ import {
 	NetInfo,
 } from 'react-native';
 import { Icon, Card, CheckBox } from 'react-native-elements'
+import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
+import SideBar from '../components/SideBar'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
 import { white, gold, dark, lightdark } from '../helpers/colors'
@@ -23,7 +25,6 @@ import {
 	SITUACAO_REMOVIDO, 
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
-import { Fab, Button } from 'native-base';
 import { 
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
@@ -45,6 +46,13 @@ class ProspectosScreen extends React.Component {
 		active: false,
 		sincronizando: false,
 	}
+
+	closeDrawer = () => {
+		this.drawer._root.close()
+	};
+	openDrawer = () => {
+		this.drawer._root.open()
+	};
 
 	componentDidMount(){
 		this.props.navigation.setParams({
@@ -347,6 +355,28 @@ class ProspectosScreen extends React.Component {
 		}
 
 		return (
+			<Drawer
+                    ref={(ref) => { this.drawer = ref; }}
+                    content={<SideBar navigator={this.navigator} />}
+                    onClose={() => this.closeDrawer()}
+			>
+
+			<Header style={{backgroundColor: dark, borderBottomWidth: 0}} iosBarStyle="light-content">
+				<Left>
+					<Button transparent style={{paddingHorizontal: 15}}  onPress={() => this.openDrawer()}>
+						<Icon type="font-awesome" name="bars" color={white}/>
+					</Button>
+				</Left>
+				<Body>
+					<Title style={{ color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
+				</Body>
+				<Right>
+					<Button transparent style={{padding: 0, margin: 0}} onPress={() => this.sincronizar()}>
+						<Icon name='retweet' type='font-awesome' color={white} />
+					</Button>
+				</Right>
+			</Header>
+
 			<View style={{flex: 1, backgroundColor: lightdark}}>
 
 				{
@@ -449,6 +479,7 @@ class ProspectosScreen extends React.Component {
 						</Card>
 				}
 			</View>
+			</Drawer>
 		)
 	}
 }

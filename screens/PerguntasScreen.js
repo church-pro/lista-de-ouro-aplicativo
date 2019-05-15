@@ -30,7 +30,7 @@ class PerguntasScreen extends React.Component {
 		const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 		prospecto.situacao_id = SITUACAO_FECHAMENTO
 		alterarProspectoNoAsyncStorage(prospecto)
-		Alert.alert('Sucesso', 'Prospecto fechou!')
+		Alert.alert('Sucesso', 'Prospecto pagou!')
 		navigation.goBack()
 	}
 
@@ -82,7 +82,7 @@ class PerguntasScreen extends React.Component {
 						<Card containerStyle={{backgroundColor: dark, borderColor: gold}}>
 							<Text style={{color: white, textAlign: 'center', 
 							fontWeight: 'bold', paddingBottom: 8}}>
-								O prospecto fechou?
+								O prospecto pagou?
 							</Text>
 							<View style={{flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center'}}>
 								<CheckBox
@@ -120,9 +120,9 @@ class PerguntasScreen extends React.Component {
 				{
 					foiFeitoOPreCadastro && foiFechado &&
 						<Button 
-							title='Prospecto fez fechamento'
+							title='Prospecto pagou'
 							buttonStyle={{backgroundColor: gold, height: 50, margin: 15}}
-							textStyle={{color: white,}}
+							titleStyle={{color: dark}}
 							onPress={() => { this.alterarProspecto() }} 
 						/>
 				}
@@ -130,8 +130,9 @@ class PerguntasScreen extends React.Component {
 					foiFeitoOPreCadastro && !foiFechado && naoFoiFechado &&
 						<Button 
 							title='Remarcar'
-							buttonStyle={{backgroundColor: dark, height: 50, margin: 15}}
-							textStyle={{color: white,}}
+							buttonStyle={{backgroundColor: gold, height: 50, margin: 15}}
+							titleStyle={{color: dark}}
+							
 							onPress={() => { navigation.navigate('MarcarDataEHora', {prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR,}) }} 
 						/>
 				}
