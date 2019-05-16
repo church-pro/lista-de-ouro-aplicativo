@@ -11,7 +11,7 @@ import { gray } from './helpers/colors'
 
 const logger = store => next => action => { 
 	console.group(action.type)
-console.info('DESPACHANDO ACAO: ', action)
+	console.info('DESPACHANDO ACAO: ', action)
 	let resultado = next(action)
 	console.log('PROXIMO STORE: ', store.getState())
 	console.groupEnd(action.type)
@@ -45,7 +45,7 @@ export default class App extends React.Component {
 		} else {
 			return (
 				<View style={styles.container}>
-
+					<BarraDeEstado barStyle='light-content' />
 					<Provider store={store}>
 						<AppNavigator />
 					</Provider>
@@ -57,13 +57,10 @@ export default class App extends React.Component {
 
 	_loadResourcesAsync = async () => {
 		return Promise.all([
-			Asset.loadAsync([
-				require('./assets/images/robot-dev.png'),
-				require('./assets/images/robot-prod.png'),
-			]),
 			Font.loadAsync({
+				Roboto: require('native-base/Fonts/Roboto.ttf'),
+				Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
 				...Icon.Ionicons.font,
-				'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
 			}),
 		]);
 	};

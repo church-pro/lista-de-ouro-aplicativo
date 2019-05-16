@@ -85,7 +85,7 @@ class QualificarProspectoScreen extends React.Component {
 
 				<View>
 					<Text style={{ textAlign: "center", fontSize: 27, color: white, paddingVertical: 50 }}>
-						{prospecto.nome}
+						{prospecto && prospecto.nome}
 					</Text>
 
 					<AirbnbRating

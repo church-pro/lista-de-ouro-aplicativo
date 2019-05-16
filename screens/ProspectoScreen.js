@@ -78,7 +78,7 @@ class ProspectoScreen extends React.Component {
 				prospecto = prospectoSelecionado	
 			}else{
 				prospecto.novo = true
-				prospecto.id = Date.now()
+				prospecto.id = Date.now() + ''
 				prospecto.rating = null
 				prospecto.online = false
 				prospecto.situacao_id = 1

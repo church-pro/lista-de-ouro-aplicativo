@@ -65,52 +65,6 @@ class ProspectosScreen extends React.Component {
 			.pegarUsuarioNoAsyncStorage()
 	}
 
-	static navigationOptions = ({ navigation }) => {
-		const { params = {} } = navigation.state
-		return {
-			title: LABEL_LISTA_DE_OURO,
-			headerTitleStyle: {
-				flex: 1,
-				textAlign: 'center',
-				alignSelf: 'center',
-				color: white,
-				fontWeight: '400'
-			},
-			headerRightContainerStyle:{
-				padding: 10,
-			},
-			headerRight: (
-				<Button
-					onPress={() => params.sincronizar()}
-					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-					>
-						<Icon
-							name='retweet'
-							type='font-awesome'
-							color={white}
-						/>
-					</Button>
-			),
-			headerLeftContainerStyle:{
-				padding: 10,
-			},
-			headerLeft: (
-				<Button
-					onPress={() => alert('Incluir sidemenu')}
-					style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-						backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center', borderWidth: 0}}
-					>
-						<Icon
-							name='bars'
-							type='font-awesome'
-							color={white}
-						/>
-					</Button>
-			),
-		}
-	}
-
 	novoProspecto = () => {
 		this.props.navigation.navigate('NovoProspecto')
 		this.setState( state => ({ active: state.active = false}))
@@ -213,6 +167,12 @@ class ProspectosScreen extends React.Component {
 		}
 	}
 
+	static navigationOptions = () => {
+		return {
+			header: null,
+		}
+	}
+
 	render() {
 		const { 
 			prospectos, 
@@ -244,17 +204,17 @@ class ProspectosScreen extends React.Component {
 					>
 						<Icon name = "user" type='font-awesome' color={dark} />
 
-					<Button style = {{ backgroundColor: gold }}
-						onPress={() => {
-							this.props.navigation.navigate('Prospecto')
-							this.setState( state => ({ active: state.active = false}))
-						}}
-					>
-					<Icon 
-						name='add' 
-						color={dark}
-					/>
-					</Button>
+						<Button style = {{ backgroundColor: gold }}
+							onPress={() => {
+								this.props.navigation.navigate('Prospecto')
+								this.setState( state => ({ active: state.active = false}))
+							}}
+						>
+							<Icon 
+								name='add' 
+								color={dark}
+							/>
+						</Button>
 					<Button style = {{ backgroundColor: gold }}
 						onPress={() => {
 							this.props.navigation.navigate('ImportarProspectos')
@@ -262,13 +222,13 @@ class ProspectosScreen extends React.Component {
 						}}
 					>
 						<Icon 
-						name='address-book' 
-						type='font-awesome' 
-						color={dark}
-					/>
+							name='address-book' 
+							type='font-awesome' 
+							color={dark}
+						/>
 					</Button>
-					</Fab>
-			</View>
+			</Fab>
+	</View>
 			)
 			const ListaDeProspectosConvidar = (props) => (
 				<ListaDeProspectos 
@@ -368,7 +328,7 @@ class ProspectosScreen extends React.Component {
 					</Button>
 				</Left>
 				<Body>
-					<Title style={{ color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
+					<Title style={{textAlign: 'center', alignSelf: 'center', color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
 				</Body>
 				<Right>
 					<Button transparent style={{padding: 0, margin: 0}} onPress={() => this.sincronizar()}>
