@@ -146,6 +146,7 @@ class ProspectoScreen extends React.Component {
                         placeholder=""
                         placeholderTextColor={'#ddd'}
                         label="DDD"
+                        maxLength={2}
                         inputStyle={{ color: white, marginLeft: 5 }}
                         labelStyle={{ marginTop: 16 }}
                         leftIcon={
