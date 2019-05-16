@@ -100,11 +100,11 @@ class LoginScreen extends React.Component {
 				<Text style={styles.textButton}>Logar</Text>
 			</TouchableOpacity>
 
-			<TouchableOpacity style={styles.button} onPress={() => alert('Novo Cadastro')}>
-				<Text style={styles.textButton}>Cadastro</Text>
-			</TouchableOpacity>
+		<TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Registro')}>
+			<Text style={styles.textButton}>Registrar</Text>
+		</TouchableOpacity>
 
-		</View>
+	</View>
 		)
 	}
 }

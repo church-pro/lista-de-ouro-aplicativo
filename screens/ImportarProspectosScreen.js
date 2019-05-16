@@ -52,6 +52,8 @@ class ImportarProspectosScreen extends React.Component {
 											telefoneTexto = telefoneTexto.replace('-', '')
 											telefoneTexto = telefoneTexto.replace(' ', '')
 											telefoneTexto = telefoneTexto.replace('+', '')
+											telefoneTexto = telefoneTexto.replace('(', '')
+											telefoneTexto = telefoneTexto.replace(')', '')
 											let telefone = telefoneTexto
 											const tamanhoDoNumero = telefoneTexto.length
 											if(tamanhoDoNumero > 9){

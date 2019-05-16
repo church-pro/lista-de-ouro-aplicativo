@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '012'
+const versaoBanco = '015'
 const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos' + versaoBanco
 const CHAVE_HISTORICO = 'ListaDeOuro:historico' + versaoBanco
 const CHAVE_USUARIO = 'ListaDeOuro:usuario' + versaoBanco
@@ -13,6 +13,18 @@ const headers = {
 
 export const teste = () => 
 	fetch(`${api}/`)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const registrarNaAPI = (dados) =>
+	fetch(
+		`${api}/no/registrar`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
 		.then(resultado => resultado.json())
 		.then(json => json)
 
