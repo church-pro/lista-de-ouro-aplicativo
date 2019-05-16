@@ -49,7 +49,7 @@ class Prospecto extends React.Component {
 	}
 	whatsapp() {
 		const { prospecto } = this.props
-		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.telefone}`).catch((err) => console.error(err))
+		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
 
 	render() {
