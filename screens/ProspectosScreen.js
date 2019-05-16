@@ -321,19 +321,23 @@ class ProspectosScreen extends React.Component {
                     onClose={() => this.closeDrawer()}
 			>
 
-			<Header style={{backgroundColor: dark, borderBottomWidth: 0}} iosBarStyle="light-content">
-				<Left>
-					<Button transparent style={{paddingHorizontal: 15}}  onPress={() => this.openDrawer()}>
+			<Header  style={{backgroundColor: dark, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
+				<Left style={{flex: 0}}>
+					<TouchableOpacity 
+						style={{backgroundColor: 'transparent', margin: 0, borderWidth: 0}}
+						onPress={() => this.openDrawer()}>
 						<Icon type="font-awesome" name="bars" color={white}/>
-					</Button>
+					</TouchableOpacity>
 				</Left>
-				<Body>
-					<Title style={{textAlign: 'center', alignSelf: 'center', color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
+				<Body style={{flex: 1}}>
+					<Title style={{textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
 				</Body>
-				<Right>
-					<Button transparent style={{padding: 0, margin: 0}} onPress={() => this.sincronizar()}>
+				<Right style={{flex: 0}}>
+					<TouchableOpacity 
+						style={{backgroundColor: 'transparent', borderWidth: 0}}
+						onPress={() => this.sincronizar()}>
 						<Icon name='retweet' type='font-awesome' color={white} />
-					</Button>
+					</TouchableOpacity>
 				</Right>
 			</Header>
 
