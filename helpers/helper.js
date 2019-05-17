@@ -53,12 +53,11 @@ export const scheduleNotification = async () => {
 			time: new Date().getTime() + 5000,
 		},
 	).then(resultado => console.log('notificacao', resultado))
-	console.log(notificationId);
 }
 
 export const cancelarTodasNotificacoes = () => {
-	Notifications.dismissAllNotificationsAsync() 
-	console.log('cancelando todas notificacoes')
+	Notifications.cancelAllScheduledNotificationsAsync() 
+		.then(resultado => console.log('cancelarTodasNotificacoes: ', resultado))
 }
 
 export function pegarDataEHoraAtual(){
