@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { 
+import {
 	Alert,
 	Text,
 	View,
@@ -49,54 +49,54 @@ class RegistroScreen extends React.Component {
 		let camposComErro = ''
 		let mostrarMensagemDeErro = false
 
-		if(nome === ''){
+		if (nome === '') {
 			mostrarMensagemDeErro = true
-			if(camposComErro === ''){
+			if (camposComErro === '') {
 				camposComErro = 'Nome'
 			}
 		}
 
-		if(ddd === '' || ddd.length !== 2){
+		if (ddd === '' || ddd.length !== 2) {
 			mostrarMensagemDeErro = true
-			if(camposComErro !== ''){
+			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'DDD'
 		}
 
-		if(telefone === '' || telefone.length !== 9){
+		if (telefone === '' || telefone.length !== 9) {
 			mostrarMensagemDeErro = true
-			if(camposComErro !== ''){
+			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'Telefone'
 		}
 
-		if(email === ''){
+		if (email === '') {
 			mostrarMensagemDeErro = true
-			if(camposComErro !== ''){
+			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'Email'
 		}
 
-		if(senha === ''){
+		if (senha === '') {
 			mostrarMensagemDeErro = true
-			if(camposComErro !== ''){
+			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'Senha'
 		}
 
-		if(mostrarMensagemDeErro){
+		if (mostrarMensagemDeErro) {
 			Alert.alert('Erro', `Campos invalidos: ${camposComErro}`)
-		}else{
-			try{
+		} else {
+			try {
 				NetInfo.isConnected
 					.fetch()
 					.then(isConnected => {
-						if(isConnected){
-							this.setState({carregando: true})
+						if (isConnected) {
+							this.setState({ carregando: true })
 							const dados = {
 								nome,
 								ddd,
@@ -106,8 +106,8 @@ class RegistroScreen extends React.Component {
 							}
 							registrarNaAPI(dados)
 								.then(resposta => {
-									this.setState({carregando: false})
-									if(resposta.ok){
+									this.setState({ carregando: false })
+									if (resposta.ok) {
 										const usuario = {
 											email,
 											senha,
@@ -115,16 +115,16 @@ class RegistroScreen extends React.Component {
 										this.props.alterarUsuarioNoAsyncStorage(usuario)
 										Alert.alert('Registro', 'Registrado com sucesso!')
 										this.props.navigation.navigate('Prospectos')
-									}else{
+									} else {
 										Alert.alert('Aviso', resposta.menssagem)
 									}
 								})
 								.catch(error => console.log('error: ', error))
-						}else{
+						} else {
 							Alert.alert('Internet', 'Verifique sua internet!')
 						}
 					})
-			} catch(err) {
+			} catch (err) {
 				Alert.alert('Error', err)
 			}
 		}
@@ -140,12 +140,14 @@ class RegistroScreen extends React.Component {
 			senha,
 		} = this.state
 		return (
-			<View style={styles.container}>
+			<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+
+			{/* <View style={styles.container}> */}
 
 				{
-					carregando && 
-					<View style={{flex: 1, justifyContent: 'center'}}>
-						<ActivityIndicator 
+					carregando &&
+					<View style={{ flex: 1, justifyContent: 'center' }}>
+						<ActivityIndicator
 							size="large"
 							color={gold}
 						/>
@@ -153,12 +155,12 @@ class RegistroScreen extends React.Component {
 				}
 
 				{
-					!carregando && 
+					!carregando &&
 					<View>
 						<View style={styles.containerLogin}>
 							<View>
 								<View style={{ flexDirection: 'row' }}>
-									<Icon name='envelope' type='FontAwesome'
+									<Icon name='user' type='FontAwesome'
 										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
 									/>
 									<Text style={{ color: gold }}>Nome</Text>
@@ -169,47 +171,50 @@ class RegistroScreen extends React.Component {
 									placeholderTextColor="#d3d3d3"
 									selectionColor="#fff"
 									value={nome}
-									onChangeText={texto => this.setState({nome:texto})}
+									onChangeText={texto => this.setState({ nome: texto })}
 								/>
 							</View>
 
-							<View>
-								<View style={{ flexDirection: 'row' }}>
-									<Icon name='envelope' type='FontAwesome'
-										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+							<View style={{ marginTop: 8, flexDirection: "row" }}>
+								<View style={{width: 50, marginRight: 10}}>
+									<View style={{ flexDirection: 'row' }}>
+										<Icon name='phone' type='FontAwesome'
+											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+										/>
+										<Text style={{ color: gold }}>DDD</Text>
+									</View>
+									<TextInput style={[styles.inputText, style={textAlign: 'center'}]}
+										keyboardAppearance='dark'
+										autoCapitalize="none"
+										maxLength={2}
+										placeholderTextColor="#d3d3d3"
+										selectionColor="#fff"
+										keyboardType='phone-pad'
+										value={ddd}
+										onChangeText={texto => this.setState({ ddd: texto })}
 									/>
-									<Text style={{ color: gold }}>DDD</Text>
 								</View>
-								<TextInput style={styles.inputText}
-									keyboardAppearance='dark'
-									autoCapitalize="none"
-									placeholderTextColor="#d3d3d3"
-									selectionColor="#fff"
-									keyboardType='phone-pad'
-									value={ddd}
-									onChangeText={texto => this.setState({ddd:texto})}
-								/>
-							</View>
 
-							<View>
-								<View style={{ flexDirection: 'row' }}>
-									<Icon name='envelope' type='FontAwesome'
-										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+								<View style={{flex:1}}>
+									<View style={{ flexDirection: 'row' }}>
+										{/* <Icon name='phone' type='FontAwesome'
+											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+										/> */}
+										<Text style={{ color: gold }}>Telefone</Text>
+									</View>
+									<TextInput style={styles.inputText}
+										keyboardAppearance='dark'
+										autoCapitalize="none"
+										placeholderTextColor="#d3d3d3"
+										selectionColor="#fff"
+										keyboardType='phone-pad'
+										value={telefone}
+										onChangeText={texto => this.setState({ telefone: texto })}
 									/>
-									<Text style={{ color: gold }}>Telefone</Text>
 								</View>
-								<TextInput style={styles.inputText}
-									keyboardAppearance='dark'
-									autoCapitalize="none"
-									placeholderTextColor="#d3d3d3"
-									selectionColor="#fff"
-									keyboardType='phone-pad'
-									value={telefone}
-									onChangeText={texto => this.setState({telefone:texto})}
-								/>
 							</View>
 
-							<View>
+							<View style={{ marginTop: 8 }}>
 								<View style={{ flexDirection: 'row' }}>
 									<Icon name='envelope' type='FontAwesome'
 										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
@@ -223,10 +228,11 @@ class RegistroScreen extends React.Component {
 									selectionColor="#fff"
 									keyboardType="email-address"
 									value={email}
-									onChangeText={texto => this.setState({email:texto})}
+									onChangeText={texto => this.setState({ email: texto })}
 								/>
 							</View>
-							<View style={{ marginTop: 18 }}>
+
+							<View style={{ marginTop: 8 }}>
 								<View style={{ flexDirection: 'row' }}>
 									<Icon name='lock' type='FontAwesome'
 										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
@@ -241,19 +247,21 @@ class RegistroScreen extends React.Component {
 									keyboardType='default'
 									secureTextEntry={true}
 									value={senha}
-									onChangeText={texto => this.setState({senha:texto})}
+									onChangeText={texto => this.setState({ senha: texto })}
 								/>
 							</View>
 
 						</View>
-					<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
-						<Text style={styles.textButton}>Registrar</Text>
-					</TouchableOpacity>
+						<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
+							<Text style={styles.textButton}>Registrar</Text>
+						</TouchableOpacity>
 
-				</View>
+					</View>
 				}
 
-			</View>
+			{/* </View> */}
+					</KeyboardAvoidingView>
+
 		)
 	}
 }
@@ -267,46 +275,46 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(null, mapDispatchToProps)(RegistroScreen)
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: dark,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-    },
-    logo: {
-        alignSelf: 'center',
-        width: 205,
-        height: 120,
-    },
-    containerLogin: {
-        height: 300,
-        margin: 12,
-        backgroundColor: lightdark,
-        borderRadius: 10,
-        justifyContent: 'center',
-        padding: 14,
-    },
-    inputText: {
-        paddingVertical: 5,
-        fontSize: 16,
-        color: white,
-        borderRadius: 6,
-        fontWeight: '400',
-        borderBottomWidth: 1,
-        borderBottomColor: white,
+	container: {
+		flex: 1,
+		backgroundColor: dark,
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+	},
+	logo: {
+		alignSelf: 'center',
+		width: 205,
+		height: 120,
+	},
+	containerLogin: {
+		height: 280,
+		margin: 12,
+		backgroundColor: lightdark,
+		borderRadius: 10,
+		justifyContent: 'center',
+		padding: 14,
+	},
+	inputText: {
+		paddingVertical: 5,
+		fontSize: 16,
+		color: white,
+		borderRadius: 6,
+		fontWeight: '400',
+		borderBottomWidth: 1,
+		borderBottomColor: white,
 
-    },
-    button: {
-        backgroundColor: gold,
-        height: 50,
-        borderRadius: 10,
-        justifyContent: 'center',
-        margin: 12,
-    },
-    textButton: {
-        fontSize: 16,
-        color: white,
-        textAlign: 'center',
-    }
+	},
+	button: {
+		backgroundColor: gold,
+		height: 50,
+		borderRadius: 10,
+		justifyContent: 'center',
+		margin: 12,
+	},
+	textButton: {
+		fontSize: 16,
+		color: white,
+		textAlign: 'center',
+	}
 })
 

@@ -103,12 +103,6 @@ class ProspectoScreen extends React.Component {
                 color: white,
             },
             headerTintColor: white,
-            headerLeftContainerStyle: {
-                padding: 10,
-            },
-            headerRightContainerStyle: {
-                padding: 10,
-            },
         }
     }
 

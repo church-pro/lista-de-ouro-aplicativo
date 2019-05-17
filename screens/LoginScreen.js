@@ -55,7 +55,9 @@ class LoginScreen extends React.Component {
 		} = this.state
 		const { goBack } = this.props.navigation;
 		return (
-			<View style={styles.container}>
+			<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+
+			{/* <View style={styles.container}> */}
 				<View>
 					<View style={{padding: 14}}>
 						<TouchableOpacity onPress={() => goBack()}>
@@ -103,6 +105,7 @@ class LoginScreen extends React.Component {
 						/>
 					</View>
 				</View>
+
 				<View>
 					<TouchableOpacity 
 						style={styles.button}
@@ -120,7 +123,9 @@ class LoginScreen extends React.Component {
 					</TouchableOpacity>
 				</View>
 
-			</View>
+			{/* </View> */}
+			</KeyboardAvoidingView>
+
 		)
 	}
 }
