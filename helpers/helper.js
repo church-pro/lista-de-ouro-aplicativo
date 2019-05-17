@@ -43,6 +43,25 @@ export const sendNotificationImmediately = async () => {
 	console.log(notificationId); // can be saved in AsyncStorage or send to server
 };
 
+export const scheduleNotification = async () => {
+	let notificationId = Notifications.scheduleLocalNotificationAsync(
+		{
+			title: "I'm Scheduled",
+			body: 'Wow, I can show up even when app is closed',
+		},
+		{
+			repeat: 'minute',
+			time: new Date().getTime() + 10000,
+		},
+	);
+	console.log(notificationId);
+}
+
+export const cancelarTodasNotificacoes = () => {
+	Notifications.dismissAllNotificationsAsync() 
+	console.log('cancelando todas notificacoes')
+}
+
 export function pegarDataEHoraAtual(){
 	let dados = []
 	const dataAtual = new Date()

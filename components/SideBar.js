@@ -8,6 +8,8 @@ import {
 } from '../actions'
 import {
 	sendNotificationImmediately,
+	scheduleNotification,
+	cancelarTodasNotificacoes,
 } from '../helpers/helper'
 
 class SideBar extends React.Component {
@@ -37,6 +39,23 @@ class SideBar extends React.Component {
                             Teste Notificação
                         </Text>
                     </Button>
+					<Button 
+						style={{ backgroundColor: 'transparent', height: 80 }}
+						onPress={() => scheduleNotification()}	
+					>
+						<Text style={styles.textMenu}>
+                            Notificacoes por minuto
+                        </Text>
+                    </Button>
+    					<Button 
+						style={{ backgroundColor: 'transparent', height: 80 }}
+						onPress={() => cancelarTodasNotificacoes()}	
+					>
+						<Text style={styles.textMenu}>
+                            Cancelar notificacoes
+                        </Text>
+                    </Button>
+    
      
 					<Button 
 						style={{ backgroundColor: 'transparent', height: 80 }}
