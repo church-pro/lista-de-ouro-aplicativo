@@ -46,13 +46,13 @@ export const sendNotificationImmediately = async () => {
 export const scheduleNotification = async () => {
 	let notificationId = Notifications.scheduleLocalNotificationAsync(
 		{
-			title: "I'm Scheduled",
-			body: 'Wow, I can show up even when app is closed',
+			title: "teste 5 segundos",
+			body: 'testando huahduhsaudhsa uashda',
 		},
 		{
 			time: new Date().getTime() + 5000,
 		},
-	);
+	).then(resultado => console.log('notificacao', resultado))
 	console.log(notificationId);
 }
 

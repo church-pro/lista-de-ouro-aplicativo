@@ -36,7 +36,7 @@ class SideBar extends React.Component {
 						onPress={() => sendNotificationImmediately()}	
 					>
 						<Text style={styles.textMenu}>
-                            Teste Notificação
+                            agora
                         </Text>
                     </Button>
 					<Button 
@@ -44,7 +44,7 @@ class SideBar extends React.Component {
 						onPress={() => scheduleNotification()}	
 					>
 						<Text style={styles.textMenu}>
-                            Notificacoes por minuto
+                            5 segundos 
                         </Text>
                     </Button>
     					<Button 
@@ -52,7 +52,7 @@ class SideBar extends React.Component {
 						onPress={() => cancelarTodasNotificacoes()}	
 					>
 						<Text style={styles.textMenu}>
-                            Cancelar notificacoes
+                            Cancelar 
                         </Text>
                     </Button>
     
