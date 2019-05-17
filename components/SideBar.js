@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { 
 	alterarUsuarioNoAsyncStorage,
 } from '../actions'
+import {
+	sendNotificationImmediately,
+} from '../helpers/helper'
 
 class SideBar extends React.Component {
 
@@ -26,6 +29,15 @@ class SideBar extends React.Component {
         return (
                 <View style={styles.sideMenu}>
                     <Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
+					<Button 
+						style={{ backgroundColor: 'transparent', height: 80 }}
+						onPress={() => sendNotificationImmediately()}	
+					>
+						<Text style={styles.textMenu}>
+                            Teste Notificação
+                        </Text>
+                    </Button>
+     
 					<Button 
 						style={{ backgroundColor: 'transparent', height: 80 }}
 						onPress={() => this.sair()}	

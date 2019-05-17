@@ -35,6 +35,14 @@ export function setarNotificacaoLocal(notificacao){
 		})
 }
 
+export const sendNotificationImmediately = async () => {
+	let notificationId = await Notifications.presentLocalNotificationAsync({
+		title: 'This is crazy',
+		body: 'Your mind will blow after reading this',
+	});
+	console.log(notificationId); // can be saved in AsyncStorage or send to server
+};
+
 export function pegarDataEHoraAtual(){
 	let dados = []
 	const dataAtual = new Date()
