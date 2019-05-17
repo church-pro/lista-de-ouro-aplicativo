@@ -50,8 +50,7 @@ export const scheduleNotification = async () => {
 			body: 'Wow, I can show up even when app is closed',
 		},
 		{
-			repeat: 'minute',
-			time: new Date().getTime() + 10000,
+			time: new Date().getTime() + 5000,
 		},
 	);
 	console.log(notificationId);
