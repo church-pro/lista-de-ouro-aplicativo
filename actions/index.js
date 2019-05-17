@@ -126,6 +126,9 @@ export const pegarUsuarioNoAsyncStorage = () => dispatch => {
 }
 
 export const alterarUsuarioNoAsyncStorage = (usuario) => dispatch => {
-	submeterUsuario(usuario)
-		.then(usuario => dispatch(alterarUsuario(usuario)))
+	return submeterUsuario(usuario)
+		.then(usuario => { 
+			dispatch(alterarUsuario(usuario))
+			return true
+		})
 }

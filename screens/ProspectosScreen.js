@@ -317,10 +317,9 @@ class ProspectosScreen extends React.Component {
 		return (
 			<Drawer
                     ref={(ref) => { this.drawer = ref; }}
-                    content={<SideBar navigator={this.navigator} />}
+					content={<SideBar closeDrawer={this.closeDrawer} navigator={this.navigator} />}
                     onClose={() => this.closeDrawer()}
 			>
-
 			<Header  style={{backgroundColor: dark, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
 				<Left style={{flex: 0}}>
 					<TouchableOpacity 
