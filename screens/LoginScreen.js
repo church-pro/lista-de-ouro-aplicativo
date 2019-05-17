@@ -44,7 +44,10 @@ class LoginScreen extends React.Component {
 				senha,
 			}
 			this.props.alterarUsuarioNoAsyncStorage(dados)
-			this.props.navigation.navigate('Prospectos')
+				.then(() => {
+					this.props.navigation.navigate('Prospectos')
+					this.props.navigation.state.params.sincronizar()
+				})
 		}
 	}
 
