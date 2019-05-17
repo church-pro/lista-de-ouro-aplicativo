@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Icon, Card, CheckBox } from 'react-native-elements'
 import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
+import ActionButton from 'react-native-action-button';
 import SideBar from '../components/SideBar'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
@@ -195,39 +196,23 @@ class ProspectosScreen extends React.Component {
 						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)} 
 						navigation={navigation} 
 					/>
-					<Fab 
-						direction="up" 
-						position="bottomRight" 
-						style={{ backgroundColor: gold }}
-						active={this.state.active}
-						onPress={() => this.setState({active: !this.state.active})}
-					>
-						<Icon name = "user" type='font-awesome' color={dark} />
 
-						<Button style = {{ backgroundColor: gold }}
+					 <ActionButton buttonColor={gold} buttonTextStyle={{color: dark}} spacing={15} offsetX={20} offsetY={20} >
+						<ActionButton.Item size={40} buttonColor={gold}  
 							onPress={() => {
 								this.props.navigation.navigate('Prospecto')
-								this.setState( state => ({ active: state.active = false}))
 							}}
 						>
-							<Icon 
-								name='add' 
-								color={dark}
-							/>
-						</Button>
-					<Button style = {{ backgroundColor: gold }}
-						onPress={() => {
-							this.props.navigation.navigate('ImportarProspectos')
-							this.setState( state => ({ active: state.active = false}))
-						}}
-					>
-						<Icon 
-							name='address-book' 
-							type='font-awesome' 
-							color={dark}
-						/>
-					</Button>
-			</Fab>
+							<Icon name='add' color={dark}/>
+						</ActionButton.Item>
+						<ActionButton.Item size={40} buttonColor={gold}  
+							onPress={() => {
+								this.props.navigation.navigate('ImportarProspectos')
+							}}>
+							<Icon name='address-book' type='font-awesome' color={dark}/>
+						</ActionButton.Item>
+					</ActionButton>
+					
 	</View>
 			)
 			const ListaDeProspectosConvidar = (props) => (
@@ -417,7 +402,7 @@ class ProspectosScreen extends React.Component {
 								{
 									this.state.quer && 
 									<TouchableOpacity
-										style={[styles.button, style={height: 40, borderRadius: 0}]}
+										style={[styles.button, style={height: 40, borderRadius: 0, backgroundColor: gold}]}
 										onPress={() => {this.marcarDataEHora()}}>
 										<Text style={styles.textButton}>Marcar Apresentação</Text>
 									</TouchableOpacity>
@@ -425,7 +410,7 @@ class ProspectosScreen extends React.Component {
 								{
 									this.state.naoQuer && 
 									<TouchableOpacity
-										style={[styles.button, style={height: 40, borderRadius: 0}]}
+										style={[styles.button, style={height: 40, borderRadius: 0, backgroundColor: gold}]}
 										onPress={() => {this.alterarProspecto('remover')}}>
 										<Text style={styles.textButton}>Remover</Text>
 									</TouchableOpacity>
@@ -433,7 +418,7 @@ class ProspectosScreen extends React.Component {
 								{
 									this.state.pendente && 
 									<TouchableOpacity
-										style={[styles.button, style={height: 40, borderRadius: 0}]}
+										style={[styles.button, style={height: 40, borderRadius: 0, backgroundColor: gold}]}
 										onPress={() => {this.alterarProspecto()}}>
 										<Text style={styles.textButton}>Deixar Pendente</Text>
 									</TouchableOpacity>
