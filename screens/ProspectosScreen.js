@@ -29,6 +29,7 @@ import styles from '../components/ProspectoStyle';
 import { 
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
+	alterarUsuarioNoAsyncStorage,
 	pegarProspectosNoAsyncStorage,
 	pegarUsuarioNoAsyncStorage,
 	adicionarProspectosAoAsyncStorage,
@@ -136,28 +137,43 @@ class ProspectosScreen extends React.Component {
 							usuario,
 							navigation,
 							adicionarProspectosAoAsyncStorage,
+							alterarUsuarioNoAsyncStorage,
 						} = this.props
 						if(usuario.email){
 							this.setState({carregando: true})
 							sincronizarNaAPI(usuario)
 								.then(retorno => {
-									if(retorno.resultado.prospectos){
-										const prospectosParaAdicionar = retorno.resultado.prospectos
-											.map(prospecto => {
-												prospecto.id = prospecto._id	
-												prospecto.rating = null
-												prospecto.situacao_id = 1
-												prospecto.online = true
-												delete prospecto._id
-												return prospecto
+									let alertTitulo = ''
+									let alertCorpo = ''
+									if(retorno.ok){
+										if(retorno.resultado.prospectos){
+											const prospectosParaAdicionar = retorno.resultado.prospectos
+												.map(prospecto => {
+													prospecto.id = prospecto._id	
+													prospecto.rating = null
+													prospecto.situacao_id = 1
+													prospecto.online = true
+													delete prospecto._id
+													return prospecto
+												})
+											adicionarProspectosAoAsyncStorage(prospectosParaAdicionar)
+										}
+										alertTitulo = 'Sincronização'
+										alertCorpo = 'Sincronizado com sucesso!'
+										this.setState({carregando: false})
+										Alert.alert(alertTitulo, alertCorpo)
+									}else{
+										alertTitulo = 'Aviso'
+										alertCorpo = 'Usuário/Senha não conferem!'
+										alterarUsuarioNoAsyncStorage({})
+											.then(() =>  {
+												this.setState({carregando: false})
+												Alert.alert(alertTitulo, alertCorpo)
 											})
-										adicionarProspectosAoAsyncStorage(prospectosParaAdicionar)
 									}
-									this.setState({carregando: false})
-									Alert.alert('Sincronização', 'Sincronizado com Sucesso!')
 								})
 						}else{
-							navigation.navigate('Login')
+							navigation.navigate('Login', {sincronizar: this.sincronizar})
 						}
 					}else{
 						Alert.alert('Internet', 'Verifique sua internet!')
@@ -444,6 +460,7 @@ function mapDispatchToProps(dispatch){
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		pegarProspectosNoAsyncStorage: () => dispatch(pegarProspectosNoAsyncStorage()),
 		pegarUsuarioNoAsyncStorage: () => dispatch(pegarUsuarioNoAsyncStorage()),
 		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
