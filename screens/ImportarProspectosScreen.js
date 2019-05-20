@@ -1,10 +1,12 @@
 import React from 'react';
 import {
+	Alert,
 	ScrollView,
 	TouchableOpacity,
 	Text,
 	View,
 	ActivityIndicator,
+	FlatList,
 } from 'react-native';
 import { List, ListItem, Button } from 'react-native-elements'
 import {connect} from 'react-redux'
@@ -16,6 +18,64 @@ import { white, gold, lightdark, gray, dark } from '../helpers/colors'
 import { SITUACAO_QUALIFICAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 
+class MyListItem extends React.PureComponent {
+	_onPress = () => {
+		this.props.onPressItem(this.props.id);
+	};
+
+	render() {
+		const textColor = this.props.selected ? 'red' : 'black';
+		return (
+			<TouchableOpacity onPress={this._onPress}>
+				<View>
+					<Text style={{color: textColor}}>{this.props.title}</Text>
+				</View>
+			</TouchableOpacity>
+		);
+	}
+}
+
+class MultiSelectList extends React.PureComponent {
+	state = {selected: (new Map(): Map<string, boolean>)};
+
+	componentDidMount(){
+		this.setState({selected: this.props.selected})
+	}
+
+	_keyExtractor = (item, index) => item.id;
+
+	_onPressItem = (id: string) => {
+		this.props._onPressItem(id)
+		// updater functions are preferred for transactional updates
+		this.setState((state) => {
+			// copy the map rather than modifying state.
+			const selected = new Map(state.selected);
+			selected.set(id, !selected.get(id)); // toggle
+			return {selected};
+		});
+	};
+
+	_renderItem = ({item}) => (
+		<MyListItem
+			id={item.id}
+			onPressItem={this._onPressItem}
+			selected={!!this.state.selected.get(item.id)}
+			title={item.title}
+		/>
+	);
+
+	render() {
+		return (
+			<FlatList
+				data={this.props.data}
+				extraData={this.state}
+				keyExtractor={this._keyExtractor}
+				renderItem={this._renderItem}
+			/>
+		);
+	}
+}
+
 class ImportarProspectosScreen extends React.Component {
 	static navigationOptions = {
 		title: 'Importar Prospectos',
@@ -25,7 +85,18 @@ class ImportarProspectosScreen extends React.Component {
 	state = {
 		carregando: true,
 		contatosParaSelecionar: null,
+		selected: (new Map(): Map<string, boolean>)
 	}
+
+	_onPressItem = (id: string) => {
+		// updater functions are preferred for transactional updates
+		this.setState((state) => {
+			// copy the map rather than modifying state.
+			const selected = new Map(state.selected);
+			selected.set(id, !selected.get(id)); // toggle
+			return {selected};
+		});
+	};
 
 	componentDidMount(){
 		let contatosParaSelecionar = []
@@ -74,6 +145,7 @@ class ImportarProspectosScreen extends React.Component {
 											}
 											contatoNovo.ddd = ddd
 											contatoNovo.telefone = telefone
+											contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
 											contatosParaSelecionar.push(contatoNovo)
 											contador++
 										}
@@ -102,15 +174,31 @@ class ImportarProspectosScreen extends React.Component {
 	}
 
 	adicionarContatos(){
-		const {contatosParaSelecionar} = this.state
-		const {adicionarProspectosAoAsyncStorage, navigation} = this.props
-		adicionarProspectosAoAsyncStorage(contatosParaSelecionar.filter(contato => contato.selecionado))
-		navigation.goBack()
+		const {
+			contatosParaSelecionar,
+			selected,		
+			carregando,
+		} = this.state
+		const {
+			adicionarProspectosAoAsyncStorage,
+			navigation,
+		} = this.props
+		this.setState({carregando:true})
+		adicionarProspectosAoAsyncStorage(
+			contatosParaSelecionar.filter(contato => selected.get(contato.id))
+		).then(() => {
+			this.setState({carregando:false})
+			Alert.alert('Importação', 'Importação concluida com sucesso!')
+			navigation.goBack()
+		})
 	}
 
 	render() {
 		const { carregando } = this.state
-		let { contatosParaSelecionar } = this.state
+		let { 
+			contatosParaSelecionar,
+			selected,
+		} = this.state
 
 		return (
 			<View style={styles.container}>
@@ -127,32 +215,12 @@ class ImportarProspectosScreen extends React.Component {
 
 				{
 					!carregando && contatosParaSelecionar && 
-					<ScrollView>
-							{
-								contatosParaSelecionar.map((contato, indice) => {
-									let iconeDoBotao = {
-										name: 'check',
-										color: gray,
-									}
-									if(contato.selecionado){
-										iconeDoBotao = {
-											name: 'check',
-											color: gold,
-										}
-									}
-									const dddTelefone = `(${contato.ddd}) ${contato.telefone}`
-									return <ListItem 
-										containerStyle={{backgroundColor: lightdark}}
-										titleStyle={{color: white}}
-										subtitleStyle={{color: gray}}
-										key={contato.id} 
-										title={contato.nome}
-										subtitle={dddTelefone}
-										rightIcon={iconeDoBotao}
-										onPress={()=>{this.selecionarContato(indice)}}
-									/>})
-							}
-					</ScrollView>
+					<MultiSelectList
+						data={contatosParaSelecionar}
+						selected={selected}
+						_onPressItem={this._onPressItem}
+					>
+					</MultiSelectList>
 				}
 
 				{

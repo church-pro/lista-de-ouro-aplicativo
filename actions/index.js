@@ -91,8 +91,11 @@ export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => {
 			return historico
 		})
 	submeterHistoricos(historicos)
-	submeterProspectos(prospectos)
-		.then(prospectos => dispatch(adicionarProspectos(prospectos)))
+	return submeterProspectos(prospectos)
+		.then(prospectos => {
+			dispatch(adicionarProspectos(prospectos))
+			return true
+		})
 }
 
 export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => {
