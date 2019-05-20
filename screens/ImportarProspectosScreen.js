@@ -8,7 +8,7 @@ import {
 	ActivityIndicator,
 	FlatList,
 } from 'react-native';
-import { List, ListItem, Button } from 'react-native-elements'
+import { List, ListItem, Button, Icon } from 'react-native-elements'
 import {connect} from 'react-redux'
 import {Permissions, Contacts} from 'expo' 
 import { 
@@ -24,11 +24,12 @@ class MyListItem extends React.PureComponent {
 	};
 
 	render() {
-		const textColor = this.props.selected ? 'red' : 'black';
+		const textColor = this.props.selected ? gold : white;
 		return (
-			<TouchableOpacity onPress={this._onPress}>
-				<View>
-					<Text style={{color: textColor}}>{this.props.title}</Text>
+			<TouchableOpacity style={{padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: lightdark}} onPress={this._onPress}>
+				<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+					<Text style={{color: white}}>{this.props.title}</Text>
+					<Icon name="check" color={textColor} />
 				</View>
 			</TouchableOpacity>
 		);

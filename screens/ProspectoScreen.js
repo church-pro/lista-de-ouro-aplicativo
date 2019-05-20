@@ -1,30 +1,32 @@
 import React from 'react';
 import {
-    KeyboardAvoidingView,
+	KeyboardAvoidingView,
 	Alert,
+	ScrollView,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Button, Card, Icon, Input } from 'react-native-elements'
 import { white, lightdark, dark, gold } from '../helpers/colors'
 import {
-	alterarProspectoNoAsyncStorage,	
+	alterarProspectoNoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
 
 class ProspectoScreen extends React.Component {
 
-    state = {
-        nome: '',
+	state = {
+		nome: '',
 		ddd: '',
-        telefone: '',
-        email: '',
-    }
+		telefone: '',
+		email: '',
+	}
 
 	componentDidMount = () => {
 		const {
 			prospectoSelecionado,
 		} = this.props
 
-		if(prospectoSelecionado){
+		if (prospectoSelecionado) {
 			this.setState({
 				nome: prospectoSelecionado.nome,
 				ddd: prospectoSelecionado.ddd,
@@ -47,36 +49,36 @@ class ProspectoScreen extends React.Component {
 
 		let camposComErro = ''
 		mostrarMensagemDeErro = false
-		if(nome === ''){
+		if (nome === '') {
 			mostrarMensagemDeErro = true
-			if(camposComErro === ''){
+			if (camposComErro === '') {
 				camposComErro = 'Nome'
 			}
 		}
 
-		if(ddd === '' || ddd.length !== 2){
+		if (ddd === '' || ddd.length !== 2) {
 			mostrarMensagemDeErro = true
-			if(camposComErro !== ''){
+			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'DDD'
 		}
 
-		if(telefone === '' || telefone.length !== 9){
+		if (telefone === '' || telefone.length !== 9) {
 			mostrarMensagemDeErro = true
-			if(camposComErro !== ''){
+			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'Telefone'
 		}
 
-		if(mostrarMensagemDeErro){
+		if (mostrarMensagemDeErro) {
 			Alert.alert('Erro', `Campos invalidos: ${camposComErro}`)
-		}else{
+		} else {
 			let prospecto = {}
-			if(prospectoSelecionado){
-				prospecto = prospectoSelecionado	
-			}else{
+			if (prospectoSelecionado) {
+				prospecto = prospectoSelecionado
+			} else {
 				prospecto.novo = true
 				prospecto.id = Date.now() + ''
 				prospecto.rating = null
@@ -92,128 +94,137 @@ class ProspectoScreen extends React.Component {
 		}
 	}
 
-    static navigationOptions = ({ navigation }) => {
-        const { params = {} } = navigation.state
-        return {
-            title: 'Novo Prospecto',
-            headerTitleStyle: {
-                flex: 1,
-                textAlign: 'center',
-                alignSelf: 'center',
-                color: white,
-            },
-            headerTintColor: white,
-        }
-    }
+	static navigationOptions = ({ navigation }) => {
+		const { params = {} } = navigation.state
+		return {
+			title: 'Novo Prospecto',
+			headerTitleStyle: {
+				flex: 1,
+				textAlign: 'center',
+				alignSelf: 'center',
+				color: white,
+			},
+			headerTintColor: white,
+		}
+	}
 
-    render() {
+	render() {
 		const {
 			nome,
 			ddd,
 			telefone,
 			email,
 		} = this.state
-        return (
-            <KeyboardAvoidingView style={{ flex: 1, backgroundColor: lightdark }} behavior="padding" enabled>
-                <Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
-                    <Input
-                        keyboardAppearance='dark'
-                        placeholder=""
-                        placeholderTextColor={'#ddd'}
-                        label="NOME"
-                        inputStyle={{ color: white, marginLeft: 5 }}
-                        labelStyle={{ marginTop: 5 }}
-                        leftIcon={
-                            <Icon
-                                name="user"
-                                type="font-awesome"
-                                color={gold}
-                                size={20}
-                            />
-                        }
+		return (
+
+			<KeyboardAwareScrollView style={{ flex: 1, backgroundColor: lightdark }}
+				style={{ backgroundColor: lightdark }}
+				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
+
+				{/* <ScrollView> */}
+				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
+					<Input
+						keyboardAppearance='dark'
+						placeholder=""
+						placeholderTextColor={'#ddd'}
+						autoCorrect={false}
+						label="NOME"
+						inputStyle={{ color: white, marginLeft: 5 }}
+						labelStyle={{ marginTop: 5 }}
+						leftIcon={
+							<Icon
+								name="user"
+								type="font-awesome"
+								color={gold}
+								size={20}
+							/>
+						}
 						value={nome}
-						onChangeText={texto => this.setState({nome:texto})}
+						onChangeText={texto => this.setState({ nome: texto })}
 					/>
-                    <Input
-                        keyboardType='phone-pad'
-                        keyboardAppearance='dark'
-                        placeholder=""
-                        placeholderTextColor={'#ddd'}
-                        label="DDD"
-                        maxLength={2}
-                        inputStyle={{ color: white, marginLeft: 5 }}
-                        labelStyle={{ marginTop: 16 }}
-                        leftIcon={
-                            <Icon
-                                name="phone"
-                                type="font-awesome"
-                                color={gold}
-                                size={20}
-                            />
-                        }
+					<Input
+						keyboardType='phone-pad'
+						keyboardAppearance='dark'
+						placeholder=""
+						placeholderTextColor={'#ddd'}
+						autoCorrect={false}
+						label="DDD"
+						maxLength={2}
+						inputStyle={{ color: white, marginLeft: 5 }}
+						labelStyle={{ marginTop: 16 }}
+						leftIcon={
+							<Icon
+								name="phone"
+								type="font-awesome"
+								color={gold}
+								size={20}
+							/>
+						}
 						value={ddd}
-						onChangeText={texto => this.setState({ddd:texto})}
-                    />
-                    <Input
-                        keyboardType='phone-pad'
-                        keyboardAppearance='dark'
-                        placeholder=""
-                        placeholderTextColor={'#ddd'}
-                        label="TELEFONE"
-                        inputStyle={{ color: white, marginLeft: 5 }}
-                        labelStyle={{ marginTop: 16 }}
-                        leftIcon={
-                            <Icon
-                                name="phone"
-                                type="font-awesome"
-                                color={gold}
-                                size={20}
-                            />
-                        }
+						onChangeText={texto => this.setState({ ddd: texto })}
+					/>
+					<Input
+						keyboardType='phone-pad'
+						keyboardAppearance='dark'
+						placeholder=""
+						placeholderTextColor={'#ddd'}
+						autoCorrect={false}
+						label="TELEFONE"
+						inputStyle={{ color: white, marginLeft: 5 }}
+						labelStyle={{ marginTop: 16 }}
+						leftIcon={
+							<Icon
+								name="phone"
+								type="font-awesome"
+								color={gold}
+								size={20}
+							/>
+						}
 						value={telefone}
-						onChangeText={texto => this.setState({telefone:texto})}
-                    />
-                    <Input
-                        keyboardType='email-address'
-                        keyboardAppearance='dark'
-                        placeholder=""
-                        placeholderTextColor={'#ddd'}
-                        label="EMAIL"
-                        inputStyle={{ color: white, marginLeft: 5 }}
-                        labelStyle={{ marginTop: 16 }}
-                        leftIcon={
-                            <Icon
-                                name="envelope"
-                                type="font-awesome"
-                                color={gold}
-                                size={20}
-                            />
-                        }
+						onChangeText={texto => this.setState({ telefone: texto })}
+					/>
+					<Input
+						keyboardType='email-address'
+						keyboardAppearance='dark'
+						placeholder=""
+						placeholderTextColor={'#ddd'}
+						autoCorrect={false}
+						label="EMAIL"
+						inputStyle={{ color: white, marginLeft: 5 }}
+						labelStyle={{ marginTop: 16 }}
+						leftIcon={
+							<Icon
+								name="envelope"
+								type="font-awesome"
+								color={gold}
+								size={20}
+							/>
+						}
 						value={email}
-						onChangeText={texto => this.setState({email:texto})}
-                    />
+						onChangeText={texto => this.setState({ email: texto })}
+					/>
 
-                </Card>
+				</Card>
 
-                <Button
-                    title='Salvar'
-                    buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
-                    textStyle={{ color: white, }}
-					onPress={()=>{this.ajudadorDeSubmissao()}}
+				<Button
+					title='Salvar'
+					buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
+					textStyle={{ color: white, }}
+					onPress={() => { this.ajudadorDeSubmissao() }}
 				/>
 
-            </KeyboardAvoidingView>
-        )
-    }
+			</KeyboardAwareScrollView>
+		)
+	}
 }
 
 const mapStateToProps = ({ prospectos }, { navigation }) => {
 	let prospectoSelecionado = null
 	let prospecto_id = null
-	if(navigation.state.params){
+	if (navigation.state.params) {
 		prospecto_id = navigation.state.params.prospecto_id
 	}
-	if(prospecto_id){
+	if (prospecto_id) {
 		prospectoSelecionado = prospectos.find(prospecto => prospecto.id === prospecto_id)
 	}
 	return {

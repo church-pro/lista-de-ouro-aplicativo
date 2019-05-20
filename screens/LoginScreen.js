@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Alert, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
 import logo from '../assets/images/logo-word.png'
 import { Icon } from 'native-base';
@@ -58,9 +59,12 @@ class LoginScreen extends React.Component {
 		} = this.state
 		const { goBack } = this.props.navigation;
 		return (
-			<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
-			{/* <View style={styles.container}> */}
+				<KeyboardAwareScrollView 
+				contentContainerStyle={styles.container}
+				style={{backgroundColor: dark}}
+			enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={30} >
+
 				<View>
 					<View style={{padding: 14}}>
 						<TouchableOpacity onPress={() => goBack()}>
@@ -127,8 +131,7 @@ class LoginScreen extends React.Component {
 				</View>
 
 			{/* </View> */}
-			</KeyboardAvoidingView>
-
+			</KeyboardAwareScrollView>
 		)
 	}
 }

@@ -11,6 +11,7 @@ import {
 	NetInfo,
 	ActivityIndicator,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
 import logo from '../assets/images/logo-word.png'
 import { Icon } from 'native-base';
@@ -140,9 +141,10 @@ class RegistroScreen extends React.Component {
 			senha,
 		} = this.state
 		return (
-			<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-
-			{/* <View style={styles.container}> */}
+			<KeyboardAwareScrollView
+				contentContainerStyle={styles.container}
+				style={{ backgroundColor: lightdark }}
+				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
 				{
 					carregando &&
@@ -176,14 +178,14 @@ class RegistroScreen extends React.Component {
 							</View>
 
 							<View style={{ marginTop: 8, flexDirection: "row" }}>
-								<View style={{width: 50, marginRight: 10}}>
+								<View style={{ width: 50, marginRight: 10 }}>
 									<View style={{ flexDirection: 'row' }}>
 										<Icon name='phone' type='FontAwesome'
 											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
 										/>
 										<Text style={{ color: gold }}>DDD</Text>
 									</View>
-									<TextInput style={[styles.inputText, style={textAlign: 'center'}]}
+									<TextInput style={[styles.inputText, style = { textAlign: 'center' }]}
 										keyboardAppearance='dark'
 										autoCapitalize="none"
 										maxLength={2}
@@ -195,7 +197,7 @@ class RegistroScreen extends React.Component {
 									/>
 								</View>
 
-								<View style={{flex:1}}>
+								<View style={{ flex: 1 }}>
 									<View style={{ flexDirection: 'row' }}>
 										{/* <Icon name='phone' type='FontAwesome'
 											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
@@ -259,8 +261,7 @@ class RegistroScreen extends React.Component {
 					</View>
 				}
 
-			{/* </View> */}
-					</KeyboardAvoidingView>
+			</KeyboardAwareScrollView>
 
 		)
 	}
@@ -277,7 +278,7 @@ export default connect(null, mapDispatchToProps)(RegistroScreen)
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: dark,
+		backgroundColor: lightdark,
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 	},
@@ -289,7 +290,7 @@ const styles = StyleSheet.create({
 	containerLogin: {
 		height: 280,
 		margin: 12,
-		backgroundColor: lightdark,
+		backgroundColor: dark,
 		borderRadius: 10,
 		justifyContent: 'center',
 		padding: 14,
