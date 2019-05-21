@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { Alert, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
@@ -60,15 +60,16 @@ class LoginScreen extends React.Component {
 		const { goBack } = this.props.navigation;
 		return (
 
-				<KeyboardAwareScrollView 
+			<KeyboardAwareScrollView
 				contentContainerStyle={styles.container}
-				style={{backgroundColor: dark}}
-			enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={30} >
+				style={{ backgroundColor: dark }}
+				enableOnAndroid enableAutomaticScroll={true}
+				extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
 				<View>
-					<View style={{padding: 14}}>
+					<View style={{ padding: 14 }}>
 						<TouchableOpacity onPress={() => goBack()}>
-							<Icon name="arrow-left" style={{color: white, fontSize: 22}} type='FontAwesome' />
+							<Icon name="arrow-left" style={{ color: white, fontSize: 22 }} type='FontAwesome' />
 						</TouchableOpacity>
 					</View>
 
@@ -114,7 +115,7 @@ class LoginScreen extends React.Component {
 				</View>
 
 				<View>
-					<TouchableOpacity 
+					<TouchableOpacity
 						style={styles.button}
 						onPress={() => this.ajudadorDeSubmissao()}>
 						<Text style={styles.textButton}>Logar</Text>
@@ -123,14 +124,14 @@ class LoginScreen extends React.Component {
 
 				<View style={styles.containerButton}>
 
-					<TouchableOpacity 
-						style={[styles.button, style={backgroundColor: 'transparent'}]}
+					<TouchableOpacity
+						style={[styles.button, style = { backgroundColor: 'transparent' }]}
 						onPress={() => this.props.navigation.navigate('Registro')}>
-						<Text style={[styles.textButton, style={color: white, fontWeight: '200'}]}>Crie sua conta</Text>
+						<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Crie sua conta</Text>
 					</TouchableOpacity>
 				</View>
 
-			{/* </View> */}
+				{/* </View> */}
 			</KeyboardAwareScrollView>
 		)
 	}
