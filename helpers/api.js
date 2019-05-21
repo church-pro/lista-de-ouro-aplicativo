@@ -1,12 +1,12 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '021'
+const versaoBanco = '022'
 const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos' + versaoBanco
 const CHAVE_HISTORICO = 'ListaDeOuro:historico' + versaoBanco
 const CHAVE_USUARIO = 'ListaDeOuro:usuario' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-api = 'https://secure-woodland-24244.herokuapp.com'
+//api = 'https://secure-woodland-24244.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }
@@ -19,6 +19,18 @@ export const teste = () =>
 export const registrarNaAPI = (dados) =>
 	fetch(
 		`${api}/no/registrar`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const logarNaApi = (dados) =>
+	fetch(
+		`${api}/no/logar`,
 		{
 			headers,
 			method: "POST",

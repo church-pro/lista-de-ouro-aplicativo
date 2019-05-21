@@ -149,7 +149,8 @@ class ProspectosScreen extends React.Component {
 							}
 							recuperarHistoricoNaoSincronizado()
 								.then(historicos => {
-									dados.historicos = historicos
+									//dados.historicos = historicos
+									dados.historicos = []
 
 									sincronizarNaAPI(dados)
 										.then(retorno => {
@@ -186,7 +187,7 @@ class ProspectosScreen extends React.Component {
 										.catch(err => console.log('err: ', err))
 								})
 						}else{
-							navigation.navigate('Login', {sincronizar: this.sincronizar})
+							navigation.navigate('Login')
 						}
 					}else{
 						Alert.alert('Internet', 'Verifique sua internet!')
@@ -328,7 +329,7 @@ class ProspectosScreen extends React.Component {
 		return (
 			<Drawer
 				ref={(ref) => { this.drawer = ref; }}
-				content={<SideBar closeDrawer={this.closeDrawer} navigator={this.navigator} />}
+				content={<SideBar closeDrawer={this.closeDrawer} navigation={this.props.navigation} />}
 				onClose={() => this.closeDrawer()}
 			>
 				<Header  style={{backgroundColor: dark, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
@@ -346,7 +347,7 @@ class ProspectosScreen extends React.Component {
 						<TouchableOpacity 
 							style={{backgroundColor: 'transparent', borderWidth: 0}}
 							onPress={() => this.sincronizar()}>
-							<Icon name='retweet' type='font-awesome' color={white} />
+							<Icon name='download' type='font-awesome' color={white} />
 						</TouchableOpacity>
 					</Right>
 				</Header>

@@ -23,6 +23,7 @@ class SideBar extends React.Component {
 		alterarUsuarioNoAsyncStorage(usuario)
 			.then(() => {
 				this.props.closeDrawer()
+				navigation.navigate('Login')
 				Alert.alert('Sair', 'Você deslogou!')
 			})
 	}

@@ -22,7 +22,7 @@ const ProspectosStack = createStackNavigator(
 		Registro: RegistroScreen,
 	}, 
 	{
-		initialRouteName: 'Prospectos',
+		initialRouteName: 'Login',
 		navigationOptions: {
 			headerStyle: {
 				backgroundColor: dark,

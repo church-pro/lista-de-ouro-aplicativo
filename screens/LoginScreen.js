@@ -1,13 +1,21 @@
 import React from 'react';
 import { StyleSheet, Platform } from 'react-native';
-import { Alert, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
+import { Alert, Text, View, Image, TextInput, 
+	KeyboardAvoidingView, 
+	TouchableOpacity,
+	ActivityIndicator
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
 import logo from '../assets/images/logo-word.png'
 import { Icon } from 'native-base';
 import {
 	alterarUsuarioNoAsyncStorage,
+	pegarUsuarioNoAsyncStorage,
 } from '../actions'
+import {
+	logarNaApi,
+} from '../helpers/api'
 import { connect } from 'react-redux'
 
 class LoginScreen extends React.Component {
@@ -18,8 +26,21 @@ class LoginScreen extends React.Component {
 	}
 
 	state = {
-		email: '',
-		senha: '',
+		email: 'falecomleonardopereira@gmail.com',
+		senha: '123',
+		carregando: false,
+	}
+
+	componentDidMount(){
+		this.setState({carregando:true})
+		this.props
+			.pegarUsuarioNoAsyncStorage()
+			.then(usuario => {
+				if(usuario.email && usuario.email !== ''){
+					this.props.navigation.navigate('Prospectos')
+				}
+				this.setState({carregando:false})
+			})
 	}
 
 	ajudadorDeSubmissao = () => {
@@ -40,14 +61,25 @@ class LoginScreen extends React.Component {
 		if (mostrarMensagemDeErro) {
 			Alert.alert('Erro', 'Campos invalidos')
 		} else {
+			this.setState({carregando:true})
 			const dados = {
 				email,
 				senha,
 			}
-			this.props.alterarUsuarioNoAsyncStorage(dados)
-				.then(() => {
-					this.props.navigation.navigate('Prospectos')
-					this.props.navigation.state.params.sincronizar()
+			logarNaApi(dados)
+				.then(retorno => {
+					if(retorno.ok){
+						this.props.alterarUsuarioNoAsyncStorage(dados)
+							.then(() => {
+								this.setState({carregando:false})
+								this.props.navigation.navigate('Prospectos')
+							})
+					}else{
+						this.setState({carregando:false})
+						alertTitulo = 'Aviso'
+						alertCorpo = 'Usuário/Senha não conferem!'
+						Alert.alert(alertTitulo, alertCorpo)
+					}
 				})
 		}
 	}
@@ -56,82 +88,91 @@ class LoginScreen extends React.Component {
 		const {
 			email,
 			senha,
+			carregando,
 		} = this.state
 		const { goBack } = this.props.navigation;
 		return (
-
 			<KeyboardAwareScrollView
 				contentContainerStyle={styles.container}
 				style={{ backgroundColor: dark }}
 				enableOnAndroid enableAutomaticScroll={true}
 				extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
-				<View>
-					<View style={{ padding: 14 }}>
-						<TouchableOpacity onPress={() => goBack()}>
-							<Icon name="arrow-left" style={{ color: white, fontSize: 22 }} type='FontAwesome' />
-						</TouchableOpacity>
-					</View>
-
-					<Image source={logo} style={styles.logo} />
-				</View>
-
-				<View style={styles.containerLogin}>
-					<View>
-						<View style={{ flexDirection: 'row' }}>
-							<Icon name='envelope' type='FontAwesome'
-								style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-							/>
-							<Text style={{ color: gold }}>Email</Text>
-						</View>
-						<TextInput style={styles.inputText}
-							keyboardAppearance='dark'
-							autoCapitalize="none"
-							placeholderTextColor="#d3d3d3"
-							selectionColor="#fff"
-							keyboardType="email-address"
-							value={email}
-							onChangeText={texto => this.setState({ email: texto })}
+				{
+					carregando && 
+					<View style={{flex: 1, justifyContent: 'center'}}>
+						<ActivityIndicator 
+							size="large"
+							color={gold}
 						/>
 					</View>
-					<View style={{ marginTop: 18 }}>
-						<View style={{ flexDirection: 'row' }}>
-							<Icon name='lock' type='FontAwesome'
-								style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-							/>
-							<Text style={{ color: gold }}>Senha</Text>
+				}
+
+				{
+					!carregando &&
+						<View>
+
+							<View>
+								<Image source={logo} style={styles.logo} />
+							</View>
+
+							<View style={styles.containerLogin}>
+								<View>
+									<View style={{ flexDirection: 'row' }}>
+										<Icon name='envelope' type='FontAwesome'
+											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+										/>
+										<Text style={{ color: gold }}>Email</Text>
+									</View>
+									<TextInput style={styles.inputText}
+										keyboardAppearance='dark'
+										autoCapitalize="none"
+										placeholderTextColor="#d3d3d3"
+										selectionColor="#fff"
+										keyboardType="email-address"
+										value={email}
+										onChangeText={texto => this.setState({ email: texto })}
+									/>
+								</View>
+								<View style={{ marginTop: 18 }}>
+									<View style={{ flexDirection: 'row' }}>
+										<Icon name='lock' type='FontAwesome'
+											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
+										/>
+										<Text style={{ color: gold }}>Senha</Text>
+									</View>
+									<TextInput style={styles.inputText}
+										keyboardAppearance='dark'
+										autoCapitalize="none"
+										placeholderTextColor="#d3d3d3"
+										selectionColor="#fff"
+										keyboardType='default'
+										secureTextEntry={true}
+										value={senha}
+										onChangeText={texto => this.setState({ senha: texto })}
+									/>
+								</View>
+							</View>
+
+							<View>
+								<TouchableOpacity
+									style={styles.button}
+									onPress={() => this.ajudadorDeSubmissao()}>
+									<Text style={styles.textButton}>Logar</Text>
+								</TouchableOpacity>
+							</View>
+
+							<View style={styles.containerButton}>
+
+								<TouchableOpacity
+									style={[styles.button, style = { backgroundColor: 'transparent' }]}
+									onPress={() => this.props.navigation.navigate('Registro')}>
+									<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Crie sua conta</Text>
+								</TouchableOpacity>
+							</View>
+
 						</View>
-						<TextInput style={styles.inputText}
-							keyboardAppearance='dark'
-							autoCapitalize="none"
-							placeholderTextColor="#d3d3d3"
-							selectionColor="#fff"
-							keyboardType='default'
-							secureTextEntry={true}
-							value={senha}
-							onChangeText={texto => this.setState({ senha: texto })}
-						/>
-					</View>
-				</View>
-
-				<View>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => this.ajudadorDeSubmissao()}>
-						<Text style={styles.textButton}>Logar</Text>
-					</TouchableOpacity>
-				</View>
-
-				<View style={styles.containerButton}>
-
-					<TouchableOpacity
-						style={[styles.button, style = { backgroundColor: 'transparent' }]}
-						onPress={() => this.props.navigation.navigate('Registro')}>
-						<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Crie sua conta</Text>
-					</TouchableOpacity>
-				</View>
-
-				{/* </View> */}
+				}
 			</KeyboardAwareScrollView>
 		)
 	}
@@ -140,6 +181,7 @@ class LoginScreen extends React.Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		pegarUsuarioNoAsyncStorage: (usuario) => dispatch(pegarUsuarioNoAsyncStorage(usuario)),
 	}
 }
 
