@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Lista de Ouro",
-    "description": "A very interesting project.",
+    "description": "Lista de Ouro",
     "slug": "lista-de-ouro",
     "privacy": "public",
     "sdkVersion": "31.0.0",
