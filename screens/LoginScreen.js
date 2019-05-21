@@ -189,15 +189,16 @@ export default connect(null, mapDispatchToProps)(LoginScreen)
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flexGrow: 1,
+		// flex: 1,
 		backgroundColor: dark,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 	},
 	logo: {
 		alignSelf: 'center',
-		width: 200,
-		height: 115,
+		width: Platform.OS === "ios" ? 200 : 180,
+		height: Platform.OS === "ios" ? 115 : 105,
 	},
 	containerLogin: {
 		height: 210,
