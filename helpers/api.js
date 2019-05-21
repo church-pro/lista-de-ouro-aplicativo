@@ -1,12 +1,12 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '019'
+const versaoBanco = '021'
 const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos' + versaoBanco
 const CHAVE_HISTORICO = 'ListaDeOuro:historico' + versaoBanco
 const CHAVE_USUARIO = 'ListaDeOuro:usuario' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-api = 'https://secure-woodland-24244.herokuapp.com'
+//api = 'https://secure-woodland-24244.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }
@@ -90,6 +90,19 @@ export function recuperarHistorico(){
 		})                                    
 }
 
+export function recuperarHistoricoNaoSincronizado(){        
+	return AsyncStorage.getItem(CHAVE_HISTORICO)
+		.then(JSON.parse)                     
+		.then((dados) => {                    
+			let retorno = []
+			if(dados && dados.historico){
+				let historicosParaEnviar = dados.historico.filter(item => !item.sincronizado)
+				retorno = historicosParaEnviar
+			}
+			return retorno
+		})
+}
+
 export function submeterHistoricos(historicos){
 	return recuperarHistorico()              
 		.then(dados => {                      
@@ -97,6 +110,13 @@ export function submeterHistoricos(historicos){
 			AsyncStorage.setItem(CHAVE_HISTORICO, JSON.stringify(dados))
 			return historicos                 
 		})                                    
+}
+
+export function limparHistoricos(){
+	let dados = {}
+	dados.historico = []
+	AsyncStorage.setItem(CHAVE_HISTORICO, JSON.stringify(dados))
+	return true
 }
 
 export function recuperarUsuario(){        
