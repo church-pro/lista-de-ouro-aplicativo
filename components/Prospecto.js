@@ -9,6 +9,7 @@ import {
 import { Card, Icon, Badge } from 'react-native-elements'
 import { white, lightdark, gold, dark } from '../helpers/colors'
 import call from 'react-native-phone-call'
+import email from 'react-native-email'
 import {
 	SITUACAO_QUALIFICAR,
 	SITUACAO_CONVIDAR,
@@ -51,6 +52,17 @@ class Prospecto extends React.Component {
 		const { prospecto } = this.props
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
+	handleEmail = () => {
+		const { prospecto } = this.props
+		const to = prospecto.email // string or array of email addresses
+        email(to, {
+            // Optional additional arguments
+            // cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
+            // bcc: 'mee@mee.com', // string or array of email addresses
+            subject: '',
+            body: 'Lista de Ouro App'
+        }).catch(console.error)
+    }
 
 	render() {
 		const { prospecto, navigation } = this.props
@@ -107,6 +119,12 @@ class Prospecto extends React.Component {
 								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.whatsapp() }} >
 									<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{ marginRight: 6 }} type='font-awesome' />
 									<Text style={{ color: white }}>Whats</Text>
+								</TouchableOpacity>
+							</View>
+							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
+								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.handleEmail() }} >
+									<Icon name="envelope" size={18} color={white} containerStyle={{ marginRight: 6 }} type='font-awesome' />
+									<Text style={{ color: white }}>Email</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
