@@ -3,8 +3,9 @@ import {
 	View,
 	Text,
 	Alert,
+	TouchableOpacity,
+	StyleSheet
 } from 'react-native';
-import { Icon } from 'react-native-elements'
 import { Button } from 'native-base';
 import { AirbnbRating } from 'react-native-ratings'
 import { white, lightdark, dark, gray, gold } from '../helpers/colors'
@@ -15,14 +16,14 @@ import { SITUACAO_CONVIDAR } from '../helpers/constants'
 class QualificarProspectoScreen extends React.Component {
 
 	alterarProspecto = () => {
-		if(this.state.rating > 0){
+		if (this.state.rating > 0) {
 			const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 			prospecto.rating = this.state.rating
 			prospecto.situacao_id = SITUACAO_CONVIDAR
 			alterarProspectoNoAsyncStorage(prospecto)
 			Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
 			navigation.goBack()
-		}else{
+		} else {
 			Alert.alert('Aviso', 'Selecione uma qualificação')
 		}
 	}
@@ -53,23 +54,7 @@ class QualificarProspectoScreen extends React.Component {
 			headerLeftContainerStyle: {
 				padding: 10,
 			},
-			headerRightContainerStyle: {
-				padding: 10,
-			},
 			headerTintColor: white,
-			headerRight: (
-				<Button
-				onPress={() => params.alterarProspecto()}
-				style={{paddingTop: 0, paddingBottom: 0, paddingHorizontal: 10, 
-					backgroundColor: 'transparent', borderColor: 'transparent', alignSelf: 'center'}}
-				>
-					<Icon
-						name='check'
-						type='font-awesome'
-						color={white}
-					/>
-				</Button>
-			),
 		}
 	}
 
@@ -78,13 +63,13 @@ class QualificarProspectoScreen extends React.Component {
 		const { prospecto } = this.props
 
 		return (
-			<View style={{ flex: 1, backgroundColor: lightdark, justifyContent: "flex-start" }}>
-				<Text style={{ textAlign: "center", paddingVertical: 25, color: gray, fontSize: 18 }}>
+			<View style={styles.container}>
+				<Text style={{ textAlign: "center", color: gray, fontSize: 18 }}>
 					Qualifique o prospecto de acordo com o nível de interesse
 				</Text>
 
 				<View>
-					<Text style={{ textAlign: "center", fontSize: 27, color: white, paddingVertical: 50 }}>
+					<Text style={styles.name}>
 						{prospecto && prospecto.nome}
 					</Text>
 
@@ -93,6 +78,15 @@ class QualificarProspectoScreen extends React.Component {
 						defaultRating={this.state.rating}
 						onFinishRating={(valor) => this.setState({ rating: valor })}
 					/>
+				</View>
+
+				<View>
+					<TouchableOpacity
+						onPress={() => this.alterarProspecto()}
+						style={styles.button}
+					>
+						<Text style={{ textAlign: "center", fontSize: 16 }}>Qualificar</Text>
+					</TouchableOpacity>
 				</View>
 
 			</View>
@@ -114,3 +108,25 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QualificarProspectoScreen)
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		padding: 10,
+		backgroundColor: lightdark,
+		justifyContent: "space-between",
+	},
+	name:{
+		textAlign: "center", 
+		fontSize: 27, 
+		color: white, 
+		paddingVertical: 6,
+	},
+	button: {
+		backgroundColor: gold,
+		height: 45,
+		borderRadius: 10,
+		justifyContent: 'center',
+		marginHorizontal: 12,
+	},
+})
