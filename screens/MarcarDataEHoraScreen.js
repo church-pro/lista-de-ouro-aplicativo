@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	View,
 	Text,
-	Keyboard,
 	Alert,
 	TextInput,
 } from 'react-native';
@@ -10,7 +9,6 @@ import { Card, Icon, Input } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { white, dark, gold, lightdark } from '../helpers/colors'
 import { connect } from 'react-redux'
-import DateTimerPicker from 'react-native-modal-datetime-picker'
 import DatePicker from 'react-native-datepicker'
 import { alterarProspectoNoAsyncStorage } from '../actions'
 import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
@@ -94,25 +92,6 @@ class MarcarDataEHoraScreen extends React.Component {
 		}
 	}
 
-	// mostrarPegadorDeData = () => this.setState({ selecionarDataMostrando: true })
-	// esconderPegadorDeData = () => { Keyboard.dismiss(); return this.setState({ selecionarDataMostrando: false }) }
-	// ajudadorDoPegadorDeData = (date) => {
-	// 	Keyboard.dismiss()
-	// 	let dataParaOAgendamento = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-	// 	this.setState({ dataParaOAgendamento })
-	// 	this.esconderPegadorDeData()
-	// }
-
-	// mostrarPegadorDeHora = () => this.setState({ selecionarHoraMostrando: true })
-	// esconderPegadorDeHora = () => { Keyboard.dismiss(); return this.setState({ selecionarHoraMostrando: false }) }
-	// ajudadorDoPegadorDeHora = (date) => {
-	// 	Keyboard.dismiss()
-	// 	let minutes = date.getMinutes() + ''
-	// 	minutes = minutes.padStart(2, '0')
-	// 	let horaParaOAgendamento = date.getHours() + ':' + minutes
-	// 	this.setState({ horaParaOAgendamento })
-	// 	this.esconderPegadorDeHora()
-	// }
 
 	render() {
 		const { prospecto } = this.props
@@ -127,33 +106,34 @@ class MarcarDataEHoraScreen extends React.Component {
 
 					<View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderBottomColor: '#86939e' }}>
 						<Text style={{ fontSize: 16, color: '#86939e', fontWeight: "bold", marginTop: 16 }}>DATA</Text>
-						<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-							<Icon
-								name="calendar"
-								type="font-awesome"
-								color={gold}
-								size={22}
-								containerStyle={{ marginLeft: 10, borderRightWidth: 1, paddingRight: 5 }}
-							/>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<DatePicker
-								style={{ flex: 1 }}
+								iconComponent={
+									<Icon
+										name="calendar"
+										type="font-awesome"
+										color={gold}
+										size={22}
+										containerStyle={{ position: 'absolute', left: 10 }}
+									/>
+								}
+								style={{ flex: 1, }}
 								date={this.state.dataParaOAgendamento}
 								mode="date"
 								placeholder=" "
-								format="DD-MM-YYYY"
+								format="DD/MM/YYYY"
 								minDate={this.state.date}
 								confirmBtnText="Confirmar"
 								cancelBtnText="Cancelar"
-								showIcon={false}
 								customStyles={{
 									dateInput: {
 										borderWidth: 0,
-										alignItems: 'flex-start',
+										alignItems: "flex-start"
 									},
 									dateText: {
 										color: white,
 										fontSize: 18,
-										marginLeft: 5,
+										marginLeft: 35,
 									}
 								}}
 								onDateChange={(date) => {
@@ -164,14 +144,7 @@ class MarcarDataEHoraScreen extends React.Component {
 					</View>
 					<View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderBottomColor: '#86939e' }}>
 						<Text style={{ fontSize: 16, color: '#86939e', fontWeight: "bold", marginTop: 16 }}>HORA</Text>
-						<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-							<Icon
-								name="clock-o"
-								type="font-awesome"
-								color={gold}
-								size={22}
-								containerStyle={{ marginLeft: 10 }}
-							/>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<DatePicker
 								style={{ flex: 1 }}
 								date={this.state.horaParaOAgendamento}
@@ -180,7 +153,14 @@ class MarcarDataEHoraScreen extends React.Component {
 								is24Hour={true}
 								confirmBtnText="Confirmar"
 								cancelBtnText="Cancelar"
-								showIcon={false}
+								iconComponent={
+									<Icon
+										name="clock-o"
+										type="font-awesome"
+										color={gold}
+										size={22}
+										containerStyle={{ position: 'absolute', left: 10 }}
+									/>}
 								customStyles={{
 									dateInput: {
 										borderWidth: 0,
@@ -189,7 +169,7 @@ class MarcarDataEHoraScreen extends React.Component {
 									dateText: {
 										color: white,
 										fontSize: 18,
-										marginLeft: 5,
+										marginLeft: 35,
 									}
 								}}
 								onDateChange={(date) => {
@@ -209,82 +189,15 @@ class MarcarDataEHoraScreen extends React.Component {
 								size={22}
 								containerStyle={{ marginLeft: 13 }}
 							/>
-							<TextInput 
+							<TextInput
 								keyboardAppearance='dark'
 								placeholder=""
-								style={{color: white, fontSize: 18, marginLeft: 5, minHeight: 40, flex: 1}}
+								style={{ color: white, fontSize: 18, marginLeft: 6, minHeight: 40, flex: 1 }}
 								value={this.local}
 								onChangeText={(text) => this.setState({ local: text })}
 							/>
 						</View>
 					</View>
-					{/* <Input
-						placeholder=""
-						placeholderTextColor={'#ddd'}
-						label="DATA"
-						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 5 }}
-						leftIcon={
-							<Icon
-								name="calendar"
-								type="font-awesome"
-								color={gold}
-								size={22}
-							/>
-						}
-						onFocus={() => { this.mostrarPegadorDeData() }}
-						value={this.state.dataParaOAgendamento}
-					/>
-					<Input
-						placeholder=""
-						placeholderTextColor={'#ddd'}
-						label="HORA"
-						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 16 }}
-						leftIcon={
-							<Icon
-								name="clock-o"
-								type="font-awesome"
-								color={gold}
-								size={22}
-							/>
-						}
-						onFocus={() => { this.mostrarPegadorDeHora() }}
-						value={this.state.horaParaOAgendamento}
-					/> */}
-
-					{/* <Input
-						keyboardAppearance='dark'
-						placeholder=""
-						placeholderTextColor={'#ddd'}
-						label="LOCAL"
-						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 16 }}
-						leftIcon={
-							<Icon
-								name="map-marker"
-								type="font-awesome"
-								color={gold}
-								size={22}
-							/>
-						}
-						value={this.local}
-						onChangeText={(text) => this.setState({ local: text })}
-					/> */}
-					{/* <DateTimerPicker
-						isVisible={this.state.selecionarDataMostrando}
-						onConfirm={this.ajudadorDoPegadorDeData}
-						onCancel={this.esconderPegadorDeData}
-						mode={'date'}
-						style={{ color: white }}
-					/>
-
-					<DateTimerPicker
-						isVisible={this.state.selecionarHoraMostrando}
-						onConfirm={this.ajudadorDoPegadorDeHora}
-						onCancel={this.esconderPegadorDeHora}
-						mode={'time'}
-					/> */}
 				</Card>
 			</KeyboardAwareScrollView>
 		)
