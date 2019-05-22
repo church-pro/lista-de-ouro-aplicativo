@@ -81,6 +81,9 @@ class Prospecto extends React.Component {
 				</View>
 				<View style={styles.name_phone}>
 					<View style={styles.content}>
+					{ prospecto.online &&
+						<Icon name="globe" type='font-awesome' color={white} size={14} containerStyle={{marginRight: 4}} />
+					}
 						<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
 					</View>
 
