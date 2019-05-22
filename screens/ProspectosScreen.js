@@ -201,6 +201,7 @@ class ProspectosScreen extends React.Component {
 	static navigationOptions = () => {
 		return {
 			header: null,
+			gesturesEnabled: false,
 		}
 	}
 
