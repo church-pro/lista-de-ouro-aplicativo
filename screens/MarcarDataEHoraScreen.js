@@ -132,7 +132,7 @@ class MarcarDataEHoraScreen extends React.Component {
 								type="font-awesome"
 								color={gold}
 								size={22}
-								containerStyle={{ marginLeft: 10 }}
+								containerStyle={{ marginLeft: 10, borderRightWidth: 1, paddingRight: 5 }}
 							/>
 							<DatePicker
 								style={{ flex: 1 }}
