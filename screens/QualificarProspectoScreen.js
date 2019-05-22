@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		backgroundColor: lightdark,
 		justifyContent: "space-between",
+		paddingBottom: 15,
 	},
 	name:{
 		textAlign: "center", 
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: gold,
 		height: 45,
-		borderRadius: 10,
+		borderRadius: 6,
 		justifyContent: 'center',
 		marginHorizontal: 12,
 	},
