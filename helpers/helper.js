@@ -1,4 +1,9 @@
-import { Notifications, Permissions } from 'expo'
+import { 
+	Notifications, 
+	Permissions,
+	NotificationsIOS,
+	Platform,
+} from 'expo'
 
 export function criarNotificacaoLocal(notificacao){
 	return {
@@ -36,12 +41,25 @@ export function setarNotificacaoLocal(notificacao){
 }
 
 export const sendNotificationImmediately = async () => {
-	let notificationId = await Notifications.presentLocalNotificationAsync({
-		title: 'This is crazy',
-		body: 'Your mind will blow after reading this',
-	});
-	console.log(notificationId); // can be saved in AsyncStorage or send to server
-};
+	if(Platform !== 'ios'){
+		let notificationId = await Notifications.presentLocalNotificationAsync({
+			title: 'This is crazy',
+			body: 'Your mind will blow after reading this',
+		});
+		console.log(notificationId); // can be saved in AsyncStorage or send to server
+	}
+	if(Platform === 'ios'){
+		let localNotification = await NotificationsIOS.localNotification({
+			alertBody: "Local notificiation!",
+			alertTitle: "Local Notification Title",
+			soundName: "chime.aiff",
+			silent: false,
+			category: "SOME_CATEGORY",
+			userInfo: { }
+		})
+		console.log(localNotification)
+	}
+}
 
 export const scheduleNotification = async () => {
 	let notificationId = Notifications.scheduleLocalNotificationAsync(
