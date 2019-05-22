@@ -119,9 +119,10 @@ class ProspectoScreen extends React.Component {
 
 			<KeyboardAwareScrollView style={{ flex: 1, backgroundColor: lightdark }}
 				style={{ backgroundColor: lightdark }}
-				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
+				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} 
+				keyboardShoulfPersistTaps='always'
+			>
 
-				{/* <ScrollView> */}
 				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
 					<Input
 						keyboardAppearance='dark'

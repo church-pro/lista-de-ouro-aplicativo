@@ -121,6 +121,7 @@ class MarcarDataEHoraScreen extends React.Component {
 			<KeyboardAwareScrollView
 				contentContainerStyle={{ flexGrow: 1, backgroundColor: lightdark }}
 				style={{ backgroundColor: lightdark }}
+				keyboardShoulfPersistTaps='always'
 				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
 

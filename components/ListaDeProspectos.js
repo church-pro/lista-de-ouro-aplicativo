@@ -2,7 +2,6 @@ import React from 'react';
 import {
 	Text,
 	View,
-	ScrollView,
 	FlatList,
 } from 'react-native';
 import Prospecto from '../components/Prospecto'
