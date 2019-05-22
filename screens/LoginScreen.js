@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import { Alert, Text, View, Image, TextInput, 
 	KeyboardAvoidingView, 
@@ -111,7 +111,7 @@ class LoginScreen extends React.Component {
 
 				{
 					!carregando &&
-						<View>
+						<Fragment>
 
 							<View>
 								<Image source={logo} style={styles.logo} />
@@ -172,7 +172,7 @@ class LoginScreen extends React.Component {
 								</TouchableOpacity>
 							</View>
 
-						</View>
+						 </Fragment>
 				}
 			</KeyboardAwareScrollView>
 		)
@@ -190,11 +190,11 @@ export default connect(null, mapDispatchToProps)(LoginScreen)
 
 const styles = StyleSheet.create({
 	container: {
-		flexGrow: 1,
-		// flex: 1,
+		flex: 1,
 		backgroundColor: dark,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
+		alignItems: 'stretch',
 	},
 	logo: {
 		alignSelf: 'center',
