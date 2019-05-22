@@ -1,9 +1,11 @@
 import { 
 	Notifications, 
 	Permissions,
-	NotificationsIOS,
 	Platform,
 } from 'expo'
+import {
+	NotificationsIOS,
+} from 'react-native-notifications'
 
 export function criarNotificacaoLocal(notificacao){
 	return {
@@ -52,7 +54,6 @@ export const sendNotificationImmediately = async () => {
 		let localNotification = await NotificationsIOS.localNotification({
 			alertBody: "Local notificiation!",
 			alertTitle: "Local Notification Title",
-			soundName: "chime.aiff",
 			silent: false,
 			category: "SOME_CATEGORY",
 			userInfo: { }
