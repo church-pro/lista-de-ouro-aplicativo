@@ -146,6 +146,7 @@ class RegistroScreen extends React.Component {
 			<KeyboardAwareScrollView
 				contentContainerStyle={styles.container}
 				style={{ backgroundColor: lightdark }}
+				keyboardShoulfPersistTaps='always'
 				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
 				{

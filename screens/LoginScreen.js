@@ -96,6 +96,7 @@ class LoginScreen extends React.Component {
 				contentContainerStyle={styles.container}
 				style={{ backgroundColor: dark }}
 				enableOnAndroid enableAutomaticScroll={true}
+				keyboardShoulfPersistTaps='always'
 				extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
 				{
