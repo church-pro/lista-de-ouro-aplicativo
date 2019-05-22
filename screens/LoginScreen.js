@@ -3,7 +3,8 @@ import { StyleSheet, Platform } from 'react-native';
 import { Alert, Text, View, Image, TextInput, 
 	KeyboardAvoidingView, 
 	TouchableOpacity,
-	ActivityIndicator
+	ActivityIndicator,
+	NetInfo,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
@@ -61,24 +62,33 @@ class LoginScreen extends React.Component {
 		if (mostrarMensagemDeErro) {
 			Alert.alert('Erro', 'Campos invalidos')
 		} else {
-			this.setState({carregando:true})
-			const dados = {
-				email,
-				senha,
-			}
-			logarNaApi(dados)
-				.then(retorno => {
-					if(retorno.ok){
-						this.props.alterarUsuarioNoAsyncStorage(dados)
-							.then(() => {
-								this.setState({carregando:false})
-								this.props.navigation.navigate('Prospectos')
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					if(isConnected){
+
+						this.setState({carregando:true})
+						const dados = {
+							email,
+							senha,
+						}
+						logarNaApi(dados)
+							.then(retorno => {
+								if(retorno.ok){
+									this.props.alterarUsuarioNoAsyncStorage(dados)
+										.then(() => {
+											this.setState({carregando:false})
+											this.props.navigation.navigate('Prospectos')
+										})
+								}else{
+									this.setState({carregando:false})
+									alertTitulo = 'Aviso'
+									alertCorpo = 'Usuário/Senha não conferem!'
+									Alert.alert(alertTitulo, alertCorpo)
+								}
 							})
 					}else{
-						this.setState({carregando:false})
-						alertTitulo = 'Aviso'
-						alertCorpo = 'Usuário/Senha não conferem!'
-						Alert.alert(alertTitulo, alertCorpo)
+						Alert.alert('Internet', 'Verifique sua internet!')
 					}
 				})
 		}
