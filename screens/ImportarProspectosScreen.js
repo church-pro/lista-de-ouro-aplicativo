@@ -72,6 +72,7 @@ class MultiSelectList extends React.PureComponent {
 				extraData={this.state}
 				keyExtractor={this._keyExtractor}
 				renderItem={this._renderItem}
+				removeClippedSubviews={false}
 			/>
 		);
 	}

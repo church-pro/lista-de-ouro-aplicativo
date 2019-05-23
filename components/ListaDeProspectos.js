@@ -132,6 +132,7 @@ class ListaDeProspectos extends React.Component {
 								onRefresh={this._handleRefresh}
 							/>
 						}
+						removeClippedSubviews={false}
 					/>
 				}
 			</View>
