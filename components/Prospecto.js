@@ -9,6 +9,7 @@ import {
 import { Card, Icon, Badge } from 'react-native-elements'
 import { white, lightdark, gold, dark } from '../helpers/colors'
 import call from 'react-native-phone-call'
+import email from 'react-native-email'
 import {
 	SITUACAO_QUALIFICAR,
 	SITUACAO_CONVIDAR,
@@ -51,6 +52,17 @@ class Prospecto extends React.Component {
 		const { prospecto } = this.props
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
+	handleEmail = () => {
+		const { prospecto } = this.props
+		const to = prospecto.email // string or array of email addresses
+        email(to, {
+            // Optional additional arguments
+            // cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
+            // bcc: 'mee@mee.com', // string or array of email addresses
+            subject: '',
+            body: 'Lista de Ouro App'
+        }).catch(console.error)
+    }
 
 	render() {
 		const { prospecto, navigation } = this.props
@@ -81,29 +93,48 @@ class Prospecto extends React.Component {
 				</View>
 				<View style={styles.name_phone}>
 					<View style={styles.content}>
-					{ prospecto.online &&
-						<Icon name="globe" type='font-awesome' color={white} size={14} containerStyle={{marginRight: 4}} />
-					}
 						<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
+						{/* {prospecto.online &&
+							<View style={{ marginLeft: 5, backgroundColor: dark, paddingHorizontal: 6, paddingVertical: 2, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
+								<Icon name="globe" type='font-awesome' color={white} size={13} containerStyle={{ marginRight: 4 }} />
+								<Text style={{ fontSize: 12, color: white }}>WEB</Text>
+							</View>
+						} */}
 					</View>
 
 					<View style={styles.content}>
 						<Text style={[styles.text, style = { marginTop: 5 }]}>({prospecto.ddd}) {prospecto.telefone}</Text>
 					</View>
 
-					<View style={[styles.content, style={marginTop: 5}]}>
-					<View style={{backgroundColor: dark, padding: 4, borderRadius: 4}}>
-						<TouchableOpacity style={{flexDirection: "row"}} onPress={() => { this.chamarOTelefoneDoCelular() }} > 
-							<Icon name="phone" size={18} containerStyle={{marginRight: 6}} color={white} />
-							<Text style={{color: white}}>Ligar</Text>
-						</TouchableOpacity>
-					</View>
-					<View style={{backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5}}>
-						<TouchableOpacity style={{flexDirection: "row"}} onPress={() => { this.whatsapp() }} > 
-							<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{marginRight: 6}} type='font-awesome' />
-							<Text style={{color: white}}>Whats</Text>
-						</TouchableOpacity>
-					</View>
+					<View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
+						<View style={{flexDirection: 'row'}}>
+
+							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4 }}>
+								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.chamarOTelefoneDoCelular() }} >
+									<Icon name="phone" size={18} containerStyle={{ marginRight: 6 }} color={white} />
+									<Text style={{ color: white }}>Ligar</Text>
+								</TouchableOpacity>
+							</View>
+							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
+								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.whatsapp() }} >
+									<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{ marginRight: 6 }} type='font-awesome' />
+									<Text style={{ color: white }}>Whats</Text>
+								</TouchableOpacity>
+							</View>
+							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
+								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.handleEmail() }} >
+									<Icon name="envelope" size={18} color={white} containerStyle={{ marginRight: 6 }} type='font-awesome' />
+									<Text style={{ color: white }}>Email</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+
+						{prospecto.online &&
+							<View style={{ marginLeft: 5, backgroundColor: dark, padding: 4, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
+								<Icon name="globe" type='font-awesome' color={white} size={16} containerStyle={{ marginRight: 4 }} />
+								<Text style={{ color: white }}>WEB</Text>
+							</View>
+						}
 					</View>
 				</View>
 
@@ -117,7 +148,7 @@ class Prospecto extends React.Component {
 								color={lightdark}
 								onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto.id }) }}
 							/>
-						
+
 							<Icon
 								name='trash'
 								type='font-awesome'
@@ -158,33 +189,33 @@ class Prospecto extends React.Component {
 					}
 					{
 						prospecto.situacao_id === SITUACAO_APRESENTAR &&
-							<View style={styles.footerAPN}>
-								<View style={{ flexDirection: 'row' }}>
-									<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
-									<TouchableOpacity
-										style={styles.button}
-										onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
-									>
-										<Text style={styles.textButton}>Sim</Text>
-									</TouchableOpacity>
-									<TouchableOpacity
-										style={[styles.button, { marginLeft: 5 }]}
-										onPress={() => {
-											{
-												Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
-													[
-														{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
-														{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) } },
-														{ text: 'Cancelar' },
-													])
-											}
+						<View style={styles.footerAPN}>
+							<View style={{ flexDirection: 'row' }}>
+								<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
+								<TouchableOpacity
+									style={styles.button}
+									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
+								>
+									<Text style={styles.textButton}>Sim</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={[styles.button, { marginLeft: 5 }]}
+									onPress={() => {
+										{
+											Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
+												[
+													{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
+													{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) } },
+													{ text: 'Cancelar' },
+												])
 										}
-										}
-									>
-										<Text style={styles.textButton}>Não</Text>
-									</TouchableOpacity>
-								</View>
+									}
+									}
+								>
+									<Text style={styles.textButton}>Não</Text>
+								</TouchableOpacity>
 							</View>
+						</View>
 					}
 					{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
 
@@ -228,7 +259,8 @@ class Prospecto extends React.Component {
 								}
 							/>
 							<View
-								style={{ backgroundColor: gold, borderRadius: 9, borderWidth: 0, 
+								style={{
+									backgroundColor: gold, borderRadius: 9, borderWidth: 0,
 									padding: 5
 								}}
 							>

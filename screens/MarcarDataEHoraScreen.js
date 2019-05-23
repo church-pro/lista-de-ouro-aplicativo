@@ -4,6 +4,8 @@ import {
 	Text,
 	Alert,
 	TextInput,
+	TouchableOpacity,
+	StyleSheet
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -78,17 +80,6 @@ class MarcarDataEHoraScreen extends React.Component {
 			headerLeftContainerStyle: {
 				padding: 10,
 			},
-			headerRightContainerStyle: {
-				padding: 10,
-			},
-			headerRight: (
-				<Icon
-					name='check'
-					type='font-awesome'
-					color={white}
-					onPress={() => params.alterarProspecto()}
-				/>
-			),
 		}
 	}
 
@@ -98,10 +89,11 @@ class MarcarDataEHoraScreen extends React.Component {
 
 		return (
 			<KeyboardAwareScrollView
-				contentContainerStyle={{ flexGrow: 1, backgroundColor: lightdark }}
+				contentContainerStyle={styles.container}
 				style={{ backgroundColor: lightdark }}
 				keyboardShoulfPersistTaps='always'
 				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
+
 				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
 
 					<View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderBottomColor: '#86939e' }}>
@@ -199,6 +191,15 @@ class MarcarDataEHoraScreen extends React.Component {
 						</View>
 					</View>
 				</Card>
+
+				<View style={styles.containerButton}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => this.alterarProspecto()}
+					>
+						<Text style={{ textAlign: "center", fontSize: 16 }}>Marcar</Text>
+					</TouchableOpacity>
+				</View>
 			</KeyboardAwareScrollView>
 		)
 	}
@@ -220,3 +221,22 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarcarDataEHoraScreen)
+
+const styles = StyleSheet.create({
+	container: {
+		flexGrow: 1,
+		backgroundColor: lightdark,
+		// justifyContent: "space-between", 
+		paddingBottom: 15
+	},
+	containerButton: {
+		paddingVertical: 15,
+		marginHorizontal: 15,
+	},
+	button: {
+		backgroundColor: gold,
+		height: 45,
+		borderRadius: 6,
+		justifyContent: 'center',
+	},
+})
