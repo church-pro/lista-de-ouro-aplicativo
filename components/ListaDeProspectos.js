@@ -30,6 +30,7 @@ class ListaDeProspectos extends React.Component {
 							renderItem={this._renderItem}
 							keyExtractor={this._keyExtractor}
 							navigation={navigation}
+							removeClippedSubviews={false}
 						/>
 				}
 			</View>
