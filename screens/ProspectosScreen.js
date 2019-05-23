@@ -336,7 +336,7 @@ class ProspectosScreen extends React.Component {
 				<Header  style={{backgroundColor: dark, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
 					<Left style={{flex: 0}}>
 						<TouchableOpacity 
-							style={{backgroundColor: 'transparent', margin: 0, borderWidth: 0}}
+							style={{backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal:8}}
 							onPress={() => this.openDrawer()}>
 							<Icon type="font-awesome" name="bars" color={white}/>
 						</TouchableOpacity>
@@ -346,7 +346,7 @@ class ProspectosScreen extends React.Component {
 					</Body>
 					<Right style={{flex: 0}}>
 						<TouchableOpacity 
-							style={{backgroundColor: 'transparent', borderWidth: 0}}
+							style={{backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8}}
 							onPress={() => this.sincronizar()}>
 							<Icon name='download' type='font-awesome' color={white} />
 						</TouchableOpacity>

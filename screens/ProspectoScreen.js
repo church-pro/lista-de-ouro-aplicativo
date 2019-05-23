@@ -126,6 +126,8 @@ class ProspectoScreen extends React.Component {
 				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
 					<Input
 						keyboardAppearance='dark'
+						onSubmitEditing={() => this.inputDDD.focus()}
+						returnKeyType="next"
 						placeholder=""
 						placeholderTextColor={'#ddd'}
 						autoCorrect={false}
@@ -163,6 +165,7 @@ class ProspectoScreen extends React.Component {
 						}
 						value={ddd}
 						onChangeText={texto => this.setState({ ddd: texto })}
+						ref={(input) => {this.inputDDD = input}}
 					/>
 					<Input
 						keyboardType='phone-pad'
