@@ -177,6 +177,9 @@ class RegistroScreen extends React.Component {
 									selectionColor="#fff"
 									value={nome}
 									onChangeText={texto => this.setState({ nome: texto })}
+									ref={(input) => { this.inputNome = input; }}
+									returnKeyType={'next'}
+									onSubmitEditing={() => this.inputDDD.focus()}
 								/>
 							</View>
 
@@ -197,6 +200,9 @@ class RegistroScreen extends React.Component {
 										keyboardType='phone-pad'
 										value={ddd}
 										onChangeText={texto => this.setState({ ddd: texto })}
+										ref={(input) => { this.inputDDD = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputTelefone.focus()}
 									/>
 								</View>
 
@@ -215,6 +221,9 @@ class RegistroScreen extends React.Component {
 										keyboardType='phone-pad'
 										value={telefone}
 										onChangeText={texto => this.setState({ telefone: texto })}
+										ref={(input) => { this.inputTelefone = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputEmail.focus()}
 									/>
 								</View>
 							</View>
@@ -234,6 +243,10 @@ class RegistroScreen extends React.Component {
 									keyboardType="email-address"
 									value={email}
 									onChangeText={texto => this.setState({ email: texto })}
+									ref={(input) => { this.inputEmail = input; }}
+									returnKeyType={'next'}
+									onSubmitEditing={() => this.inputSenha.focus()}
+									autoCapitalize={false}
 								/>
 							</View>
 
@@ -253,6 +266,9 @@ class RegistroScreen extends React.Component {
 									secureTextEntry={true}
 									value={senha}
 									onChangeText={texto => this.setState({ senha: texto })}
+									ref={(input) => { this.inputSenha = input; }}
+									returnKeyType={'go'}
+									onSubmitEditing={() => this.ajudadorDeSubmissao()}
 								/>
 							</View>
 

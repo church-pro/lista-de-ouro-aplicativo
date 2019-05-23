@@ -143,6 +143,9 @@ class LoginScreen extends React.Component {
 										keyboardType="email-address"
 										value={email}
 										onChangeText={texto => this.setState({ email: texto })}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputSenha.focus()}
+										autoCapitalize={false}
 									/>
 								</View>
 								<View style={{ marginTop: 18 }}>
@@ -153,6 +156,7 @@ class LoginScreen extends React.Component {
 										<Text style={{ color: gold }}>Senha</Text>
 									</View>
 									<TextInput style={styles.inputText}
+										ref={(input) => { this.inputSenha = input; }}
 										keyboardAppearance='dark'
 										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
@@ -161,6 +165,8 @@ class LoginScreen extends React.Component {
 										secureTextEntry={true}
 										value={senha}
 										onChangeText={texto => this.setState({ senha: texto })}
+										returnKeyType={'go'}
+										onSubmitEditing={() => this.ajudadorDeSubmissao()}
 									/>
 								</View>
 							</View>

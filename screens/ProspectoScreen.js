@@ -142,6 +142,8 @@ class ProspectoScreen extends React.Component {
 						}
 						value={nome}
 						onChangeText={texto => this.setState({ nome: texto })}
+						returnKeyType={'next'}
+						onSubmitEditing={() => this.inputDDD.focus()}
 					/>
 					<Input
 						keyboardType='phone-pad'
@@ -163,6 +165,9 @@ class ProspectoScreen extends React.Component {
 						}
 						value={ddd}
 						onChangeText={texto => this.setState({ ddd: texto })}
+						ref={(input) => { this.inputDDD = input; }}
+						returnKeyType={'next'}
+						onSubmitEditing={() => this.inputTelefone.focus()}
 					/>
 					<Input
 						keyboardType='phone-pad'
@@ -183,6 +188,9 @@ class ProspectoScreen extends React.Component {
 						}
 						value={telefone}
 						onChangeText={texto => this.setState({ telefone: texto })}
+						ref={(input) => { this.inputTelefone = input; }}
+						returnKeyType={'next'}
+						onSubmitEditing={() => this.inputEmail.focus()}
 					/>
 					<Input
 						keyboardType='email-address'
@@ -203,6 +211,9 @@ class ProspectoScreen extends React.Component {
 						}
 						value={email}
 						onChangeText={texto => this.setState({ email: texto })}
+						ref={(input) => { this.inputEmail = input; }}
+						returnKeyType={'go'}
+						onSubmitEditing={() => this.ajudadorDeSubmissao()}
 					/>
 
 				</Card>
