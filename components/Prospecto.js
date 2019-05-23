@@ -94,6 +94,13 @@ class Prospecto extends React.Component {
 				<View style={styles.name_phone}>
 					<View style={styles.content}>
 						<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
+
+						{prospecto.online &&
+							<View style={{ marginLeft: 5, backgroundColor: gold, padding: 3, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
+								<Icon name="globe" type='font-awesome' color={white} size={16} containerStyle={{ marginRight: 4 }} />
+								<Text style={{ color: white }}>web</Text>
+							</View>
+						}
 					</View>
 
 					<View style={styles.content}>
@@ -122,13 +129,6 @@ class Prospecto extends React.Component {
 								</TouchableOpacity>
 							</View>
 						</View>
-
-						{prospecto.online &&
-							<View style={{ marginLeft: 5, backgroundColor: dark, padding: 4, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
-								<Icon name="globe" type='font-awesome' color={white} size={16} containerStyle={{ marginRight: 4 }} />
-								<Text style={{ color: white }}>WEB</Text>
-							</View>
-						}
 					</View>
 				</View>
 
