@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-	KeyboardAvoidingView,
 	Alert,
-	ScrollView,
+	View,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Button, Card, Icon, Input } from 'react-native-elements'
-import { white, lightdark, dark, gold } from '../helpers/colors'
+import { white, lightdark, dark, gold, gray, black } from '../helpers/colors'
 import {
 	alterarProspectoNoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
+import { LinearGradient } from 'expo'
 
 class ProspectoScreen extends React.Component {
 
@@ -116,15 +116,18 @@ class ProspectoScreen extends React.Component {
 			email,
 		} = this.state
 		return (
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 
-			<KeyboardAwareScrollView style={{ flex: 1, backgroundColor: lightdark }}
-				style={{ backgroundColor: lightdark }}
-				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} 
-				keyboardShoulfPersistTaps='always'
-			>
+				<KeyboardAwareScrollView style={{ flex: 1, padding: 20 }}
+					enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
+					keyboardShoulfPersistTaps='always'
+				>
 
-				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
+					{/* <Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}> */}
 					<Input
+						containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+						inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+						underlineColorAndroid="transparent"
 						keyboardAppearance='dark'
 						onSubmitEditing={() => this.inputDDD.focus()}
 						returnKeyType="next"
@@ -133,68 +136,62 @@ class ProspectoScreen extends React.Component {
 						autoCorrect={false}
 						label="NOME"
 						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 5 }}
-						leftIcon={
-							<Icon
-								name="user"
-								type="font-awesome"
-								color={gold}
-								size={20}
-							/>
-						}
+						labelStyle={{ marginTop: 5, color: white }}
 						value={nome}
 						onChangeText={texto => this.setState({ nome: texto })}
 						returnKeyType={'next'}
 						onSubmitEditing={() => this.inputDDD.focus()}
 					/>
-					<Input
-						keyboardType='phone-pad'
-						keyboardAppearance='dark'
-						placeholder=""
-						placeholderTextColor={'#ddd'}
-						autoCorrect={false}
-						label="DDD"
-						maxLength={2}
-						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 16 }}
-						leftIcon={
-							<Icon
-								name="phone"
-								type="font-awesome"
-								color={gold}
-								size={20}
+					<View style={{ flexDirection: 'row', flex: 1 }}>
+						<View style={{marginRight: 6}}>
+							<Input
+								containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
+								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+								underlineColorAndroid="transparent"
+								keyboardType='phone-pad'
+								keyboardAppearance='dark'
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label="DDD"
+								maxLength={2}
+								inputStyle={{ color: white, marginLeft: 5 }}
+								labelStyle={{ marginTop: 5, color: white }}
+								value={ddd}
+								onChangeText={texto => this.setState({ ddd: texto })}
+								ref={(input) => { this.inputDDD = input; }}
+								returnKeyType={'next'}
+								onSubmitEditing={() => this.inputTelefone.focus()}
 							/>
-						}
-						value={ddd}
-						onChangeText={texto => this.setState({ ddd: texto })}
-						ref={(input) => { this.inputDDD = input; }}
-						returnKeyType={'next'}
-						onSubmitEditing={() => this.inputTelefone.focus()}
-					/>
-					<Input
-						keyboardType='phone-pad'
-						keyboardAppearance='dark'
-						placeholder=""
-						placeholderTextColor={'#ddd'}
-						autoCorrect={false}
-						label="TELEFONE"
-						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 16 }}
-						leftIcon={
-							<Icon
-								name="phone"
-								type="font-awesome"
-								color={gold}
-								size={20}
+						</View>
+
+						<View style={{flex: 1}}>
+							<Input
+								containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
+								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+								underlineColorAndroid="transparent"
+								keyboardType='phone-pad'
+								keyboardAppearance='dark'
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label="TELEFONE"
+								inputStyle={{ color: white, marginLeft: 5 }}
+								labelStyle={{ marginTop: 5, color: white }}
+								value={telefone}
+								onChangeText={texto => this.setState({ telefone: texto })}
+								ref={(input) => { this.inputTelefone = input; }}
+								returnKeyType={'next'}
+								onSubmitEditing={() => this.inputEmail.focus()}
 							/>
-						}
-						value={telefone}
-						onChangeText={texto => this.setState({ telefone: texto })}
-						ref={(input) => { this.inputTelefone = input; }}
-						returnKeyType={'next'}
-						onSubmitEditing={() => this.inputEmail.focus()}
-					/>
+						</View>
+
+					</View>
+
 					<Input
+						containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+						inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+						underlineColorAndroid="transparent"
 						keyboardType='email-address'
 						keyboardAppearance='dark'
 						placeholder=""
@@ -202,15 +199,7 @@ class ProspectoScreen extends React.Component {
 						autoCorrect={false}
 						label="EMAIL"
 						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 16 }}
-						leftIcon={
-							<Icon
-								name="envelope"
-								type="font-awesome"
-								color={gold}
-								size={20}
-							/>
-						}
+						labelStyle={{ marginTop: 5, color: white }}
 						value={email}
 						onChangeText={texto => this.setState({ email: texto })}
 						ref={(input) => { this.inputEmail = input; }}
@@ -218,16 +207,18 @@ class ProspectoScreen extends React.Component {
 						onSubmitEditing={() => this.ajudadorDeSubmissao()}
 					/>
 
-				</Card>
+					{/* </Card> */}
 
-				<Button
-					title='Salvar'
-					buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
-					textStyle={{ color: white, }}
-					onPress={() => { this.ajudadorDeSubmissao() }}
-				/>
+					<Button
+						title='Salvar'
+						buttonStyle={{ backgroundColor: gold, height: 50, }}
+						textStyle={{ color: white, }}
+						onPress={() => { this.ajudadorDeSubmissao() }}
+					/>
 
-			</KeyboardAwareScrollView>
+				</KeyboardAwareScrollView>
+			</LinearGradient>
+
 		)
 	}
 }

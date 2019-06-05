@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button } from 'native-base'
-import { Alert, View, Text, Image } from 'react-native'
+import { Alert, View, Text, Image, TouchableOpacity } from 'react-native'
 import styles from './ProspectoStyle'
 import { connect } from 'react-redux'
-import { 
+import {
 	alterarUsuarioNoAsyncStorage,
 } from '../actions'
 import {
@@ -11,6 +11,9 @@ import {
 	scheduleNotification,
 	cancelarTodasNotificacoes,
 } from '../helpers/helper'
+import { LinearGradient } from 'expo'
+import { dark, black, lightdark, white } from '../helpers/colors';
+import { Icon } from 'react-native-elements';
 
 class SideBar extends React.Component {
 
@@ -28,47 +31,83 @@ class SideBar extends React.Component {
 			})
 	}
 
-    render() {
-        return (
-                <View style={styles.sideMenu}>
-                    <Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
-					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => sendNotificationImmediately()}	
-					>
-						<Text style={styles.textMenu}>
-                            agora
+	render() {
+		return (
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434', 'rgba(52, 52, 52, 0.9)']}>
+				<View style={styles.sideMenu}>
+					<Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
+
+					<View style={{marginTop: 10, }}>
+						<TouchableOpacity
+							onPress={() => sendNotificationImmediately()}
+							style={{ flexDirection: 'row', alignItems: 'center', }}
+						>
+							<Icon
+								name="user"
+								size={22}
+								type="font-awesome"
+								color={white}
+								containerStyle={{ marginRight: 6 }}
+							/>
+							<Text style={styles.textMenu}>
+								agora
                         </Text>
-                    </Button>
-					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => scheduleNotification()}	
-					>
-						<Text style={styles.textMenu}>
-                            5 segundos 
+						</TouchableOpacity>
+						<View >
+							<TouchableOpacity
+								onPress={() => scheduleNotification()}
+								style={{ flexDirection: 'row', alignItems: 'center', }}
+							>
+								<Icon
+									name="file"
+									size={22}
+									type="font-awesome"
+									color={white}
+									containerStyle={{ marginRight: 6 }}
+								/>
+								<Text style={styles.textMenu}>
+									5 segundos
+                        	</Text>
+							</TouchableOpacity>
+						</View>
+						<TouchableOpacity
+							onPress={() => cancelarTodasNotificacoes()}
+							style={{ flexDirection: 'row', alignItems: 'center', }}
+						>
+							<Icon
+								name="power-off"
+								size={22}
+								type="font-awesome"
+								color={white}
+								containerStyle={{ marginRight: 6 }}
+							/>
+							<Text style={styles.textMenu}>
+								Cancelar
                         </Text>
-                    </Button>
-    					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => cancelarTodasNotificacoes()}	
-					>
-						<Text style={styles.textMenu}>
-                            Cancelar 
+						</TouchableOpacity>
+
+
+						<TouchableOpacity
+							onPress={() => this.sair()}
+							style={{ flexDirection: 'row', alignItems: 'center', }}
+						>
+							<Icon
+								name="power-off"
+								size={22}
+								type="font-awesome"
+								color={white}
+								containerStyle={{ marginRight: 6 }}
+							/>
+							<Text style={styles.textMenu}>
+								Sair
                         </Text>
-                    </Button>
-    
-     
-					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => this.sair()}	
-					>
-                        <Text style={styles.textMenu}>
-                            Sair
-                        </Text>
-                    </Button>
-                </View>
-        )
-    }
+						</TouchableOpacity>
+					</View>
+
+				</View>
+			</LinearGradient>
+		)
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {

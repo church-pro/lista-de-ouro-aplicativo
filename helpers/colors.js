@@ -1,5 +1,5 @@
 export const purple = '#292477'
-export const gray = '#757575'
+export const gray = '#857575'
 export const white = '#fff'
 export const red = '#b71845'
 export const orange = '#f26f28'
@@ -11,4 +11,5 @@ export const dark = "#202020"
 export const lightdark = "#303030"
 export const gold = "#B6832D"
 export const yellow = "#F0D570"
+export const black = "#000000"
 

@@ -8,6 +8,7 @@ import {
 	Alert
 } from 'react-native';
 import Prospecto from '../components/Prospecto'
+import Prospecto2 from '../components/Prospecto2'
 import {
 	sincronizarNaAPI,
 	recuperarHistoricoNaoSincronizado,
@@ -22,6 +23,8 @@ import {
 	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
+import {LinearGradient} from 'expo'
+import { dark, lightdark, gold, white, gray, black } from '../helpers/colors';
 
 class ListaDeProspectos extends React.Component {
 
@@ -107,7 +110,7 @@ class ListaDeProspectos extends React.Component {
 	_keyExtractor = (item, index) => item.id;
 
 	_renderItem = ({ item }) => (
-		<Prospecto
+		<Prospecto2
 			key={item.id}
 			prospecto={item}
 			navigation={this.props.navigation}
@@ -117,6 +120,7 @@ class ListaDeProspectos extends React.Component {
 	render() {
 		const { title, prospectos, navigation } = this.props
 		return (
+			<LinearGradient style={{flex: 1}} colors={[black, dark, lightdark, '#343434']}>
 			<View style={{ flex: 1 }}>
 				<Text style={{ textAlign: 'center', color: '#AAA', padding: 10, }}>{title}</Text>
 				{
@@ -136,6 +140,7 @@ class ListaDeProspectos extends React.Component {
 					/>
 				}
 			</View>
+			</LinearGradient>
 		)
 	}
 

@@ -7,7 +7,7 @@ import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers'
 import {Constants} from 'expo' 
-import { gray, dark } from './helpers/colors'
+import { gray, dark, black } from './helpers/colors'
 
 const logger = store => next => action => { 
 	console.group(action.type)
@@ -76,6 +76,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Platform.OS==="ios" ? dark : gray,
+		backgroundColor: Platform.OS==="ios" ? black : gray,
 	},
 });

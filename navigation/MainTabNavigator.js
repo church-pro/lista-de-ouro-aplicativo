@@ -8,7 +8,7 @@ import PerguntasScreen from '../screens/PerguntasScreen';
 import ProspectoScreen from '../screens/ProspectoScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegistroScreen from '../screens/RegistroScreen';
-import { white, dark } from '../helpers/colors'
+import { white, dark, black } from '../helpers/colors'
 
 const ProspectosStack = createStackNavigator(
 	{
@@ -25,8 +25,8 @@ const ProspectosStack = createStackNavigator(
 		initialRouteName: 'Login',
 		navigationOptions: {
 			headerStyle: {
-				backgroundColor: dark,
-				borderBottomColor: dark
+				backgroundColor: black,
+				borderBottomColor: black,
 			},
 			headerBackTitle: null
 		},

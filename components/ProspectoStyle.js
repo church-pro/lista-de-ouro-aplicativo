@@ -9,13 +9,18 @@ const styles = StyleSheet.create({
     },
     containerCard: {
         backgroundColor: 'transparent', 
-        borderRadius: 6, 
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderColor: gray,
         padding: 0,
+        margin: 0,
         flexDirection: 'column',
     },
     name_phone: {
-        flexDirection: 'column',
-        padding: 8,
+        flexDirection: 'row',
+        padding: 15,
+        justifyContent: 'space-between',
     },
     text: {
         color: white
@@ -118,22 +123,19 @@ const styles = StyleSheet.create({
     //SIDE MENU
     sideMenu: {
         flex: 1,
-        alignItems: 'flex-start',
-        backgroundColor: dark,
+        alignItems: 'center',
+        paddingVertical: 10, 
     },
     imgLogo: {
         height: 85,
         width: 90,
-        marginBottom: 20,
-        marginLeft: 20,
-        marginTop: 50,
     },
     textMenu: {
         color: white,
-        fontSize: 36,
+        fontSize: 22,
         fontWeight: '200',
-        paddingVertical: 30,
-        marginLeft: 20
+        paddingVertical: 20,
+        alignItems: 'center',
     },
 
 })

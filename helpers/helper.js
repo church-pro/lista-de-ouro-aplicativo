@@ -3,9 +3,9 @@ import {
 	Permissions,
 	Platform,
 } from 'expo'
-import {
-	NotificationsIOS,
-} from 'react-native-notifications'
+// import {
+// 	NotificationsIOS,
+// } from 'react-native-notifications'
 
 export function criarNotificacaoLocal(notificacao){
 	return {

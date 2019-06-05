@@ -246,7 +246,7 @@ class RegistroScreen extends React.Component {
 									ref={(input) => { this.inputEmail = input; }}
 									returnKeyType={'next'}
 									onSubmitEditing={() => this.inputSenha.focus()}
-									autoCapitalize={false}
+									autoCapitalize="none"
 								/>
 							</View>
 

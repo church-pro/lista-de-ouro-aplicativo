@@ -12,9 +12,10 @@ import { Icon, Card, CheckBox } from 'react-native-elements'
 import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
 import ActionButton from 'react-native-action-button';
 import SideBar from '../components/SideBar'
-import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
+import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation'
+import AddButton from '../components/AddButton'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
-import { white, gold, dark, lightdark } from '../helpers/colors'
+import { white, gold, dark, lightdark, black } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
 import { 
@@ -226,7 +227,7 @@ class ProspectosScreen extends React.Component {
 					navigation={navigation} 
 				/>
 
-			<ActionButton buttonColor={gold} buttonTextStyle={{color: dark}} spacing={15} offsetX={20} offsetY={20} >
+			{/* <ActionButton buttonColor={gold} buttonTextStyle={{color: dark}} spacing={15} offsetX={20} offsetY={20} >
 				<ActionButton.Item size={40} buttonColor={gold}  
 					onPress={() => {
 						this.props.navigation.navigate('Prospecto')
@@ -240,7 +241,7 @@ class ProspectosScreen extends React.Component {
 					}}>
 					<Icon name='address-book' type='font-awesome' color={dark}/>
 				</ActionButton.Item>
-			</ActionButton>
+			</ActionButton> */}
 
 		</View>
 		)
@@ -268,7 +269,8 @@ class ProspectosScreen extends React.Component {
 				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
 				navigation={navigation}
 			/>)
-		const Tabs = createMaterialTopTabNavigator(
+		// const Tabs = createMaterialTopTabNavigator(
+		const Tabs = createBottomTabNavigator(
 			{
 				Qualificar: {
 					screen: ListaDeProspectosQualificar, 
@@ -286,14 +288,22 @@ class ProspectosScreen extends React.Component {
 						),
 					}
 				},
-				Apresentar: {
-					screen: ListaDeProspectosApresentar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='calendar' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
+				// Apresentar: {
+				// 	screen: ListaDeProspectosApresentar, 
+				// 	navigationOptions: {
+				// 		tabBarIcon: ({ tintColor }) => (
+				// 			<Icon name='calendar' type='font-awesome' color={tintColor} />
+				// 		),
+				// 	}
+				// },
+				add: {
+					screen: () => null,
+					navigationOptions: () => ({
+					  tabBarButtonComponent: () => (
+						<AddButton navigation={navigation}/>
+					  ),
+					}),
+				  },
 				Acompanhar: {
 					screen: ListaDeProspectosAcompanhar, 
 					navigationOptions: {
@@ -333,7 +343,7 @@ class ProspectosScreen extends React.Component {
 				content={<SideBar closeDrawer={this.closeDrawer} navigation={this.props.navigation} />}
 				onClose={() => this.closeDrawer()}
 			>
-				<Header  style={{backgroundColor: dark, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
+				<Header  style={{backgroundColor: black, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
 					<Left style={{flex: 0}}>
 						<TouchableOpacity 
 							style={{backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal:8}}
