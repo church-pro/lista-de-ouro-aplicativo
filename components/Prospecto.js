@@ -17,6 +17,7 @@ import {
 	SITUACAO_ACOMPANHAR,
 	SITUACAO_FECHAMENTO,
 	SITUACAO_REMOVIDO,
+	SITUACAO_TELEFONAR,
 } from '../helpers/constants'
 import { alterarProspectoNoAsyncStorage, alterarAdministracao } from '../actions'
 import { connect } from 'react-redux'
@@ -134,7 +135,7 @@ class Prospecto extends React.Component {
 
 				<View style={styles.subFooter}>
 					{
-						prospecto.situacao_id === SITUACAO_QUALIFICAR &&
+						prospecto.situacao_id === SITUACAO_TELEFONAR &&
 						<View style={styles.footerQualificar}>
 							<Icon
 								name='pencil'

@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { white, dark, gold, lightdark } from '../helpers/colors'
+import { LinearGradient } from 'expo'
+import { white, dark, gold, lightdark, gray, black } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DatePicker from 'react-native-datepicker'
 import { alterarProspectoNoAsyncStorage } from '../actions'
@@ -88,27 +89,17 @@ class MarcarDataEHoraScreen extends React.Component {
 		const { prospecto } = this.props
 
 		return (
-			<KeyboardAwareScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: lightdark }}
-				keyboardShoulfPersistTaps='always'
-				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				<KeyboardAwareScrollView
+					contentContainerStyle={styles.container}
+					keyboardShoulfPersistTaps='always'
+					enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
-				<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
 
-					<View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderBottomColor: '#86939e' }}>
-						<Text style={{ fontSize: 16, color: '#86939e', fontWeight: "bold", marginTop: 16 }}>DATA</Text>
+					<View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6 }}>
+						<Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>DATA</Text>
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<DatePicker
-								iconComponent={
-									<Icon
-										name="calendar"
-										type="font-awesome"
-										color={gold}
-										size={22}
-										containerStyle={{ position: 'absolute', left: 10 }}
-									/>
-								}
 								style={{ flex: 1, }}
 								date={this.state.dataParaOAgendamento}
 								mode="date"
@@ -117,15 +108,17 @@ class MarcarDataEHoraScreen extends React.Component {
 								minDate={this.state.date}
 								confirmBtnText="Confirmar"
 								cancelBtnText="Cancelar"
+								showIcon={false}
 								customStyles={{
 									dateInput: {
 										borderWidth: 0,
-										alignItems: "flex-start"
+										alignItems: "flex-start",
+
 									},
 									dateText: {
 										color: white,
 										fontSize: 18,
-										marginLeft: 35,
+										marginLeft: 4,
 									}
 								}}
 								onDateChange={(date) => {
@@ -134,8 +127,8 @@ class MarcarDataEHoraScreen extends React.Component {
 							/>
 						</View>
 					</View>
-					<View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderBottomColor: '#86939e' }}>
-						<Text style={{ fontSize: 16, color: '#86939e', fontWeight: "bold", marginTop: 16 }}>HORA</Text>
+					<View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}>
+						<Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>HORA</Text>
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<DatePicker
 								style={{ flex: 1 }}
@@ -145,14 +138,7 @@ class MarcarDataEHoraScreen extends React.Component {
 								is24Hour={true}
 								confirmBtnText="Confirmar"
 								cancelBtnText="Cancelar"
-								iconComponent={
-									<Icon
-										name="clock-o"
-										type="font-awesome"
-										color={gold}
-										size={22}
-										containerStyle={{ position: 'absolute', left: 10 }}
-									/>}
+								showIcon={false}
 								customStyles={{
 									dateInput: {
 										borderWidth: 0,
@@ -161,7 +147,7 @@ class MarcarDataEHoraScreen extends React.Component {
 									dateText: {
 										color: white,
 										fontSize: 18,
-										marginLeft: 35,
+										marginLeft: 4,
 									}
 								}}
 								onDateChange={(date) => {
@@ -171,36 +157,29 @@ class MarcarDataEHoraScreen extends React.Component {
 						</View>
 					</View>
 
-					<View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderBottomColor: '#86939e' }}>
-						<Text style={{ fontSize: 16, color: '#86939e', fontWeight: "bold", marginTop: 16 }}>LOCAL</Text>
+					<View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6 }}>
+						<Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>LOCAL</Text>
 						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<Icon
-								name="map-marker"
-								type="font-awesome"
-								color={gold}
-								size={22}
-								containerStyle={{ marginLeft: 13 }}
-							/>
 							<TextInput
 								keyboardAppearance='dark'
 								placeholder=""
-								style={{ color: white, fontSize: 18, marginLeft: 6, minHeight: 40, flex: 1 }}
+								style={{ color: white, fontSize: 18, marginLeft: 4, minHeight: 40, flex: 1 }}
 								value={this.local}
 								onChangeText={(text) => this.setState({ local: text })}
 							/>
 						</View>
 					</View>
-				</Card>
 
-				<View style={styles.containerButton}>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => this.alterarProspecto()}
-					>
-						<Text style={{ textAlign: "center", fontSize: 16 }}>Marcar</Text>
-					</TouchableOpacity>
-				</View>
-			</KeyboardAwareScrollView>
+					<View style={styles.containerButton}>
+						<TouchableOpacity
+							style={styles.button}
+							onPress={() => this.alterarProspecto()}
+						>
+							<Text style={{ textAlign: "center", fontSize: 16 }}>Marcar</Text>
+						</TouchableOpacity>
+					</View>
+				</KeyboardAwareScrollView>
+			</LinearGradient>
 		)
 	}
 
@@ -225,18 +204,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(MarcarDataEHoraScree
 const styles = StyleSheet.create({
 	container: {
 		flexGrow: 1,
-		backgroundColor: lightdark,
-		// justifyContent: "space-between", 
-		paddingBottom: 15
+		padding: 20,
 	},
 	containerButton: {
-		paddingVertical: 15,
-		marginHorizontal: 15,
+		paddingVertical: 10,
+		marginTop: 10,
 	},
 	button: {
 		backgroundColor: gold,
 		height: 45,
 		borderRadius: 6,
 		justifyContent: 'center',
+		shadowOffset: { width: 5, height: 5, },
+		shadowColor: 'rgba(0,0,0,0.3)',
+		shadowOpacity: 1.0,
 	},
 })

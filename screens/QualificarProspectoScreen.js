@@ -6,12 +6,11 @@ import {
 	TouchableOpacity,
 	StyleSheet
 } from 'react-native';
-import { Button } from 'native-base';
 import { AirbnbRating } from 'react-native-ratings'
-import { white, lightdark, dark, gray, gold } from '../helpers/colors'
+import { white, lightdark, dark, gray, gold, black } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { alterarProspectoNoAsyncStorage } from '../actions'
-import { SITUACAO_CONVIDAR } from '../helpers/constants'
+import {LinearGradient} from 'expo'
 
 class QualificarProspectoScreen extends React.Component {
 
@@ -43,7 +42,7 @@ class QualificarProspectoScreen extends React.Component {
 		return {
 			// title: 'Qualificar',
 			headerStyle: {
-				backgroundColor: lightdark,
+				backgroundColor: black,
 				borderBottomWidth: 0,
 			},
 			headerTitleStyle: {
@@ -63,6 +62,7 @@ class QualificarProspectoScreen extends React.Component {
 		const { prospecto } = this.props
 
 		return (
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 			<View style={styles.container}>
 				<Text style={{ textAlign: "center", color: gray, fontSize: 18 }}>
 					Qualifique o prospecto de acordo com o nível de interesse
@@ -75,7 +75,7 @@ class QualificarProspectoScreen extends React.Component {
 
 					<AirbnbRating
 						showRating={false}
-						defaultRating={this.state.rating}
+						defaultRating={prospecto.rating}
 						onFinishRating={(valor) => this.setState({ rating: valor })}
 					/>
 				</View>
@@ -90,6 +90,7 @@ class QualificarProspectoScreen extends React.Component {
 				</View>
 
 			</View>
+			</LinearGradient>
 		)
 	}
 }
@@ -113,14 +114,14 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 10,
-		backgroundColor: lightdark,
+		// backgroundColor: lightdark,
 		justifyContent: "space-between",
 		paddingBottom: 15,
 	},
-	name:{
-		textAlign: "center", 
-		fontSize: 27, 
-		color: white, 
+	name: {
+		textAlign: "center",
+		fontSize: 27,
+		color: white,
 		paddingVertical: 6,
 	},
 	button: {
