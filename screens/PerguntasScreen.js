@@ -43,11 +43,7 @@ class PerguntasScreen extends React.Component {
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View style={{ flex: 1, }}>
 					<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
-						<Text style={{
-							color: white, textAlign: 'center', fontWeight: 'bold',
-							paddingBottom: 8
-						}}>
-							Foi feito o pré-cadastro?</Text>
+						<Text style={{ color: white, textAlign: 'center', fontWeight: 'bold', paddingBottom: 8 }}>Foi feito o pré-cadastro?</Text>
 						<View style={{ flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center' }}>
 							<CheckBox
 								title='Sim'

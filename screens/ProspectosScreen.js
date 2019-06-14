@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-	StyleSheet,
 	Text,
 	View,
 	TouchableOpacity,
@@ -11,18 +10,15 @@ import {
 } from 'react-native';
 import { Icon, Card, CheckBox } from 'react-native-elements'
 import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
-import ActionButton from 'react-native-action-button';
 import SideBar from '../components/SideBar'
-import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation'
 import AddButton from '../components/AddButton'
-import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
 import { white, gold, dark, lightdark, black } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import {LinearGradient} from 'expo'
 import { connect } from 'react-redux'
 import {
 	SITUACAO_TELEFONAR,
-	SITUACAO_CONVIDAR,
 	SITUACAO_APRESENTAR,
 	SITUACAO_ACOMPANHAR,
 	SITUACAO_FECHAMENTO,
@@ -253,7 +249,6 @@ class ProspectosScreen extends React.Component {
 				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)}
 				navigation={navigation}
 			/>)
-		// const Tabs = createMaterialTopTabNavigator(
 		const Tabs = createBottomTabNavigator(
 			{
 				Telefonar: {

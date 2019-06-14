@@ -18,9 +18,7 @@ class QualificarProspectoScreen extends React.Component {
 		if (this.state.rating > 0) {
 			const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 			prospecto.rating = this.state.rating
-			// prospecto.situacao_id = SITUACAO_CONVIDAR
 			alterarProspectoNoAsyncStorage(prospecto)
-			Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
 			navigation.goBack()
 		} else {
 			Alert.alert('Aviso', 'Selecione uma qualificação')
@@ -114,7 +112,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 10,
-		// backgroundColor: lightdark,
 		justifyContent: "space-between",
 		paddingBottom: 15,
 	},

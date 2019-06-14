@@ -5,24 +5,21 @@ import {
 	Alert,
 	TouchableOpacity,
 	Linking,
-	Animated,
 } from 'react-native';
-import { Card, Icon, Badge } from 'react-native-elements'
-import { white, lightdark, gold, dark, gray, yellow, red } from '../helpers/colors'
+import { Card, Icon } from 'react-native-elements'
+import { white, gold, dark, gray, red } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import email from 'react-native-email'
 import {
 	SITUACAO_TELEFONAR,
-	SITUACAO_CONVIDAR,
 	SITUACAO_APRESENTAR,
-	SITUACAO_ACOMPANHAR,
 	SITUACAO_FECHAMENTO,
 	SITUACAO_REMOVIDO,
+	SITUACAO_ACOMPANHAR,
 } from '../helpers/constants'
 import { alterarProspectoNoAsyncStorage, alterarAdministracao } from '../actions'
 import { connect } from 'react-redux'
 import styles from './ProspectoStyle';
-// import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Swipeable from 'react-native-swipeable';
 
 class Prospecto2 extends React.Component {
@@ -30,7 +27,14 @@ class Prospecto2 extends React.Component {
 	swipeable = null
 	handleUserBeganScrollingParentView() {
 		this.swipeable.recenter();
-	  }
+	}
+
+	changeStart (){
+		this.props.onSwipeStart
+	}
+	changeRelease (){
+		this.props.onSwipeRelease
+	}
 
 	removerProspecto() {
 		const { prospecto, alterarProspectoNoAsyncStorage } = this.props
@@ -77,16 +81,16 @@ class Prospecto2 extends React.Component {
 		const { prospecto, navigation } = this.props
 
 		const rightButtons = [
-			
+
 			<TouchableOpacity
 				onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto.id }) }}
 				style={{
 					flex: 1,
-					width: 75,
 					flexDirection: 'row',
 					alignItems: 'center',
-					justifyContent: 'center',
+					justifyContent: 'flex-start',
 					backgroundColor: gold,
+					paddingLeft: 30,
 				}}
 			>
 				<Icon name="pencil" size={22} color={white} type='font-awesome' />
@@ -94,11 +98,11 @@ class Prospecto2 extends React.Component {
 			<TouchableOpacity
 				style={{
 					flex: 1,
-					width: 75,
 					flexDirection: 'row',
 					alignItems: 'center',
-					justifyContent: 'center',
+					justifyContent: 'flex-start',
 					backgroundColor: red,
+					paddingLeft: 30,
 				}}
 				onPress={() => { this.removerProspecto() }} >
 				<Icon name="trash" size={22} color={white} type='font-awesome' />
@@ -109,6 +113,8 @@ class Prospecto2 extends React.Component {
 				<Swipeable
 					rightButtons={rightButtons}
 					onRef={ref => this.swipeable = ref}
+					onSwipeStart={this.props.onSwipeStart}
+					onSwipeRelease={this.props.onSwipeRelease}
 				>
 					<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 						{
@@ -171,6 +177,16 @@ class Prospecto2 extends React.Component {
 							}
 							{
 								prospecto.situacao_id === SITUACAO_APRESENTAR &&
+								<View style={{ backgroundColor: 'transparent', padding: 4, borderRadius: 4, marginLeft: 3 }}>
+									<TouchableOpacity
+										onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
+									>
+										<Icon name='list' type='font-awesome' color={gray} containerStyle={{ marginRight: 6 }} type='font-awesome' />
+									</TouchableOpacity>
+								</View>
+							}
+							{
+								prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
 								<View style={{ backgroundColor: 'transparent', padding: 4, borderRadius: 4, marginLeft: 3 }}>
 									<TouchableOpacity
 										onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}

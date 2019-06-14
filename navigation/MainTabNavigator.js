@@ -8,6 +8,7 @@ import PerguntasScreen from '../screens/PerguntasScreen';
 import ProspectoScreen from '../screens/ProspectoScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegistroScreen from '../screens/RegistroScreen';
+import PerfilScreen from '../screens/PerfilScreen';
 import { white, dark, black } from '../helpers/colors'
 
 const ProspectosStack = createStackNavigator(
@@ -18,6 +19,7 @@ const ProspectosStack = createStackNavigator(
 		MarcarDataEHora: MarcarDataEHoraScreen,
 		Perguntas: PerguntasScreen,
 		Prospecto: ProspectoScreen,
+		Perfil: PerfilScreen,
 		Login: LoginScreen,
 		Registro: RegistroScreen,
 	}, 

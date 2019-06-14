@@ -39,6 +39,21 @@ class SideBar extends React.Component {
 
 					<View style={{marginTop: 10, }}>
 						<TouchableOpacity
+							onPress={() => this.props.navigation.navigate('Perfil')}
+							style={{ flexDirection: 'row', alignItems: 'center', }}
+						>
+							<Icon
+								name="user"
+								size={22}
+								type="font-awesome"
+								color={white}
+								containerStyle={{ marginRight: 6 }}
+							/>
+							<Text style={styles.textMenu}>
+								Perfil
+                        </Text>
+						</TouchableOpacity>
+						<TouchableOpacity
 							onPress={() => sendNotificationImmediately()}
 							style={{ flexDirection: 'row', alignItems: 'center', }}
 						>

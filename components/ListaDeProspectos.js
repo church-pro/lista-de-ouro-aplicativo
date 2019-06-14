@@ -14,8 +14,8 @@ import {
 	recuperarHistoricoNaoSincronizado,
 	limparHistoricos,
 } from '../helpers/api'
-import { 
-	alterarProspectoNoAsyncStorage, 
+import {
+	alterarProspectoNoAsyncStorage,
 	alterarAdministracao,
 	alterarUsuarioNoAsyncStorage,
 	pegarProspectosNoAsyncStorage,
@@ -23,10 +23,27 @@ import {
 	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
-import {LinearGradient} from 'expo'
+import { LinearGradient } from 'expo'
 import { dark, lightdark, gold, white, gray, black } from '../helpers/colors';
 
 class ListaDeProspectos extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = { isSwiping: true }
+		this.onSwipeRelease = this.onSwipeRelease.bind(this)
+		this.onSwipeStart = this.onSwipeStart.bind(this)
+	}
+
+	onSwipeStart = () => {
+		this.setState({ isSwiping: false })
+		console.warn('start');
+
+	}
+	onSwipeRelease = () => {
+		this.setState({ isSwiping: true })
+		console.warn('release');
+	}
 
 	state = {
 		refreshing: false,
@@ -34,19 +51,19 @@ class ListaDeProspectos extends React.Component {
 	}
 
 	sincronizar = () => {
-		try{
+		try {
 			NetInfo.isConnected
 				.fetch()
 				.then(isConnected => {
-					if(isConnected){
+					if (isConnected) {
 						const {
 							usuario,
 							navigation,
 							adicionarProspectosAoAsyncStorage,
 							alterarUsuarioNoAsyncStorage,
 						} = this.props
-						if(usuario.email){
-							this.setState({carregando: true})
+						if (usuario.email) {
+							this.setState({ carregando: true })
 							let dados = {
 								email: usuario.email,
 								senha: usuario.senha,
@@ -60,11 +77,11 @@ class ListaDeProspectos extends React.Component {
 										.then(retorno => {
 											let alertTitulo = ''
 											let alertCorpo = ''
-											if(retorno.ok){
-												if(retorno.resultado.prospectos){
+											if (retorno.ok) {
+												if (retorno.resultado.prospectos) {
 													const prospectosParaAdicionar = retorno.resultado.prospectos
 														.map(prospecto => {
-															prospecto.id = prospecto._id	
+															prospecto.id = prospecto._id
 															prospecto.rating = null
 															prospecto.situacao_id = 1
 															prospecto.online = true
@@ -76,34 +93,34 @@ class ListaDeProspectos extends React.Component {
 												limparHistoricos()
 												alertTitulo = 'Sincronização'
 												alertCorpo = 'Sincronizado com sucesso!'
-												this.setState({refreshing: false})
+												this.setState({ refreshing: false })
 												Alert.alert(alertTitulo, alertCorpo)
-											}else{
+											} else {
 												alertTitulo = 'Aviso'
 												alertCorpo = 'Usuário/Senha não conferem!'
 												alterarUsuarioNoAsyncStorage({})
-													.then(() =>  {
-														this.setState({refreshing: false})
+													.then(() => {
+														this.setState({ refreshing: false })
 														Alert.alert(alertTitulo, alertCorpo)
 													})
 											}
 										})
 										.catch(err => console.log('err: ', err))
 								})
-						}else{
+						} else {
 							navigation.navigate('Login')
 						}
-					}else{
+					} else {
 						Alert.alert('Internet', 'Verifique sua internet!')
 					}
 				})
-		} catch(err) {
+		} catch (err) {
 			Alert.alert('Error', err)
 		}
 	}
 
 	_handleRefresh = () => {
-		this.setState({refreshing: true})
+		this.setState({ refreshing: true })
 		this.sincronizar()
 	}
 
@@ -120,33 +137,34 @@ class ListaDeProspectos extends React.Component {
 	render() {
 		const { title, prospectos, navigation } = this.props
 		return (
-			<LinearGradient style={{flex: 1}} colors={[black, dark, lightdark, '#343434']}>
-			<View style={{ flex: 1 }}>
-				<Text style={{ textAlign: 'center', color: '#AAA', padding: 10, }}>{title}</Text>
-				{
-					prospectos &&
-					<FlatList
-						data={prospectos}
-						renderItem={this._renderItem}
-						keyExtractor={this._keyExtractor}
-						navigation={navigation}
-						refreshControl={
-							<RefreshControl
-								refreshing={this.state.refreshing}
-								onRefresh={this._handleRefresh}
-							/>
-						}
-						removeClippedSubviews={false}
-					/>
-				}
-			</View>
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				<View style={{ flex: 1 }}>
+					<Text style={{ textAlign: 'center', color: '#AAA', padding: 10, }}>{title}</Text>
+					{
+						prospectos &&
+						<FlatList
+							scrollEnabled={!this.props.isSwiping}
+							data={prospectos}
+							renderItem={this._renderItem}
+							keyExtractor={this._keyExtractor}
+							navigation={navigation}
+							refreshControl={
+								<RefreshControl
+									refreshing={this.state.refreshing}
+									onRefresh={this._handleRefresh}
+								/>
+							}
+							removeClippedSubviews={false}
+						/>
+					}
+				</View>
 			</LinearGradient>
 		)
 	}
 
 }
 
-function mapStateToProps({ prospectos, usuario, administracao,}){
+function mapStateToProps({ prospectos, usuario, administracao, }) {
 	return {
 		// prospectos,
 		usuario,
@@ -154,7 +172,7 @@ function mapStateToProps({ prospectos, usuario, administracao,}){
 	}
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
