@@ -12,7 +12,8 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { dark, white, gray, gold, lightdark } from '../helpers/colors';
+import { Input } from 'react-native-elements'
+import { dark, white, black, gold, lightdark, gray } from '../helpers/colors';
 import logo from '../assets/images/logo-word.png'
 import { Icon } from 'native-base';
 import {
@@ -22,6 +23,8 @@ import {
 	alterarUsuarioNoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
+import LOButton from '../components/LOButton';
+import { LinearGradient } from 'expo'
 
 class RegistroScreen extends React.Component {
 
@@ -143,61 +146,61 @@ class RegistroScreen extends React.Component {
 			senha,
 		} = this.state
 		return (
-			<KeyboardAwareScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: lightdark }}
-				keyboardShoulfPersistTaps='always'
-				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				<KeyboardAwareScrollView
+					contentContainerStyle={styles.container}
+					keyboardShoulfPersistTaps='always'
+					enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
-				{
-					carregando &&
-					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<ActivityIndicator
-							size="large"
-							color={gold}
-						/>
-					</View>
-				}
+					{
+						carregando &&
+						<View style={{ flex: 1, justifyContent: 'center' }}>
+							<ActivityIndicator
+								size="large"
+								color={gold}
+							/>
+						</View>
+					}
 
-				{
-					!carregando &&
-					<View>
-						<View style={styles.containerLogin}>
-							<View>
-								<View style={{ flexDirection: 'row' }}>
-									<Icon name='user' type='FontAwesome'
-										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-									/>
-									<Text style={{ color: gold }}>Nome</Text>
-								</View>
-								<TextInput style={styles.inputText}
-									keyboardAppearance='dark'
-									autoCapitalize="none"
-									placeholderTextColor="#d3d3d3"
-									selectionColor="#fff"
-									value={nome}
-									onChangeText={texto => this.setState({ nome: texto })}
-									ref={(input) => { this.inputNome = input; }}
-									returnKeyType={'next'}
-									onSubmitEditing={() => this.inputDDD.focus()}
-								/>
-							</View>
+					{
+						!carregando &&
+						<View>
+							<Input
+								containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+								underlineColorAndroid="transparent"
+								keyboardAppearance='dark'
+								onSubmitEditing={() => this.inputDDD.focus()}
+								returnKeyType="next"
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label="NOME"
+								inputStyle={{ color: white, marginLeft: 5 }}
+								labelStyle={{ marginTop: 5, color: white }}
+								value={nome}
+								onChangeText={texto => this.setState({ nome: texto })}
+								returnKeyType={'next'}
+								onSubmitEditing={() => this.inputDDD.focus()}
+
+							/>
 
 							<View style={{ marginTop: 8, flexDirection: "row" }}>
-								<View style={{ width: 50, marginRight: 10 }}>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='phone' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>DDD</Text>
-									</View>
-									<TextInput style={[styles.inputText, style = { textAlign: 'center' }]}
-										keyboardAppearance='dark'
-										autoCapitalize="none"
-										maxLength={2}
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
+
+								<View style={{ marginRight: 6 }}>
+									<Input
+										containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
+										inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+										underlineColorAndroid="transparent"
 										keyboardType='phone-pad'
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label="DDD"
+										maxLength={2}
+										inputStyle={{ color: white, marginLeft: 5 }}
+										labelStyle={{ marginTop: 5, color: white }}
 										value={ddd}
 										onChangeText={texto => this.setState({ ddd: texto })}
 										ref={(input) => { this.inputDDD = input; }}
@@ -207,18 +210,18 @@ class RegistroScreen extends React.Component {
 								</View>
 
 								<View style={{ flex: 1 }}>
-									<View style={{ flexDirection: 'row' }}>
-										{/* <Icon name='phone' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/> */}
-										<Text style={{ color: gold }}>Telefone</Text>
-									</View>
-									<TextInput style={styles.inputText}
-										keyboardAppearance='dark'
-										autoCapitalize="none"
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
+									<Input
+										containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
+										inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+										underlineColorAndroid="transparent"
 										keyboardType='phone-pad'
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label="TELEFONE"
+										inputStyle={{ color: white, marginLeft: 5 }}
+										labelStyle={{ marginTop: 5, color: white }}
 										value={telefone}
 										onChangeText={texto => this.setState({ telefone: texto })}
 										ref={(input) => { this.inputTelefone = input; }}
@@ -229,59 +232,56 @@ class RegistroScreen extends React.Component {
 							</View>
 
 							<View style={{ marginTop: 8 }}>
-								<View style={{ flexDirection: 'row' }}>
-									<Icon name='envelope' type='FontAwesome'
-										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-									/>
-									<Text style={{ color: gold }}>Email</Text>
-								</View>
-								<TextInput style={styles.inputText}
+								<Input
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									underlineColorAndroid="transparent"
+									keyboardType='email-address'
 									keyboardAppearance='dark'
 									autoCapitalize="none"
-									placeholderTextColor="#d3d3d3"
-									selectionColor="#fff"
-									keyboardType="email-address"
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="EMAIL"
+									inputStyle={{ color: white, marginLeft: 5 }}
+									labelStyle={{ marginTop: 5, color: white }}
 									value={email}
 									onChangeText={texto => this.setState({ email: texto })}
 									ref={(input) => { this.inputEmail = input; }}
 									returnKeyType={'next'}
 									onSubmitEditing={() => this.inputSenha.focus()}
-									autoCapitalize="none"
 								/>
 							</View>
 
-							<View style={{ marginTop: 8 }}>
-								<View style={{ flexDirection: 'row' }}>
-									<Icon name='lock' type='FontAwesome'
-										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-									/>
-									<Text style={{ color: gold }}>Senha</Text>
-								</View>
-								<TextInput style={styles.inputText}
-									keyboardAppearance='dark'
-									autoCapitalize="none"
-									placeholderTextColor="#d3d3d3"
-									selectionColor="#fff"
-									keyboardType='default'
-									secureTextEntry={true}
-									value={senha}
-									onChangeText={texto => this.setState({ senha: texto })}
-									ref={(input) => { this.inputSenha = input; }}
-									returnKeyType={'go'}
-									onSubmitEditing={() => this.ajudadorDeSubmissao()}
-								/>
-							</View>
+							<Input
+								containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+								underlineColorAndroid="transparent"
+								keyboardType='visible-password'
+								secureTextEntry={true}
+								keyboardAppearance='dark'
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label="SENHA"
+								inputStyle={{ color: white, marginLeft: 5 }}
+								labelStyle={{ marginTop: 5, color: white }}
+								value={senha}
+								onChangeText={texto => this.setState({ senha: texto })}
+								ref={(input) => { this.inputSenha = input; }}
+								returnKeyType={'go'}
+								onSubmitEditing={() => this.ajudadorDeSubmissao()}
+							/>
 
+							<LOButton
+								title='Registrar'
+								OnPress={() => this.ajudadorDeSubmissao()}
+							/>
 						</View>
-						<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
-							<Text style={styles.textButton}>Registrar</Text>
-						</TouchableOpacity>
+					}
 
-					</View>
-				}
-
-			</KeyboardAwareScrollView>
-
+				</KeyboardAwareScrollView>
+			</LinearGradient>
 		)
 	}
 }
@@ -297,44 +297,12 @@ export default connect(null, mapDispatchToProps)(RegistroScreen)
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: lightdark,
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
+		padding: 20,
 	},
 	logo: {
 		alignSelf: 'center',
 		width: 205,
 		height: 120,
 	},
-	containerLogin: {
-		height: 280,
-		margin: 12,
-		backgroundColor: dark,
-		borderRadius: 10,
-		justifyContent: 'center',
-		padding: 14,
-	},
-	inputText: {
-		paddingVertical: 5,
-		fontSize: 16,
-		color: white,
-		borderRadius: 6,
-		fontWeight: '400',
-		borderBottomWidth: 1,
-		borderBottomColor: white,
-
-	},
-	button: {
-		backgroundColor: gold,
-		height: 50,
-		borderRadius: 10,
-		justifyContent: 'center',
-		margin: 12,
-	},
-	textButton: {
-		fontSize: 16,
-		color: white,
-		textAlign: 'center',
-	}
 })
 

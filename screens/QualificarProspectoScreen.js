@@ -11,6 +11,7 @@ import { white, lightdark, dark, gray, gold, black } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { alterarProspectoNoAsyncStorage } from '../actions'
 import {LinearGradient} from 'expo'
+import LOButton from '../components/LOButton';
 
 class QualificarProspectoScreen extends React.Component {
 
@@ -78,14 +79,10 @@ class QualificarProspectoScreen extends React.Component {
 					/>
 				</View>
 
-				<View>
-					<TouchableOpacity
-						onPress={() => this.alterarProspecto()}
-						style={styles.button}
-					>
-						<Text style={{ textAlign: "center", fontSize: 16 }}>Qualificar</Text>
-					</TouchableOpacity>
-				</View>
+				<LOButton 
+					title="Qualificar"
+					OnPress={() => this.alterarProspecto()}
+				/>
 
 			</View>
 			</LinearGradient>

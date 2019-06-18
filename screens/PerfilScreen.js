@@ -38,14 +38,9 @@ class PerfilScreen extends React.Component {
         }
     }
 
-    state = {
-        apn: [],
-        fechado: [],
-    }
 
     getProspectosApn = () => {
         const { prospectos } = this.props
-        const { apn } = this.state
 
         this.setState({ apn: prospectos.filter(prospecto => prospecto.situacao_id === 4) })
     }
@@ -88,12 +83,12 @@ class PerfilScreen extends React.Component {
                             <Text style={styles.text}>Prospectos</Text>
                         </Card>
                         <Card containerStyle={[styles.box, { marginHorizontal: 0 }]}>
-                            <Icon name="user" type="font-awesome" size={20} color={white} containerStyle={{ margin: 0 }} />
+                            <Icon name="info-circle" type="font-awesome" size={20} color={white} containerStyle={{ margin: 0 }} />
                             <Apn prospectos={prospectos.filter(prospecto => prospecto.situacao_id === 4)} />
                             <Text style={styles.text}>Acompanhar</Text>
                         </Card>
                         <Card containerStyle={styles.box}>
-                            <Icon name="user" type="font-awesome" size={20} color={white} containerStyle={{ margin: 0 }} />
+                            <Icon name="trophy" type="font-awesome" size={20} color={white} containerStyle={{ margin: 0 }} />
                             <Apn prospectos={prospectos.filter(prospecto => prospecto.situacao_id === 5)} />
                             <Text style={styles.text}>Fechados</Text>
                         </Card>

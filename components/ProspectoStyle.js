@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: lightdark,
+        // backgroundColor: lightdark,
     },
     containerCard: {
         backgroundColor: 'transparent', 
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     sideMenu: {
         flex: 1,
         alignItems: 'center',
-        paddingVertical: 10, 
+        paddingVertical: 20, 
     },
     imgLogo: {
         height: 85,

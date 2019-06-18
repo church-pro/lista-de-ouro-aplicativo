@@ -9,14 +9,15 @@ import {
 	FlatList,
 } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements'
-import {connect} from 'react-redux'
-import {Permissions, Contacts} from 'expo' 
-import { 
+import { connect } from 'react-redux'
+import { Permissions, Contacts } from 'expo'
+import {
 	adicionarProspectosAoAsyncStorage,
 } from '../actions'
-import { white, gold, lightdark, gray, dark } from '../helpers/colors'
+import { white, gold, lightdark, gray, dark, black } from '../helpers/colors'
 import { SITUACAO_TELEFONAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
+import { LinearGradient } from 'expo'
 
 class MyListItem extends React.PureComponent {
 	_onPress = () => {
@@ -26,9 +27,9 @@ class MyListItem extends React.PureComponent {
 	render() {
 		const textColor = this.props.selected ? gold : white;
 		return (
-			<TouchableOpacity style={{padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: lightdark}} onPress={this._onPress}>
-				<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-					<Text style={{color: white}}>{this.props.title}</Text>
+			<TouchableOpacity style={{ padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: lightdark }} onPress={this._onPress}>
+				<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+					<Text style={{ color: white }}>{this.props.title}</Text>
 					<Icon name="check" color={textColor} />
 				</View>
 			</TouchableOpacity>
@@ -37,10 +38,10 @@ class MyListItem extends React.PureComponent {
 }
 
 class MultiSelectList extends React.PureComponent {
-	state = {selected: (new Map(): Map<string, boolean>)};
+	state = { selected: (new Map(): Map<string, boolean>) };
 
-	componentDidMount(){
-		this.setState({selected: this.props.selected})
+	componentDidMount() {
+		this.setState({ selected: this.props.selected })
 	}
 
 	_keyExtractor = (item, index) => item.id;
@@ -52,11 +53,11 @@ class MultiSelectList extends React.PureComponent {
 			// copy the map rather than modifying state.
 			const selected = new Map(state.selected);
 			selected.set(id, !selected.get(id)); // toggle
-			return {selected};
+			return { selected };
 		});
 	};
 
-	_renderItem = ({item}) => (
+	_renderItem = ({ item }) => (
 		<MyListItem
 			id={item.id}
 			onPressItem={this._onPressItem}
@@ -96,22 +97,22 @@ class ImportarProspectosScreen extends React.Component {
 			// copy the map rather than modifying state.
 			const selected = new Map(state.selected);
 			selected.set(id, !selected.get(id)); // toggle
-			return {selected};
+			return { selected };
 		});
 	};
 
-	componentDidMount(){
+	componentDidMount() {
 		let contatosParaSelecionar = []
 		Permissions.askAsync(Permissions.CONTACTS)
-			.then(({status}) => {
-				if(status === 'granted'){
+			.then(({ status }) => {
+				if (status === 'granted') {
 					Contacts.getContactsAsync()
 						.then(data => {
 							data.data.map(contato => {
-								if(contato.phoneNumbers && contato.phoneNumbers.length){
+								if (contato.phoneNumbers && contato.phoneNumbers.length) {
 									let contatoNovo = {}
 									delete contatoNovo.selecionado
-									contatoNovo.situacao_id = SITUACAO_TELEFONAR 
+									contatoNovo.situacao_id = SITUACAO_TELEFONAR
 									contatoNovo.id = Date.now() + contato.id
 									contatoNovo.nome = contato.name
 									contatoNovo.rating = null
@@ -119,7 +120,7 @@ class ImportarProspectosScreen extends React.Component {
 									contatoNovo.online = false
 									let contador = 1
 									contato.phoneNumbers.map(item => {
-										if(contador === 1){
+										if (contador === 1) {
 											let ddd = 61
 											let telefoneTexto = item.number.toString()
 											telefoneTexto = telefoneTexto.replace('-', '')
@@ -129,19 +130,19 @@ class ImportarProspectosScreen extends React.Component {
 											telefoneTexto = telefoneTexto.replace(')', '')
 											let telefone = telefoneTexto
 											const tamanhoDoNumero = telefoneTexto.length
-											if(tamanhoDoNumero > 9){
+											if (tamanhoDoNumero > 9) {
 												telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
-												if(parseInt(telefone.substr(0, 1)) !== 9){
+												if (parseInt(telefone.substr(0, 1)) !== 9) {
 													telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
 												}
 											}
-											if(tamanhoDoNumero >= 11){
+											if (tamanhoDoNumero >= 11) {
 												let valorParaReduzir = 11
-												if(parseInt(telefoneTexto.substr(0, 1)) === 0){
+												if (parseInt(telefoneTexto.substr(0, 1)) === 0) {
 													valorParaReduzir = 10
 												}
 												ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
-												if(parseInt(ddd).toString().length !== 2){
+												if (parseInt(ddd).toString().length !== 2) {
 													ddd = '61'
 												}
 											}
@@ -154,7 +155,7 @@ class ImportarProspectosScreen extends React.Component {
 									})
 								}
 							})
-							if(contatosParaSelecionar.length){
+							if (contatosParaSelecionar.length) {
 								this.setState({
 									contatosParaSelecionar,
 									carregando: false
@@ -163,33 +164,33 @@ class ImportarProspectosScreen extends React.Component {
 						})
 				}
 			})
-	}	
+	}
 
-	selecionarContato(indice){
+	selecionarContato(indice) {
 		let {
 			contatosParaSelecionar,
 		} = this.state
 		let contatoDoIndice = contatosParaSelecionar[indice]
 		contatoDoIndice.selecionado = !contatoDoIndice.selecionado
 		contatosParaSelecionar[indice] = contatoDoIndice
-		this.setState({contatosParaSelecionar})
+		this.setState({ contatosParaSelecionar })
 	}
 
-	adicionarContatos(){
+	adicionarContatos() {
 		const {
 			contatosParaSelecionar,
-			selected,		
+			selected,
 			carregando,
 		} = this.state
 		const {
 			adicionarProspectosAoAsyncStorage,
 			navigation,
 		} = this.props
-		this.setState({carregando:true})
+		this.setState({ carregando: true })
 		adicionarProspectosAoAsyncStorage(
 			contatosParaSelecionar.filter(contato => selected.get(contato.id))
 		).then(() => {
-			this.setState({carregando:false})
+			this.setState({ carregando: false })
 			Alert.alert('Importação', 'Importação concluida com sucesso!')
 			navigation.goBack()
 		})
@@ -197,53 +198,56 @@ class ImportarProspectosScreen extends React.Component {
 
 	render() {
 		const { carregando } = this.state
-		let { 
+		let {
 			contatosParaSelecionar,
 			selected,
 		} = this.state
 
 		return (
-			<View style={styles.container}>
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				{/* <View style={styles.container}> */}
 
-				{
-					carregando && 
-					<View style={{flex: 1, justifyContent: 'center'}}>
-						<ActivityIndicator 
-							size="large"
-							color={gold}
-						/>
-					</View>
-				}
+					{
+						carregando &&
+						<View style={{ flex: 1, justifyContent: 'center' }}>
+							<ActivityIndicator
+								size="large"
+								color={gold}
+							/>
+						</View>
+					}
 
-				{
-					!carregando && contatosParaSelecionar && 
-					<MultiSelectList
-						data={contatosParaSelecionar}
-						selected={selected}
-						_onPressItem={this._onPressItem}
-					>
-					</MultiSelectList>
-				}
+					{
+						!carregando && contatosParaSelecionar &&
 
-				{
-					!carregando && contatosParaSelecionar &&
-						<View style={{height: 70, backgroundColor: dark, justifyContent: 'center'}}>
+						<MultiSelectList
+							data={contatosParaSelecionar}
+							selected={selected}
+							_onPressItem={this._onPressItem}
+						>
+						</MultiSelectList>
+					}
+
+					{
+						!carregando && contatosParaSelecionar &&
+						<View style={{ height: 70, backgroundColor: dark, justifyContent: 'center' }}>
 							<TouchableOpacity style={styles.buttonImport}
-								onPress={()=>{this.adicionarContatos()}}
+								onPress={() => { this.adicionarContatos() }}
 							>
-							<Text style={styles.textButtonImport}>Importar</Text>
+								<Text style={styles.textButtonImport}>Importar</Text>
 							</TouchableOpacity>
 						</View>
-				}
+					}
 
-			</View>
+				{/* </View> */}
+			</LinearGradient>
 		);
 	}
 
 }
 
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
 	return {
 		adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
 	}

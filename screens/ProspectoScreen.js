@@ -4,7 +4,7 @@ import {
 	View,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Button, Card, Icon, Input } from 'react-native-elements'
+import { Input } from 'react-native-elements'
 import { white, lightdark, dark, gold, gray, black } from '../helpers/colors'
 import {
 	alterarProspectoNoAsyncStorage,
@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
 import { SITUACAO_TELEFONAR } from '../helpers/constants';
+import LOButton from '../components/LOButton';
 
 class ProspectoScreen extends React.Component {
 
@@ -124,14 +125,11 @@ class ProspectoScreen extends React.Component {
 					keyboardShoulfPersistTaps='always'
 				>
 
-					{/* <Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}> */}
 					<Input
 						containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
 						inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 						underlineColorAndroid="transparent"
 						keyboardAppearance='dark'
-						onSubmitEditing={() => this.inputDDD.focus()}
-						returnKeyType="next"
 						placeholder=""
 						placeholderTextColor={'#ddd'}
 						autoCorrect={false}
@@ -140,11 +138,11 @@ class ProspectoScreen extends React.Component {
 						labelStyle={{ marginTop: 5, color: white }}
 						value={nome}
 						onChangeText={texto => this.setState({ nome: texto })}
-						returnKeyType={'next'}
+						returnKeyType='next'
 						onSubmitEditing={() => this.inputDDD.focus()}
 					/>
 					<View style={{ flexDirection: 'row', flex: 1 }}>
-						<View style={{marginRight: 6}}>
+						<View style={{ marginRight: 6 }}>
 							<Input
 								containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
 								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
@@ -166,7 +164,7 @@ class ProspectoScreen extends React.Component {
 							/>
 						</View>
 
-						<View style={{flex: 1}}>
+						<View style={{ flex: 1 }}>
 							<Input
 								containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
 								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
@@ -208,13 +206,9 @@ class ProspectoScreen extends React.Component {
 						onSubmitEditing={() => this.ajudadorDeSubmissao()}
 					/>
 
-					{/* </Card> */}
-
-					<Button
+					<LOButton
 						title='Salvar'
-						buttonStyle={{ backgroundColor: gold, height: 50, }}
-						textStyle={{ color: white, }}
-						onPress={() => { this.ajudadorDeSubmissao() }}
+						OnPress={() => { this.ajudadorDeSubmissao() }}
 					/>
 
 				</KeyboardAwareScrollView>

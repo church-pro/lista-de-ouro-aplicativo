@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO, SITUACAO_FECHAMENTO } from '../helpers/constants'
 import { alterarProspectoNoAsyncStorage } from '../actions'
 import { LinearGradient } from 'expo'
+import LOButton from '../components/LOButton';
 
 class PerguntasScreen extends React.Component {
 
@@ -41,8 +42,8 @@ class PerguntasScreen extends React.Component {
 
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-				<View style={{ flex: 1, }}>
-					<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
+				<View style={{ flex: 1, padding: 20}}>
+					<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6, margin: 0, marginBottom: 10 }}>
 						<Text style={{ color: white, textAlign: 'center', fontWeight: 'bold', paddingBottom: 8 }}>Foi feito o pré-cadastro?</Text>
 						<View style={{ flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center' }}>
 							<CheckBox
@@ -82,7 +83,7 @@ class PerguntasScreen extends React.Component {
 					</Card>
 					{
 						foiFeitoOPreCadastro &&
-						<Card containerStyle={{ backgroundColor: dark, borderColor: gold }}>
+						<Card containerStyle={{ backgroundColor: dark, borderColor: gold, margin: 0 }}>
 							<Text style={{
 								color: white, textAlign: 'center',
 								fontWeight: 'bold', paddingBottom: 8
@@ -128,31 +129,43 @@ class PerguntasScreen extends React.Component {
 					}
 					{
 						foiFeitoOPreCadastro && foiFechado &&
-						<Button
-							title='Prospecto pagou'
-							buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
-							titleStyle={{ color: dark }}
-							onPress={() => { this.alterarProspecto() }}
+						// <Button
+						// 	title='Prospecto pagou'
+						// 	buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
+						// 	titleStyle={{ color: dark }}
+						// 	onPress={() => { this.alterarProspecto() }}
+						// />
+						<LOButton 
+						 title="Prospecto pagou"
+						 OnPress={() => { this.alterarProspecto() }}
 						/>
 					}
 					{
 						foiFeitoOPreCadastro && !foiFechado && naoFoiFechado &&
-						<Button
-							title='Remarcar'
-							buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
-							titleStyle={{ color: dark }}
+						// <Button
+						// 	title='Remarcar'
+						// 	buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
+						// 	titleStyle={{ color: dark }}
 
-							onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
+						// 	onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
+						// />
+						<LOButton 
+						 title="Remarcar"
+						 OnPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
 						/>
 					}
 					{
 						naoFoiFeitoOPreCadastro &&
-						<Button
-							title='Remarcar'
-							buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
-							titleStyle={{ color: dark }}
+						// <Button
+						// 	title='Remarcar'
+						// 	buttonStyle={{ backgroundColor: gold, height: 50, margin: 15 }}
+						// 	titleStyle={{ color: dark }}
 
-							onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
+						// 	onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
+						// />
+						<LOButton 
+						 title="Remarcar"
+						 OnPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
 						/>
 					}
 				</View>
