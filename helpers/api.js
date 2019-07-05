@@ -6,7 +6,7 @@ const CHAVE_HISTORICO = 'ListaDeOuro:historico' + versaoBanco
 const CHAVE_USUARIO = 'ListaDeOuro:usuario' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-api = 'https://secure-woodland-24244.herokuapp.com'
+api = 'https://lista-de-ouro-aplicativo.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }
