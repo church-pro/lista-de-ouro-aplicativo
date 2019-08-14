@@ -8,13 +8,14 @@ const styles = StyleSheet.create({
         backgroundColor: lightdark,
     },
     containerCard: {
-        backgroundColor: 'transparent', 
-        borderRadius: 6, 
+        backgroundColor: 'transparent',
+        borderRadius: 6,
         padding: 0,
         flexDirection: 'column',
     },
     name_phone: {
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         padding: 8,
     },
     text: {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     badgeDate: {
         backgroundColor: gold,
     },
-   
+
 
     // STYLES FOOTER
     subFooter: {
@@ -100,18 +101,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: white
     },
-    buttonImport:{
+    buttonImport: {
         backgroundColor: gold,
         borderWidth: 0,
         justifyContent: 'center',
         alignSelf: 'center',
         width: '100%',
-        height:'100%',
+        height: '100%',
     },
     textButtonImport: {
         textAlign: 'center',
         color: dark,
-        fontSize: 17, 
+        fontSize: 17,
         fontWeight: "bold"
     },
 
