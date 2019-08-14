@@ -12,7 +12,8 @@ import { Icon, Card, CheckBox } from 'react-native-elements'
 import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
 import ActionButton from 'react-native-action-button';
 import SideBar from '../components/SideBar'
-import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
+import AddButton from '../components/AddButton'
+import { createBottomTabNavigator, } from 'react-navigation'
 import { LABEL_LISTA_DE_OURO } from '../helpers/constants'
 import { white, gold, dark, lightdark } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
@@ -39,6 +40,7 @@ import {
 	recuperarHistoricoNaoSincronizado,
 	limparHistoricos,
 } from '../helpers/api'
+import ImportarProspectosScreen from './ImportarProspectosScreen'
 
 class ProspectosScreen extends React.Component {
 
@@ -50,13 +52,6 @@ class ProspectosScreen extends React.Component {
 		active: false,
 		sincronizando: false,
 	}
-
-	closeDrawer = () => {
-		this.drawer._root.close()
-	};
-	openDrawer = () => {
-		this.drawer._root.open()
-	};
 
 	componentDidMount(){
 		this.props.navigation.setParams({
@@ -198,6 +193,20 @@ class ProspectosScreen extends React.Component {
 		}
 	}
 
+	sair = () => {
+		const {
+			alterarUsuarioNoAsyncStorage,
+			navigation,
+		} = this.props
+		const usuario = {}
+		alterarUsuarioNoAsyncStorage(usuario)
+			.then(() => {
+				this.props.closeDrawer()
+				navigation.navigate('Login')
+				Alert.alert('Sair', 'Você deslogou!')
+			})
+	}
+
 	static navigationOptions = () => {
 		return {
 			header: null,
@@ -244,74 +253,78 @@ class ProspectosScreen extends React.Component {
 
 		</View>
 		)
-		const ListaDeProspectosConvidar = (props) => (
-			<ListaDeProspectos 
-				title={'Convidar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CONVIDAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosApresentar = (props) => (
-			<ListaDeProspectos
-				title={'Apresentar'} 
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_APRESENTAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosAcompanhar = (props) => (
-			<ListaDeProspectos 
-				title={'Acompanhar'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_ACOMPANHAR)} 
-				navigation={navigation} 
-			/>)
-		const ListaDeProspectosFechamento = (props) => (
-			<ListaDeProspectos 
-				title={'Fechamento'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
-				navigation={navigation}
-			/>)
-		const Tabs = createMaterialTopTabNavigator(
+
+
+		const dadosListagem = [
 			{
-				Qualificar: {
-					screen: ListaDeProspectosQualificar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='star' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Convidar: {
-					screen: ListaDeProspectosConvidar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='phone' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Apresentar: {
-					screen: ListaDeProspectosApresentar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='calendar' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Acompanhar: {
-					screen: ListaDeProspectosAcompanhar, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='info-circle' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Fechamento: {
-					screen: ListaDeProspectosFechamento, 
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='trophy' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
+				label: 'Convidar',
+				tipo: SITUACAO_CONVIDAR,
+				icone: 'phone',
 			},
 			{
+				label: 'Apresentar',
+				tipo: SITUACAO_APRESENTAR,
+				icone: 'calendar',
+			},
+			{
+				label: 'Adicionar',
+				tipo: null,
+			},
+			{
+				label: 'Acompanhar',
+				tipo: SITUACAO_ACOMPANHAR,
+				icone: 'home',
+			},
+			{
+				label: 'Fechamento',
+				tipo: SITUACAO_FECHAMENTO,
+				icone: 'star',
+			},
+		]
+
+		let componentesDaTab = {}
+		dadosListagem.forEach(item => {
+
+			if (item.tipo) {
+
+				const componenteLista = (props) => (
+					<ListaDeProspectos
+						title={item.label}
+						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)}
+						navigation={navigation}
+					/>)
+
+				componentesDaTab[[item.label]] = {
+					screen: componenteLista,
+					navigationOptions: {
+						tabBarIcon: ({ tintColor }) => (<Icon name={item.icone} type='font-awesome' color={tintColor} />),
+					}
+				}
+
+			}
+
+			if (item.tipo === null) {
+
+				componentesDaTab.adicionar = {
+					screen: ImportarProspectosScreen,
+					navigationOptions: () => ({
+						tabBarButtonComponent: () => (
+							<AddButton />
+						),
+					}),
+				}
+
+			}
+		})
+
+		let qualAba = 'Convidar'
+		if (this.props.qualAba) {
+			qualAba = this.props.qualAba
+		}
+		const Tabs = createBottomTabNavigator(
+			componentesDaTab,
+			{
+				initialRouteName: qualAba,
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
@@ -328,17 +341,13 @@ class ProspectosScreen extends React.Component {
 		)
 
 		return (
-			<Drawer
-				ref={(ref) => { this.drawer = ref; }}
-				content={<SideBar closeDrawer={this.closeDrawer} navigation={this.props.navigation} />}
-				onClose={() => this.closeDrawer()}
-			>
+			<View style={{flex: 1, backgroundColor: lightdark}}>
 				<Header  style={{backgroundColor: dark, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10}} iosBarStyle="light-content">
 					<Left style={{flex: 0}}>
 						<TouchableOpacity 
 							style={{backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal:8}}
-							onPress={() => this.openDrawer()}>
-							<Icon type="font-awesome" name="bars" color={white}/>
+							onPress={() => this.sair()}>
+							<Icon type="font-awesome" name="sign-out" color={white}/>
 						</TouchableOpacity>
 					</Left>
 					<Body style={{flex: 1}}>
@@ -455,7 +464,7 @@ class ProspectosScreen extends React.Component {
 							</Card>
 					}
 				</View>
-			</Drawer>
+			</View>
 		)
 	}
 }

@@ -172,7 +172,6 @@ class RegistroScreen extends React.Component {
 								</View>
 								<TextInput style={styles.inputText}
 									keyboardAppearance='dark'
-									autoCapitalize="none"
 									placeholderTextColor="#d3d3d3"
 									selectionColor="#fff"
 									value={nome}
@@ -193,7 +192,6 @@ class RegistroScreen extends React.Component {
 									</View>
 									<TextInput style={[styles.inputText, style = { textAlign: 'center' }]}
 										keyboardAppearance='dark'
-										autoCapitalize="none"
 										maxLength={2}
 										placeholderTextColor="#d3d3d3"
 										selectionColor="#fff"
@@ -215,7 +213,6 @@ class RegistroScreen extends React.Component {
 									</View>
 									<TextInput style={styles.inputText}
 										keyboardAppearance='dark'
-										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
 										selectionColor="#fff"
 										keyboardType='phone-pad'
@@ -237,7 +234,6 @@ class RegistroScreen extends React.Component {
 								</View>
 								<TextInput style={styles.inputText}
 									keyboardAppearance='dark'
-									autoCapitalize="none"
 									placeholderTextColor="#d3d3d3"
 									selectionColor="#fff"
 									keyboardType="email-address"
@@ -246,7 +242,6 @@ class RegistroScreen extends React.Component {
 									ref={(input) => { this.inputEmail = input; }}
 									returnKeyType={'next'}
 									onSubmitEditing={() => this.inputSenha.focus()}
-									autoCapitalize={false}
 								/>
 							</View>
 
@@ -259,7 +254,6 @@ class RegistroScreen extends React.Component {
 								</View>
 								<TextInput style={styles.inputText}
 									keyboardAppearance='dark'
-									autoCapitalize="none"
 									placeholderTextColor="#d3d3d3"
 									selectionColor="#fff"
 									keyboardType='default'

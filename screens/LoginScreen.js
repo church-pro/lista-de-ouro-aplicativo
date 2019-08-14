@@ -137,7 +137,6 @@ class LoginScreen extends React.Component {
 									</View>
 									<TextInput style={styles.inputText}
 										keyboardAppearance='dark'
-										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
 										selectionColor="#fff"
 										keyboardType="email-address"
@@ -145,7 +144,6 @@ class LoginScreen extends React.Component {
 										onChangeText={texto => this.setState({ email: texto })}
 										returnKeyType={'next'}
 										onSubmitEditing={() => this.inputSenha.focus()}
-										autoCapitalize={false}
 									/>
 								</View>
 								<View style={{ marginTop: 18 }}>
@@ -158,7 +156,6 @@ class LoginScreen extends React.Component {
 									<TextInput style={styles.inputText}
 										ref={(input) => { this.inputSenha = input; }}
 										keyboardAppearance='dark'
-										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
 										selectionColor="#fff"
 										keyboardType='default'

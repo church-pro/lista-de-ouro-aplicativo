@@ -15,7 +15,7 @@ import {
 	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import { white, gold, lightdark, gray, dark } from '../helpers/colors'
-import { SITUACAO_QUALIFICAR } from '../helpers/constants'
+import { SITUACAO_CONVIDAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 
 class MyListItem extends React.PureComponent {
@@ -111,7 +111,7 @@ class ImportarProspectosScreen extends React.Component {
 								if(contato.phoneNumbers && contato.phoneNumbers.length){
 									let contatoNovo = {}
 									delete contatoNovo.selecionado
-									contatoNovo.situacao_id = SITUACAO_QUALIFICAR 
+									contatoNovo.situacao_id = SITUACAO_CONVIDAR
 									contatoNovo.id = Date.now() + contato.id
 									contatoNovo.nome = contato.name
 									contatoNovo.rating = null
