@@ -26,7 +26,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "br.com.listadeouro",
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "android": {
       "package": "br.com.listadeouro.exp"
