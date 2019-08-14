@@ -201,7 +201,6 @@ class ProspectosScreen extends React.Component {
 		const usuario = {}
 		alterarUsuarioNoAsyncStorage(usuario)
 			.then(() => {
-				this.props.closeDrawer()
 				navigation.navigate('Login')
 				Alert.alert('Sair', 'Você deslogou!')
 			})
