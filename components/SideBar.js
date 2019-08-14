@@ -3,7 +3,7 @@ import { Button } from 'native-base'
 import { Alert, View, Text, Image } from 'react-native'
 import styles from './ProspectoStyle'
 import { connect } from 'react-redux'
-import { 
+import {
 	alterarUsuarioNoAsyncStorage,
 } from '../actions'
 import {
@@ -28,47 +28,47 @@ class SideBar extends React.Component {
 			})
 	}
 
-    render() {
-        return (
-                <View style={styles.sideMenu}>
-                    <Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
-					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => sendNotificationImmediately()}	
-					>
-						<Text style={styles.textMenu}>
-                            agora
+	render() {
+		return (
+			<View style={styles.sideMenu}>
+				<Image style={styles.imgLogo} source={require('../assets/images/logo1.png')} />
+				<Button
+					style={{ backgroundColor: 'transparent', height: 80 }}
+					onPress={() => sendNotificationImmediately()}
+				>
+					<Text style={styles.textMenu}>
+						agora
                         </Text>
-                    </Button>
-					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => scheduleNotification()}	
-					>
-						<Text style={styles.textMenu}>
-                            5 segundos 
+				</Button>
+				<Button
+					style={{ backgroundColor: 'transparent', height: 80 }}
+					onPress={() => scheduleNotification()}
+				>
+					<Text style={styles.textMenu}>
+						5 segundos
                         </Text>
-                    </Button>
-    					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => cancelarTodasNotificacoes()}	
-					>
-						<Text style={styles.textMenu}>
-                            Cancelar 
+				</Button>
+				<Button
+					style={{ backgroundColor: 'transparent', height: 80 }}
+					onPress={() => cancelarTodasNotificacoes()}
+				>
+					<Text style={styles.textMenu}>
+						Cancelar
                         </Text>
-                    </Button>
-    
-     
-					<Button 
-						style={{ backgroundColor: 'transparent', height: 80 }}
-						onPress={() => this.sair()}	
-					>
-                        <Text style={styles.textMenu}>
-                            Sair
+				</Button>
+
+
+				<Button
+					style={{ backgroundColor: 'transparent', height: 80 }}
+					onPress={() => this.sair()}
+				>
+					<Text style={styles.textMenu}>
+						Sair
                         </Text>
-                    </Button>
-                </View>
-        )
-    }
+				</Button>
+			</View>
+		)
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {

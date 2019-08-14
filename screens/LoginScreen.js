@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
-import logo from '../assets/images/logo.png'
+import logo from '../assets/images/logo1.png'
 import { Icon } from 'native-base';
 import {
 	alterarUsuarioNoAsyncStorage,
