@@ -272,7 +272,7 @@ class ProspectosScreen extends React.Component {
 			{
 				label: 'Acompanhar',
 				tipo: SITUACAO_ACOMPANHAR,
-				icone: 'home',
+				icone: 'list',
 			},
 			{
 				label: 'Fechamento',
