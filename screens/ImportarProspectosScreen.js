@@ -7,6 +7,7 @@ import {
 	View,
 	ActivityIndicator,
 	FlatList,
+	TextInput
 } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
@@ -26,10 +27,22 @@ class MyListItem extends React.PureComponent {
 	render() {
 		const textColor = this.props.selected ? gold : white;
 		return (
-			<TouchableOpacity style={{ padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: lightdark }} onPress={this._onPress}>
+			<TouchableOpacity style={{
+				padding: 12,
+				borderBottomWidth: 1,
+				borderColor: gray,
+				backgroundColor: 'transparent'
+			}}
+				onPress={this._onPress}>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-					<Text style={{ color: white }}>{this.props.title}</Text>
-					<Icon name="check" color={textColor} />
+					<View>
+						<Text style={{ color: white }}>{this.props.title}</Text>
+						<Text style={{ color: gray }}>{this.props.subTitle}</Text>
+
+					</View>
+					<View style={{ justifyContent: 'center' }}>
+						<Icon name="check" color={textColor} />
+					</View>
 				</View>
 			</TouchableOpacity>
 		);
@@ -62,6 +75,7 @@ class MultiSelectList extends React.PureComponent {
 			onPressItem={this._onPressItem}
 			selected={!!this.state.selected.get(item.id)}
 			title={item.title}
+			subTitle={item.subTitle}
 		/>
 	);
 
@@ -93,6 +107,7 @@ class ImportarProspectosScreen extends React.Component {
 
 	state = {
 		carregando: true,
+		busca: '',
 		contatosParaSelecionar: null,
 		selected: (new Map(): Map<string, boolean>)
 	}
@@ -114,6 +129,7 @@ class ImportarProspectosScreen extends React.Component {
 				if (status === 'granted') {
 					Contacts.getContactsAsync()
 						.then(data => {
+							data.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
 							data.data.map(contato => {
 								if (contato.phoneNumbers && contato.phoneNumbers.length) {
 									let contatoNovo = {}
@@ -154,7 +170,8 @@ class ImportarProspectosScreen extends React.Component {
 											}
 											contatoNovo.ddd = ddd
 											contatoNovo.telefone = telefone
-											contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
+											contatoNovo.title = `${contatoNovo.nome}`
+											contatoNovo.subTitle = `(${contatoNovo.ddd}) ${contatoNovo.telefone}`
 											contatosParaSelecionar.push(contatoNovo)
 											contador++
 										}
@@ -207,7 +224,18 @@ class ImportarProspectosScreen extends React.Component {
 		let {
 			contatosParaSelecionar,
 			selected,
+			busca
 		} = this.state
+
+		if (busca != '') {
+
+			contatosParaSelecionar = contatosParaSelecionar.filter(item => {
+				const itemData = item.nome
+				const textData = busca
+
+				return itemData.indexOf(textData) > -1
+			})
+		}
 
 		return (
 			<View style={styles.container}>
@@ -218,6 +246,20 @@ class ImportarProspectosScreen extends React.Component {
 						<ActivityIndicator
 							size="large"
 							color={gold}
+						/>
+					</View>
+				}
+
+				{
+					!carregando && contatosParaSelecionar &&
+					<View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10, marginTop: 10 }}>
+						<TextInput
+							placeholder="Buscar"
+							placeholderTextColor={gray}
+							style={{ flex: 1, paddingHorizontal: 5, color: white }}
+							onChangeText={texto => this.setState({ busca: texto })}
+							value={busca}
+							autoCorrect={false}
 						/>
 					</View>
 				}
