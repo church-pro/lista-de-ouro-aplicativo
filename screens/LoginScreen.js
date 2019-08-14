@@ -1,14 +1,15 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { StyleSheet, Platform } from 'react-native';
-import { Alert, Text, View, Image, TextInput, 
-	KeyboardAvoidingView, 
+import {
+	Alert, Text, View, Image, TextInput,
+	KeyboardAvoidingView,
 	TouchableOpacity,
 	ActivityIndicator,
 	NetInfo,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, gray, gold, lightdark } from '../helpers/colors';
-import logo from '../assets/images/logo-word.png'
+import logo from '../assets/images/logo.png'
 import { Icon } from 'native-base';
 import {
 	alterarUsuarioNoAsyncStorage,
@@ -27,20 +28,20 @@ class LoginScreen extends React.Component {
 	}
 
 	state = {
-		email: 'falecomleonardopereira@gmail.com',
-		senha: '123',
+		email: '',
+		senha: '',
 		carregando: false,
 	}
 
-	componentDidMount(){
-		this.setState({carregando:true})
+	componentDidMount() {
+		this.setState({ carregando: true })
 		this.props
 			.pegarUsuarioNoAsyncStorage()
 			.then(usuario => {
-				if(usuario.email && usuario.email !== ''){
+				if (usuario.email && usuario.email !== '') {
 					this.props.navigation.navigate('Prospectos')
 				}
-				this.setState({carregando:false})
+				this.setState({ carregando: false })
 			})
 	}
 
@@ -65,29 +66,29 @@ class LoginScreen extends React.Component {
 			NetInfo.isConnected
 				.fetch()
 				.then(isConnected => {
-					if(isConnected){
+					if (isConnected) {
 
-						this.setState({carregando:true})
+						this.setState({ carregando: true })
 						const dados = {
 							email,
 							senha,
 						}
 						logarNaApi(dados)
 							.then(retorno => {
-								if(retorno.ok){
+								if (retorno.ok) {
 									this.props.alterarUsuarioNoAsyncStorage(dados)
 										.then(() => {
-											this.setState({carregando:false})
+											this.setState({ carregando: false })
 											this.props.navigation.navigate('Prospectos')
 										})
-								}else{
-									this.setState({carregando:false})
+								} else {
+									this.setState({ carregando: false })
 									alertTitulo = 'Aviso'
 									alertCorpo = 'Usuário/Senha não conferem!'
 									Alert.alert(alertTitulo, alertCorpo)
 								}
 							})
-					}else{
+					} else {
 						Alert.alert('Internet', 'Verifique sua internet!')
 					}
 				})
@@ -110,9 +111,9 @@ class LoginScreen extends React.Component {
 				extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
 				{
-					carregando && 
-					<View style={{flex: 1, justifyContent: 'center'}}>
-						<ActivityIndicator 
+					carregando &&
+					<View style={{ flex: 1, justifyContent: 'center' }}>
+						<ActivityIndicator
 							size="large"
 							color={gold}
 						/>
@@ -121,72 +122,75 @@ class LoginScreen extends React.Component {
 
 				{
 					!carregando &&
-						<Fragment>
+					<Fragment>
 
+						<View style={{
+							justifyContent: 'center',
+							alignItems: 'center'
+						}}>
+							<Image source={logo} style={styles.logo} />
+						</View>
+
+						<View style={styles.containerLogin}>
 							<View>
-								<Image source={logo} style={styles.logo} />
-							</View>
-
-							<View style={styles.containerLogin}>
-								<View>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='envelope' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Email</Text>
-									</View>
-									<TextInput style={styles.inputText}
-										keyboardAppearance='dark'
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
-										keyboardType="email-address"
-										value={email}
-										onChangeText={texto => this.setState({ email: texto })}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputSenha.focus()}
+								<View style={{ flexDirection: 'row' }}>
+									<Icon name='envelope' type='FontAwesome'
+										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
 									/>
+									<Text style={{ color: gold }}>Email</Text>
 								</View>
-								<View style={{ marginTop: 18 }}>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='lock' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Senha</Text>
-									</View>
-									<TextInput style={styles.inputText}
-										ref={(input) => { this.inputSenha = input; }}
-										keyboardAppearance='dark'
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
-										keyboardType='default'
-										secureTextEntry={true}
-										value={senha}
-										onChangeText={texto => this.setState({ senha: texto })}
-										returnKeyType={'go'}
-										onSubmitEditing={() => this.ajudadorDeSubmissao()}
+								<TextInput style={styles.inputText}
+									keyboardAppearance='dark'
+									placeholderTextColor="#d3d3d3"
+									selectionColor="#fff"
+									keyboardType="email-address"
+									value={email}
+									onChangeText={texto => this.setState({ email: texto })}
+									returnKeyType={'next'}
+									onSubmitEditing={() => this.inputSenha.focus()}
+								/>
+							</View>
+							<View style={{ marginTop: 18 }}>
+								<View style={{ flexDirection: 'row' }}>
+									<Icon name='lock' type='FontAwesome'
+										style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
 									/>
+									<Text style={{ color: gold }}>Senha</Text>
 								</View>
+								<TextInput style={styles.inputText}
+									ref={(input) => { this.inputSenha = input; }}
+									keyboardAppearance='dark'
+									placeholderTextColor="#d3d3d3"
+									selectionColor="#fff"
+									keyboardType='default'
+									secureTextEntry={true}
+									value={senha}
+									onChangeText={texto => this.setState({ senha: texto })}
+									returnKeyType={'go'}
+									onSubmitEditing={() => this.ajudadorDeSubmissao()}
+								/>
 							</View>
+						</View>
 
-							<View>
-								<TouchableOpacity
-									style={styles.button}
-									onPress={() => this.ajudadorDeSubmissao()}>
-									<Text style={styles.textButton}>Logar</Text>
-								</TouchableOpacity>
-							</View>
+						<View>
+							<TouchableOpacity
+								style={styles.button}
+								onPress={() => this.ajudadorDeSubmissao()}>
+								<Text style={styles.textButton}>Entrar</Text>
+							</TouchableOpacity>
+						</View>
 
-							<View style={styles.containerButton}>
+						<TouchableOpacity
+							style={[styles.button, style = { backgroundColor: 'transparent', }]}
+							onPress={() => this.props.navigation.navigate('Registro')}>
+							<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Crie sua conta</Text>
+						</TouchableOpacity>
 
-								<TouchableOpacity
-									style={[styles.button, style = { backgroundColor: 'transparent' }]}
-									onPress={() => this.props.navigation.navigate('Registro')}>
-									<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Crie sua conta</Text>
-								</TouchableOpacity>
-							</View>
 
-						 </Fragment>
+					</Fragment>
 				}
+
+
 			</KeyboardAwareScrollView>
 		)
 	}
@@ -208,15 +212,14 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		alignItems: 'stretch',
+		padding: 20,
 	},
 	logo: {
-		alignSelf: 'center',
-		width: Platform.OS === "ios" ? 200 : 180,
-		height: Platform.OS === "ios" ? 115 : 105,
+		height: 90,
+		resizeMode: 'contain',
 	},
 	containerLogin: {
-		height: 210,
-		margin: 12,
+		height: 180,
 		backgroundColor: lightdark,
 		borderRadius: 10,
 		justifyContent: 'center',
@@ -240,7 +243,6 @@ const styles = StyleSheet.create({
 		height: 45,
 		borderRadius: 10,
 		justifyContent: 'center',
-		marginHorizontal: 12,
 	},
 	textButton: {
 		fontSize: 16,
