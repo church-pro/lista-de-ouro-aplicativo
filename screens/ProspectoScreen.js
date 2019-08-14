@@ -11,6 +11,7 @@ import {
 	alterarProspectoNoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
+import { SITUACAO_CONVIDAR } from '../helpers/constants';
 
 class ProspectoScreen extends React.Component {
 
@@ -83,7 +84,7 @@ class ProspectoScreen extends React.Component {
 				prospecto.id = Date.now() + ''
 				prospecto.rating = null
 				prospecto.online = false
-				prospecto.situacao_id = 1
+				prospecto.situacao_id = SITUACAO_CONVIDAR
 			}
 			prospecto.nome = nome
 			prospecto.ddd = ddd
@@ -119,7 +120,7 @@ class ProspectoScreen extends React.Component {
 
 			<KeyboardAwareScrollView style={{ flex: 1, backgroundColor: lightdark }}
 				style={{ backgroundColor: lightdark }}
-				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} 
+				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
 				keyboardShoulfPersistTaps='always'
 			>
 

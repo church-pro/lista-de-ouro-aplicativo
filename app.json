@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "Lista de Ouro",
-    "description": "Lista de Ouro",
+    "name": "Lista Milionária",
+    "description": "Lista Milionária",
     "slug": "lista-de-ouro",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -21,12 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true, 
+      "supportsTablet": true,
       "bundleIdentifier": "br.com.listadeouro",
       "buildNumber": "3"
     },
-	  "android": {
-		  "package": "br.com.listadeouro.exp"
-	  }
+    "android": {
+      "package": "br.com.listadeouro.exp"
+    }
   }
 }

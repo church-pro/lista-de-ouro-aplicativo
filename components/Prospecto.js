@@ -72,7 +72,7 @@ class Prospecto extends React.Component {
 			// cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
 			// bcc: 'mee@mee.com', // string or array of email addresses
 			subject: '',
-			body: 'Lista de Ouro App'
+			body: 'Lista Milionária App'
 		}).catch(console.error)
 	}
 
