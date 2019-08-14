@@ -119,7 +119,7 @@ class RegistroScreen extends React.Component {
 												this.props.navigation.navigate('Prospectos')
 											})
 									} else {
-										Alert.alert('Aviso', resposta.menssagem)
+										Alert.alert('Aviso', resposta.mensagem)
 									}
 								})
 								.catch(error => console.log('error: ', error))
