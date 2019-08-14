@@ -118,11 +118,11 @@ class Prospecto extends React.Component {
 									borderRadius: 9, backgroundColor: gold, borderWidth: 0,
 									paddingHorizontal: 4, paddingVertical: 2
 								}}>
-									<Text style={{ color: white, fontSize: 12 }}>
-										{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
-									</Text>
-								</View>
+								<Text style={{ color: white, fontSize: 12 }}>
+									{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
+								</Text>
 							</View>
+						</View>
 						}
 					</View>
 
@@ -144,24 +144,18 @@ class Prospecto extends React.Component {
 
 								<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
 								{prospecto.online &&
-									<View
-										style={{
-											backgroundColor: gold,
-											padding: 3, marginLeft: 5, borderRadius: 4,
-											flexDirection: "row", alignItems: "center"
-										}}>
-									</View>
+										<View
+											style={{
+												backgroundColor: gold,
+												padding: 3, marginLeft: 5, borderRadius: 4,
+												flexDirection: "row", alignItems: "center"
+											}}>
+										</View>
 								}
 							</View>
 						</TouchableOpacity>
 
 						<View style={{ flexDirection: 'row' }}>
-							<View style={{ backgroundColor: 'transparent', padding: 4, borderRadius: 4, }}>
-								<TouchableOpacity
-									onPress={() => funcaoOnPress()}>
-									<Icon name='calendar' size={21} type='font-awesome' color={gray} containerStyle={{ marginRight: 6 }} type='font-awesome' />
-								</TouchableOpacity>
-							</View>
 							{
 								prospecto && prospecto.mail &&
 								<View style={{ backgroundColor: 'transparent', padding: 4, borderRadius: 4, }}>
@@ -178,6 +172,12 @@ class Prospecto extends React.Component {
 							<View style={{ backgroundColor: 'transparent', padding: 4, borderRadius: 4, }}>
 								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.whatsapp() }} >
 									<Icon name="whatsapp" size={22} color={gray} containerStyle={{ marginRight: 6 }} type='font-awesome' />
+								</TouchableOpacity>
+							</View>
+							<View style={{ backgroundColor: 'transparent', padding: 4, borderRadius: 4, }}>
+								<TouchableOpacity
+									onPress={() => funcaoOnPress()}>
+									<Icon name='play' size={21} type='font-awesome' color={gray} containerStyle={{ marginRight: 6 }} type='font-awesome' />
 								</TouchableOpacity>
 							</View>
 
